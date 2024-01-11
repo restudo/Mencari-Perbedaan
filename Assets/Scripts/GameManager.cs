@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public bool isGameActive;
 
+    public static GameManager instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
-    void Update()
+    private void Start()
     {
-
+        // isGameActive = true;
     }
 }

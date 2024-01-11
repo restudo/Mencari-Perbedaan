@@ -19,10 +19,22 @@ public class UIManager : MonoBehaviour
     private int maxHealth = 0;
 
 
-    [Header("Objective")]
-    [SerializeField] private TextMeshProUGUI objectiveText;
-    [SerializeField] private int maxObjective = 5; //TODO: change value from level data
-    private int objectiveFounded;
+    [Header("Progress")]
+    [SerializeField] private TextMeshProUGUI proggressText;
+    [SerializeField] private int maxProgress = 5; //TODO: change value from level data
+    private int progressCounter;
+
+
+    [Header("GameOver Panel")]
+    [SerializeField] private GameObject gameOverWinUI;
+    [SerializeField] private GameObject gameOverLoseUI;
+
+    [Header("Pause")]
+    [SerializeField] private GameObject pauseUI;
+
+
+    private Animator anim;
+    private bool canPlayAnim;
 
     private void OnEnable()
     {
@@ -47,41 +59,58 @@ public class UIManager : MonoBehaviour
             maxHealth++;
         }
 
-        objectiveFounded = 0;
-        objectiveText.text = objectiveFounded + "/" + maxObjective;
+        progressCounter = 0;
+        proggressText.text = progressCounter + "/" + maxProgress;
+
+        gameOverWinUI.SetActive(false);
+        gameOverLoseUI.SetActive(false);
+        pauseUI.SetActive(false);
+
+        anim = GetComponent<Animator>();
+        canPlayAnim = true;
     }
 
     private void Update()
     {
-        // Update countdown time
-        currentTime -= Time.deltaTime;
-        time = TimeSpan.FromSeconds(currentTime);
-
-        // If countdown time is up, stop the timer and do something
-        if (currentTime <= 0f)
+        if (GameManager.instance.isGameActive)
         {
-            EventHandler.CallResetImageTransformEvent();
-            Debug.Log("Countdown time is up!");
-        }
-        else
-        {
-            timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+            // Update countdown time
+            currentTime -= Time.deltaTime;
+            time = TimeSpan.FromSeconds(currentTime);
 
-            currentInterval -= Time.deltaTime;
-            if (currentInterval <= 0)
+            // If countdown time is up, stop the timer and do something
+            if (currentTime <= 0f)
+            {                
+                Lose();
+                Debug.Log("Countdown time is up!");
+            }
+            else
             {
-                ChangeImageTransform();
-                currentInterval = intervalTime;
+                timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+
+                currentInterval -= Time.deltaTime;
+
+                if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim)
+                {
+                    anim.Play("TransformIcon");
+                    canPlayAnim = false;
+                }
+
+                if (currentInterval <= 0)
+                {
+                    ChangeImageTransform();
+                    currentInterval = intervalTime;
+                    canPlayAnim = true;
+                }
             }
         }
-
     }
 
     private void ChangeImageTransform()
     {
         // Code to be executed every 10 seconds
         EventHandler.CallChangeImageTransformEvent();
-        Debug.Log("Executing code every 10 seconds");
+        // Debug.Log("Executing code every 10 seconds");
     }
 
     private void DecreaseHealth()
@@ -98,14 +127,66 @@ public class UIManager : MonoBehaviour
 
         if (maxHealth <= 0)
         {
-            Debug.Log("Lose");
+            Lose();
         }
     }
 
     private void UpdateObjectiveText()
     {
-        objectiveFounded++;
+        progressCounter++;
 
-        objectiveText.text = objectiveFounded + "/" + maxObjective;
+        proggressText.text = progressCounter + "/" + maxProgress;
+
+        if (progressCounter == maxProgress)
+        {
+            Win();
+        }
+    }
+
+    private void Win()
+    {
+        GameManager.instance.isGameActive = false;
+        EventHandler.CallResetImageTransformEvent();
+
+        //TODO: change with images animation then set active the gameover panel
+        gameOverWinUI.SetActive(true);
+        Debug.Log("Game Over - Win");
+    }
+
+    private void Lose()
+    {
+        GameManager.instance.isGameActive = false;
+        EventHandler.CallResetImageTransformEvent();
+
+        //TODO: change with images animation then set active the gameover panel
+        gameOverLoseUI.SetActive(true);
+        Debug.Log("Game Over - Lose");
+    }
+
+    public void RestartScene()
+    {
+        SceneController.instance.RestartScene();
+        if(Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        GameManager.instance.isGameActive = false;
+
+        pauseUI.SetActive(true);
+        Debug.Log("Paused!!");
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        GameManager.instance.isGameActive = true;
+
+        pauseUI.SetActive(false);
+        Debug.Log("Resumed!!");
     }
 }

@@ -9,22 +9,26 @@ public class Point : MonoBehaviour
     private SpriteRenderer spRend;
     private Collider2D col;
 
-    private void Start() {
+    private void Start()
+    {
         spRend = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
     }
 
     private void OnMouseDown()
     {
-        if(!spRend.enabled && col.enabled)
+        if (GameManager.instance.isGameActive)
         {
-            spRend.enabled = true;
-            col.enabled = false;
+            if (!spRend.enabled && col.enabled)
+            {
+                spRend.enabled = true;
+                col.enabled = false;
 
-            pair.GetComponent<SpriteRenderer>().enabled = true;
-            pair.GetComponent<Collider2D>().enabled = true;
+                pair.GetComponent<SpriteRenderer>().enabled = true;
+                pair.GetComponent<Collider2D>().enabled = true;
 
-            EventHandler.CallDifferenceClickedEvent();
+                EventHandler.CallDifferenceClickedEvent();
+            }
         }
     }
 }

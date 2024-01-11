@@ -23,4 +23,11 @@ public static class EventHandler
         if (ChangeImageTransform != null)
             ChangeImageTransform();
     }
+    
+    public static event Action ResetImageTransform;
+    public static void CallResetImageTransformEvent()
+    {
+        if (ResetImageTransform != null)
+            ResetImageTransform();
+    }
 }

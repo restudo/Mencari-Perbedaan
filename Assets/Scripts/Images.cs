@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Image : MonoBehaviour
+public class Images : MonoBehaviour
 {
 
     private void OnMouseDown()

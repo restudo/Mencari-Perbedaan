@@ -1,9 +1,10 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
     [Header("Timer")]
     [SerializeField] private TextMeshProUGUI timerText;
@@ -148,6 +149,9 @@ public class UIManager : MonoBehaviour
         GameManager.instance.isGameActive = false;
         EventHandler.CallResetImageTransformEvent();
 
+        // Unlock level selection
+        PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
+
         //TODO: change with images animation then set active the gameover panel
         gameOverWinUI.SetActive(true);
         Debug.Log("Game Over - Win");
@@ -165,7 +169,8 @@ public class UIManager : MonoBehaviour
 
     public void RestartScene()
     {
-        SceneController.instance.RestartScene();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
         if(Time.timeScale == 0)
         {
             Time.timeScale = 1;
@@ -188,5 +193,20 @@ public class UIManager : MonoBehaviour
 
         pauseUI.SetActive(false);
         Debug.Log("Resumed!!");
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneController.instance.LoadScene(Scenes.MainMenu.ToString());
+    }
+
+    public void LoadStageMenu()
+    {
+        SceneController.instance.LoadScene(Scenes.StageMenu.ToString());
     }
 }

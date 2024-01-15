@@ -33,8 +33,8 @@ public class LevelManager : MonoBehaviour
     [Header("Pause")]
     [SerializeField] private GameObject pauseUI;
 
-
-    private Animator anim;
+    [Header("Animator")]
+    [SerializeField] private Animator anim;
     private bool canPlayAnim;
 
     private void OnEnable()
@@ -67,7 +67,6 @@ public class LevelManager : MonoBehaviour
         gameOverLoseUI.SetActive(false);
         pauseUI.SetActive(false);
 
-        anim = GetComponent<Animator>();
         canPlayAnim = true;
     }
 
@@ -109,9 +108,8 @@ public class LevelManager : MonoBehaviour
 
     private void ChangeImageTransform()
     {
-        // Code to be executed every 10 seconds
+        // Code to be executed every x second
         EventHandler.CallChangeImageTransformEvent();
-        // Debug.Log("Executing code every 10 seconds");
     }
 
     private void DecreaseHealth()

@@ -1,8 +1,8 @@
 public enum ImageTransform
 {
-    flip,
-    rotateLeft,
-    rotateRight
+    Flip,
+    RotateLeft,
+    RotateRight
 }
 
 public enum Scenes

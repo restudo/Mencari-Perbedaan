@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 4280441625449303958}
   m_Layer: 0
   m_Name: Point 5 Right
-  m_TagString: Untagged
+  m_TagString: PointSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 1194759629925435873}
   m_Layer: 0
   m_Name: Point 3 Right
-  m_TagString: Untagged
+  m_TagString: PointSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 2957938371726315591}
   m_Layer: 0
   m_Name: Point 4 Right
-  m_TagString: Untagged
+  m_TagString: PointSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 7249547684367253257}
   m_Layer: 0
   m_Name: Point 2 Right
-  m_TagString: Untagged
+  m_TagString: PointSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -646,7 +646,7 @@ GameObject:
   - component: {fileID: 1327847170672455305}
   m_Layer: 0
   m_Name: Point 1 Right
-  m_TagString: Untagged
+  m_TagString: PointSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

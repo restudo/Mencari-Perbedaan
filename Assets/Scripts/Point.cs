@@ -19,13 +19,17 @@ public class Point : MonoBehaviour
     {
         if (GameManager.instance.isGameActive)
         {
-            if (!spRend.enabled && col.enabled)
+            if (spRend.enabled)
+            {
+                return;
+            }
+            else
             {
                 spRend.enabled = true;
-                col.enabled = false;
+                // col.enabled = false;
 
                 pair.GetComponent<SpriteRenderer>().enabled = true;
-                pair.GetComponent<Collider2D>().enabled = true;
+                // pair.GetComponent<Collider2D>().enabled = true;
 
                 EventHandler.CallDifferenceClickedEvent();
             }

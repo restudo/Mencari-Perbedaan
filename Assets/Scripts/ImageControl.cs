@@ -26,13 +26,13 @@ public class ImageControl : MonoBehaviour
 
         switch (imgTransform)
         {
-            case ImageTransform.flip:
+            case ImageTransform.Flip:
                 Flip();
                 break;
-            case ImageTransform.rotateLeft:
+            case ImageTransform.RotateLeft:
                 RotateLeft();
                 break;
-            case ImageTransform.rotateRight:
+            case ImageTransform.RotateRight:
                 RotateRight();
                 break;
             default:

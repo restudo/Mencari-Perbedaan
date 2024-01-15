@@ -1,7 +1,5 @@
 using UnityEngine;
 using System;
-using UnityEditor.Tilemaps;
-using Unity.Mathematics;
 
 public class ImageControl : MonoBehaviour
 {
@@ -22,7 +20,14 @@ public class ImageControl : MonoBehaviour
 
     private void ChangeImageTransform()
     {
-        ImageTransform imgTransform = GetRandomTransform();
+        ImageTransform imgTransform;
+
+        do
+        {
+            imgTransform = GetRandomTransform();
+        } while (imgTransform == ImageTransform.Flip &&
+                 (images[0].transform.eulerAngles.z == 90f ||
+                  images[0].transform.eulerAngles.z == 270));
 
         switch (imgTransform)
         {
@@ -59,10 +64,10 @@ public class ImageControl : MonoBehaviour
 
         foreach (GameObject point in points)
         {
-            if (point.transform.localScale.x < 0)
-            {
-                point.transform.Rotate(0, 0, -point.transform.localRotation.z);
-            }
+            // if (point.transform.localScale.x < 0)
+            // {
+            //     point.transform.Rotate(0, 0, point.transform.localRotation.z);
+            // }
 
             Vector3 scaler = point.transform.localScale;
             scaler.x *= -1;

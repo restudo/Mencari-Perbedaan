@@ -64,11 +64,6 @@ public class ImageControl : MonoBehaviour
 
         foreach (GameObject point in points)
         {
-            // if (point.transform.localScale.x < 0)
-            // {
-            //     point.transform.Rotate(0, 0, point.transform.localRotation.z);
-            // }
-
             Vector3 scaler = point.transform.localScale;
             scaler.x *= -1;
             point.transform.localScale = scaler;

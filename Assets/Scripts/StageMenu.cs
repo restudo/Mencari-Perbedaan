@@ -37,6 +37,7 @@ public class StageMenu : MonoBehaviour
     {
         string sceneName = "Level" + level.ToString("D2");
         SceneController.instance.LoadScene(sceneName);
+        GameManager.instance.isGameActive = true;
     }
 
     public void LoadMainMenu()

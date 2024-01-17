@@ -10,11 +10,24 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void Start()
+    // private void Start()
+    // {
+    //     // isGameActive = true;
+    // }
+
+    private void Update()
     {
-        // isGameActive = true;
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

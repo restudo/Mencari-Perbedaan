@@ -81,7 +81,7 @@ public class LevelManager : MonoBehaviour
 
             // If countdown time is up, stop the timer and do something
             if (currentTime <= 0f)
-            {                
+            {
                 Lose();
                 Debug.Log("Countdown time is up!");
             }
@@ -149,7 +149,11 @@ public class LevelManager : MonoBehaviour
         EventHandler.CallResetImageTransformEvent();
 
         // Unlock level selection
-        PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
+        if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("ReachedIndex"))
+        {
+            PlayerPrefs.SetInt("ReachedIndex", SceneManager.GetActiveScene().buildIndex + 1);
+            PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
+        }
 
         //TODO: change with images animation then set active the gameover panel
         gameOverWinUI.SetActive(true);
@@ -170,10 +174,12 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-        if(Time.timeScale == 0)
+        if (Time.timeScale == 0)
         {
             Time.timeScale = 1;
         }
+
+        GameManager.instance.isGameActive = true;
     }
 
     public void Pause()
@@ -197,6 +203,7 @@ public class LevelManager : MonoBehaviour
     public void LoadNextLevel()
     {
         SceneController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameManager.instance.isGameActive = true;
     }
 
     public void LoadMainMenu()

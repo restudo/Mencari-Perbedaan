@@ -14,7 +14,7 @@ public class StageMenu : MonoBehaviour
     {
         startButton.SetActive(false);
 
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        int unlockedLevel = GameManager.instance.LoadUnlockedLevel();
         for (int i = 0; i < levelButtons.Length; i++)
         {
             levelButtons[i].interactable = false;

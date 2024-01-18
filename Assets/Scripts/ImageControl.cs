@@ -5,6 +5,13 @@ public class ImageControl : MonoBehaviour
 {
     [SerializeField] private GameObject[] images;
     [SerializeField] private GameObject[] points;
+    [SerializeField] private Pooler pool;
+    [Tooltip("automatically filled while playing")] [SerializeField] private GameObject[] objPools;
+
+    private void Start()
+    {
+        PoolToArray();
+    }
 
     private void OnEnable()
     {
@@ -16,6 +23,16 @@ public class ImageControl : MonoBehaviour
     {
         EventHandler.ChangeImageTransform -= ChangeImageTransform;
         EventHandler.ResetImageTransform -= ResetImageTransform;
+    }
+
+    private void PoolToArray()
+    {
+        int totalPool = pool.transform.childCount;
+        objPools = new GameObject[totalPool];
+        for (int i = 0; i < objPools.Length; i++)
+        {
+            objPools[i] = pool.transform.GetChild(i).gameObject;
+        }
     }
 
     private void ChangeImageTransform()
@@ -68,6 +85,13 @@ public class ImageControl : MonoBehaviour
             scaler.x *= -1;
             point.transform.localScale = scaler;
         }
+
+        foreach (GameObject objPool in objPools)
+        {
+            Vector3 scaler = objPool.transform.localScale;
+            scaler.x *= -1;
+            objPool.transform.localScale = scaler;
+        }
     }
 
     private void RotateLeft()
@@ -88,6 +112,18 @@ public class ImageControl : MonoBehaviour
                 point.transform.Rotate(0, 0, -90);
             }
         }
+
+        foreach (GameObject objPool in objPools)
+        {
+            if (objPool.transform.localScale.x < 0)
+            {
+                objPool.transform.Rotate(0, 0, 90);
+            }
+            else
+            {
+                objPool.transform.Rotate(0, 0, -90);
+            }
+        }
     }
 
     private void RotateRight()
@@ -106,6 +142,18 @@ public class ImageControl : MonoBehaviour
             else
             {
                 point.transform.Rotate(0, 0, 90);
+            }
+        }
+
+        foreach (GameObject objPool in objPools)
+        {
+            if (objPool.transform.localScale.x < 0)
+            {
+                objPool.transform.Rotate(0, 0, -90);
+            }
+            else
+            {
+                objPool.transform.Rotate(0, 0, 90);
             }
         }
     }
@@ -133,6 +181,18 @@ public class ImageControl : MonoBehaviour
                 Vector3 scaler = point.transform.localScale;
                 scaler.x *= -1;
                 point.transform.localScale = scaler;
+            }
+        }
+
+        foreach (GameObject objPool in objPools)
+        {
+            objPool.transform.rotation = Quaternion.identity;
+
+            if (objPool.transform.localScale.x < 0)
+            {
+                Vector3 scaler = objPool.transform.localScale;
+                scaler.x *= -1;
+                objPool.transform.localScale = scaler;
             }
         }
     }

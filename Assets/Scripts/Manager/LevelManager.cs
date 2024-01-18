@@ -149,11 +149,7 @@ public class LevelManager : MonoBehaviour
         EventHandler.CallResetImageTransformEvent();
 
         // Unlock level selection
-        if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("ReachedIndex"))
-        {
-            PlayerPrefs.SetInt("ReachedIndex", SceneManager.GetActiveScene().buildIndex + 1);
-            PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
-        }
+        GameManager.instance.UnlockLevelSelection();
 
         //TODO: change with images animation then set active the gameover panel
         gameOverWinUI.SetActive(true);
@@ -174,10 +170,7 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-        if (Time.timeScale == 0)
-        {
-            Time.timeScale = 1;
-        }
+        Time.timeScale = 1;
 
         GameManager.instance.isGameActive = true;
     }
@@ -202,17 +195,20 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        Time.timeScale = 1;
         SceneController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         GameManager.instance.isGameActive = true;
     }
 
     public void LoadMainMenu()
     {
+        Time.timeScale = 1;
         SceneController.instance.LoadScene(Scenes.MainMenu.ToString());
     }
 
     public void LoadStageMenu()
     {
+        Time.timeScale = 1;
         SceneController.instance.LoadScene(Scenes.StageMenu.ToString());
     }
 }

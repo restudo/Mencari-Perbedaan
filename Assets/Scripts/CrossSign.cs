@@ -4,13 +4,13 @@ using UnityEngine;
 public class CrossSign : MonoBehaviour
 {
     [SerializeField] private int waitFor;
-    private Pooler pool;
+    private Pooler pooler;
     private Transform parent;
 
     private void Awake()
     {
         parent = transform.parent;
-        pool = parent.GetComponent<Pooler>();
+        pooler = parent.GetComponent<Pooler>();
     }
 
     private void OnEnable()
@@ -23,6 +23,6 @@ public class CrossSign : MonoBehaviour
         yield return new WaitForSeconds(waitFor);
 
         gameObject.transform.SetParent(parent);
-        pool.ReturnObject(gameObject);
+        pooler.pool.Release(gameObject);
     }
 }

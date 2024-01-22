@@ -4050,7 +4050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c509b8a0efe2424f8f793a96f920ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pool: {fileID: 157678097}
+  pooler: {fileID: 157678097}
 --- !u!1 &1395921324
 GameObject:
   m_ObjectHideFlags: 0
@@ -6269,7 +6269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c509b8a0efe2424f8f793a96f920ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pool: {fileID: 157678097}
+  pooler: {fileID: 157678097}
 --- !u!1 &2075653052
 GameObject:
   m_ObjectHideFlags: 0

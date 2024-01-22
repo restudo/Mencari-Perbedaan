@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Images : MonoBehaviour
 {
-    [SerializeField] private Pooler pooler;
+    [SerializeField] private Pooler pool;
     // [SerializeField] private Images pair;
     private Vector3 worldPosition;
 
@@ -16,7 +16,7 @@ public class Images : MonoBehaviour
             mousePos.z = Camera.main.nearClipPlane;
             worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
-            GameObject g = pooler.pool.Get();
+            GameObject g = pool.GetObject();
             g.transform.parent = transform;
             g.transform.position = worldPosition;
         }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8eebe35077e6714448eac0936198d4a5
+guid: 6cffef7c351249a4fb22e0818ae71cbb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,49 +121,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: BarPuzzle_0
-      rect:
-        serializedVersion: 2
-        x: 24
-        y: 1411
-        width: 2752
-        height: 1366
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dc5e6348f133219428c9c2a633d82c38
-      internalID: -1020963329
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BarPuzzle_1
-      rect:
-        serializedVersion: 2
-        x: 24
-        y: 24
-        width: 2752
-        height: 1364
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e1dbcc7a29bfe0e4f9fac5056f2365eb
-      internalID: -2110843223
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -174,9 +132,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      BarPuzzle_0: -1020963329
-      BarPuzzle_1: -2110843223
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

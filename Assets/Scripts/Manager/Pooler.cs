@@ -1,37 +1,60 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class Pooler : MonoBehaviour
 {
-    [HideInInspector] public ObjectPool<GameObject> pool;
-
     [SerializeField] private GameObject crossPrefab;
     [SerializeField] private int poolSize;
+    [SerializeField] private bool expandable;
+
+    private List<GameObject> freeList;
+    private List<GameObject> usedList;
+
     private void Awake()
     {
-        pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, false, 10, poolSize);
+        freeList = new List<GameObject>();
+        usedList = new List<GameObject>();
+
+        for (int i = 0; i < poolSize; i++)
+        {
+            Setup();   
+        }
     }
 
-    private GameObject CreatePooledItem()
+    private void Setup()
     {
-        return Instantiate(crossPrefab, transform);
+        GameObject g = Instantiate(crossPrefab, transform);
+        g.SetActive(false);
+        freeList.Add(g);
     }
 
-    private void OnTakeFromPool(GameObject obj)
+    public GameObject GetObject()
     {
-        obj.SetActive(true);
+        if(freeList.Count == 0 && !expandable)
+        {
+            return null;
+        }
+        else if(freeList.Count == 0)
+        {
+            Setup();
+        }
+
+        GameObject g = freeList[freeList.Count - 1];
+        freeList.RemoveAt(freeList.Count - 1);
+        usedList.Add(g);
+        g.SetActive(true);
+
+        return g;
     }
 
-    private void OnReturnedToPool(GameObject obj)
+    public void ReturnObject(GameObject obj)
     {
+        Debug.Assert(usedList.Contains(obj));
+
         obj.transform.parent = transform;
-        obj.SetActive(false);
-    }
 
-    private void OnDestroyPoolObject(GameObject obj)
-    {
-        Destroy(obj);
+        obj.SetActive(false);
+        usedList.Remove(obj);
+        freeList.Add(obj);
     }
 }

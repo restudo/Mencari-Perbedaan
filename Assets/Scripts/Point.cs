@@ -11,6 +11,8 @@ public class Point : MonoBehaviour
     {
         spRend = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, -Camera.main.nearClipPlane); //set the position to Camera nearClipPlane, so its always on top 
     }
 
     private void OnMouseDown()

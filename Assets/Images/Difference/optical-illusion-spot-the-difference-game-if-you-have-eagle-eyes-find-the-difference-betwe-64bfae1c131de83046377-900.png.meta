@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -121,7 +121,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: optical-illusion-spot-the-difference-game-if-you-have-eagle-eyes-find-the-difference-betwe-64bfae1c131de83046377-900_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 40
+        width: 428
+        height: 428
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8f62112d9c05af4a876821497aa884b
+      internalID: -1616077403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: optical-illusion-spot-the-difference-game-if-you-have-eagle-eyes-find-the-difference-betwe-64bfae1c131de83046377-900_1
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 40
+        width: 428
+        height: 428
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 099d12443f0eeff47a07baa46c99a912
+      internalID: 742575398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +174,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      optical-illusion-spot-the-difference-game-if-you-have-eagle-eyes-find-the-difference-betwe-64bfae1c131de83046377-900_0: -1616077403
+      optical-illusion-spot-the-difference-game-if-you-have-eagle-eyes-find-the-difference-betwe-64bfae1c131de83046377-900_1: 742575398
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

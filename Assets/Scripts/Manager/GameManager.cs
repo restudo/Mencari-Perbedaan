@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
     public bool isGameActive;
     public bool isThoucedActive;
 
+    public float countdownTimer;
+    public float intervalTimer;
+
     private int unlockedLevel;
 
     public static GameManager instance;
@@ -38,5 +41,10 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("UnlockedLevel", level + 1);
             PlayerPrefs.Save();
         }
+    }
+
+    public void ResetData()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }

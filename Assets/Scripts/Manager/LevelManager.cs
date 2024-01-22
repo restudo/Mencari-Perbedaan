@@ -10,8 +10,8 @@ public class LevelManager : MonoBehaviour
 {
     [Header("Timer")]
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private float countdownTime = 60f; // Initial countdown time in seconds //TODO: change value from leveldata
-    [SerializeField] private float intervalTime = 10f; //TODO: change value from level data
+    // [SerializeField] private float countdownTime = 60f; // Initial countdown time in seconds //TODO: change value from leveldata
+    // [SerializeField] private float intervalTime = 10f; //TODO: change value from level data
     private float currentTime; // Current countdown time
     private float currentInterval;
     private TimeSpan time;
@@ -54,8 +54,8 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        currentTime = countdownTime;
-        currentInterval = intervalTime;
+        currentTime = GameManager.instance.countdownTimer; //for now all the level has the same countdown timer
+        currentInterval = GameManager.instance.intervalTimer; //and also intervalTimer as well
 
         for (int i = 0; i < images.Length; i++)
         {
@@ -113,7 +113,8 @@ public class LevelManager : MonoBehaviour
                 if (currentInterval <= 0)
                 {
                     StartCoroutine(ChangeImageTransform());
-                    currentInterval = intervalTime;
+                    // currentInterval = intervalTime;
+                    currentInterval = GameManager.instance.intervalTimer;
                     canPlayAnim = true;
                 }
             }

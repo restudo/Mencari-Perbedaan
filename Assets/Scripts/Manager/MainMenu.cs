@@ -22,8 +22,6 @@ public class MainMenu : MonoBehaviour
             menuButton.transform.DOScale(1f, .3f).SetEase(Ease.OutBounce);
             yield return new WaitForSeconds(.05f);
         }
-
-        Debug.Log("Success");
     }
 
     public void LoadStageMenu()

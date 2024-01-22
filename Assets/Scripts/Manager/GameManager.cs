@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public bool isGameActive;
+    public bool isThoucedActive;
 
     private int unlockedLevel;
 
@@ -29,11 +30,12 @@ public class GameManager : MonoBehaviour
 
     public void UnlockLevelSelection()
     {
-        if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("ReachedIndex"))
-        {
-            PlayerPrefs.SetInt("ReachedIndex", SceneManager.GetActiveScene().buildIndex + 1);
-            PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
+        string sceneName = SceneManager.GetActiveScene().name;
+        int level;
 
+        if (int.TryParse(sceneName.Substring("Level".Length), out level))
+        {
+            PlayerPrefs.SetInt("UnlockedLevel", level + 1);
             PlayerPrefs.Save();
         }
     }

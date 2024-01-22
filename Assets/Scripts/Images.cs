@@ -8,7 +8,7 @@ public class Images : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.instance.isGameActive)
+        if (GameManager.instance.isGameActive && GameManager.instance.isThoucedActive)
         {
             EventHandler.CallDecreaseHealthEvent();
 
@@ -19,8 +19,6 @@ public class Images : MonoBehaviour
             GameObject g = pool.GetObject();
             g.transform.parent = transform;
             g.transform.position = worldPosition;
-
-            Debug.Log(worldPosition);
         }
     }
 }

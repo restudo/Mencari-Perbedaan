@@ -15,7 +15,7 @@ public class Point : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.instance.isGameActive)
+        if (GameManager.instance.isGameActive && GameManager.instance.isThoucedActive)
         {
             if (spRend.enabled)
             {

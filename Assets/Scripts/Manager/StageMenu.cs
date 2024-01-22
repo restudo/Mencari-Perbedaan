@@ -1,3 +1,5 @@
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -5,6 +7,7 @@ using UnityEngine.UI;
 public class StageMenu : MonoBehaviour
 {
     [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject backButton;
 
     [SerializeField] private Button[] levelButtons;
 
@@ -17,31 +20,77 @@ public class StageMenu : MonoBehaviour
         int unlockedLevel = GameManager.instance.LoadUnlockedLevel();
         for (int i = 0; i < levelButtons.Length; i++)
         {
-            levelButtons[i].interactable = false;
+            if (i + 1 > unlockedLevel)
+            {
+                levelButtons[i].interactable = false;
+                levelButtons[i].transform.GetChild(0).gameObject.SetActive(true); // set locked icon to true
+            }
+            else
+            {
+                levelButtons[i].interactable = true;
+                levelButtons[i].transform.GetChild(0).gameObject.SetActive(false); // set locked icon to false
+            }
         }
-        for (int i = 0; i < unlockedLevel; i++)
+
+        StartCoroutine(ButtonPopAnim());
+    }
+
+    private IEnumerator ButtonPopAnim()
+    {
+        foreach (Button button in levelButtons)
         {
-            levelButtons[i].interactable = true;
+            button.transform.localScale = Vector3.zero;
+        }
+
+        backButton.transform.localScale = Vector3.zero;
+        backButton.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+
+        foreach (Button button in levelButtons)
+        {
+            button.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
+    // assign to every level button
     public void SelectLevel()
     {
         level = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex() + 1;
 
-        Debug.Log(level);
-        startButton.SetActive(true);
+        if (!startButton.activeSelf)
+        {
+            startButton.SetActive(true);
+            startButton.transform.localScale = Vector3.zero;
+            startButton.transform.DOScale(1, 0.3f).SetEase(Ease.OutBack);
+        }
+    }
+
+    // assign to background gameobject
+    public void HideStartButton()
+    {
+        if (startButton.activeSelf)
+        {
+            startButton.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuart).OnComplete(() =>
+            {
+                startButton.SetActive(false);
+            });
+            // startButton.transform.localScale = Vector3.zero;
+        }
     }
 
     public void LoadToLevel()
     {
-        string sceneName = "Level" + level.ToString("D2");
+        DOTween.KillAll();
+
+        string sceneName = "Level" + level.ToString("D2"); // e.g "Level01"
         SceneController.instance.LoadScene(sceneName);
         GameManager.instance.isGameActive = true;
     }
 
     public void LoadMainMenu()
     {
+        DOTween.KillAll();
+
         SceneController.instance.LoadScene(Scenes.MainMenu.ToString());
     }
 }

@@ -51,51 +51,53 @@ public class CollectionMenu : MonoBehaviour
 
     private void LoadCollection()
     {
-        int unlockedLevel = GameManager.instance.LoadUnlockedLevel();
+        int unlockedCollection = GameManager.instance.LoadUnlockedLevel() - 1;
         for (int i = 0; i < collectionButtons.Length; i++)
         {
-            collectionButtons[i].interactable = false;
-            collectionButtons[i].transform.GetChild(0).gameObject.SetActive(true); // set active the locked icon
-
-            // set active the blocking panel and locked icon
-            collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(true);
-            // Debug.Log(collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject);
-            collectionDescriptions[i].text = "???"; // set the description to unknown
-        }
-        for (int i = 0; i < unlockedLevel; i++)
-        {
-            collectionButtons[i].interactable = true;
-            collectionButtons[i].transform.GetChild(0).gameObject.SetActive(false);
-
-            // nonactive the blocking panel and locked icon
-            collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(false);
-
-            switch (i) // set the description to actual description
+            if (i + 1 > unlockedCollection)
             {
-                case 0:
-                    collectionDescriptions[i].text = collection1;
-                    break;
-                case 1:
-                    collectionDescriptions[i].text = collection2;
-                    break;
-                case 2:
-                    collectionDescriptions[i].text = collection3;
-                    break;
-                case 3:
-                    collectionDescriptions[i].text = collection4;
-                    break;
-                case 4:
-                    collectionDescriptions[i].text = collection5;
-                    break;
-                case 5:
-                    collectionDescriptions[i].text = collection6;
-                    break;
-                case 6:
-                    collectionDescriptions[i].text = collection7;
-                    break;
-                default:
-                    collectionDescriptions[i].text = "???";
-                    break;
+                collectionButtons[i].interactable = false;
+                collectionButtons[i].transform.GetChild(0).gameObject.SetActive(true); // set active the locked icon
+
+                // set active the blocking panel and locked icon
+                collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(true);
+                collectionDescriptions[i].text = "???"; // set the description to unknown
+            }
+            else
+            {
+                collectionButtons[i].interactable = true;
+                collectionButtons[i].transform.GetChild(0).gameObject.SetActive(false);
+
+                // nonactive the blocking panel and locked icon
+                collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(false);
+
+                switch (i) // set the description to actual description
+                {
+                    case 0:
+                        collectionDescriptions[i].text = collection1;
+                        break;
+                    case 1:
+                        collectionDescriptions[i].text = collection2;
+                        break;
+                    case 2:
+                        collectionDescriptions[i].text = collection3;
+                        break;
+                    case 3:
+                        collectionDescriptions[i].text = collection4;
+                        break;
+                    case 4:
+                        collectionDescriptions[i].text = collection5;
+                        break;
+                    case 5:
+                        collectionDescriptions[i].text = collection6;
+                        break;
+                    case 6:
+                        collectionDescriptions[i].text = collection7;
+                        break;
+                    default:
+                        collectionDescriptions[i].text = "???";
+                        break;
+                }
             }
         }
 
@@ -153,9 +155,9 @@ public class CollectionMenu : MonoBehaviour
         previousButton.DOScale(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         pagination.DOLocalMoveY(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         pagination.DOScale(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
-        
+
         yield return new WaitForSeconds(0.2f);
-        
+
         collectionPanel.SetActive(false);
         collectionContainer.SetActive(true);
         title.gameObject.SetActive(true);

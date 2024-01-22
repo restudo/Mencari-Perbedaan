@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Hint : MonoBehaviour
 {
@@ -16,19 +17,10 @@ public class Hint : MonoBehaviour
         isEnable = true;
     }
 
-    public void ShowHintButton()
-    {
-        if (isEnable)
-        {
-            StartCoroutine(ShowHint());
-        }
-    }
-
     private IEnumerator ShowHint()
     {
         hintButton.interactable = false;
         isEnable = false;
-        // Play Animation fade or something
 
         GameObject[] pointSpots = GameObject.FindGameObjectsWithTag("PointSpot");
 
@@ -45,11 +37,27 @@ public class Hint : MonoBehaviour
         Transform parent = pointSpots[randomIndex].transform;
         instantiatedHint = Instantiate(hintObject, position, Quaternion.identity, parent);
 
+        // Play Animation fade or something
+        Vector3 originScale = instantiatedHint.transform.localScale;
+        float newScalex = instantiatedHint.transform.localScale.x + 2f;
+        float newScaley = instantiatedHint.transform.localScale.y + 2f;
+        float newScalez = instantiatedHint.transform.localScale.z + 2f;
+        instantiatedHint.transform.localScale = new Vector3(newScalex, newScaley, newScalez);
+        instantiatedHint.transform.DOScale(originScale, 0.5f).SetEase(Ease.OutExpo);
+
         yield return new WaitForSeconds(hintTime);
 
         Destroy(instantiatedHint);
 
         isEnable = true;
         hintButton.interactable = true;
+    }
+
+    public void ShowHintButton()
+    {
+        if (isEnable)
+        {
+            StartCoroutine(ShowHint());
+        }
     }
 }

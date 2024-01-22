@@ -1,6 +1,7 @@
 using System;
+using System.Collections;
+using DG.Tweening;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -35,7 +36,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject pauseUI;
 
     [Header("Animator")]
-    [SerializeField] private Animator anim;
+    [SerializeField] private Transform objectInAndOut;
+    [SerializeField] private Image objectAlert;
     private bool canPlayAnim;
 
     private void OnEnable()
@@ -69,6 +71,9 @@ public class LevelManager : MonoBehaviour
         pauseUI.SetActive(false);
 
         canPlayAnim = true;
+
+        GameManager.instance.isGameActive = true;
+        GameManager.instance.isThoucedActive = true;
     }
 
     private void Update()
@@ -93,13 +98,21 @@ public class LevelManager : MonoBehaviour
 
                 if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim)
                 {
-                    anim.Play("TransformIcon");
                     canPlayAnim = false;
+
+                    // animate object
+                    StartCoroutine(ObjectAlert());
+                    StartCoroutine(ObjectInAndOut());
+                }
+
+                if (currentInterval < 1 && currentInterval >= 0)
+                {
+                    GameManager.instance.isThoucedActive = false;
                 }
 
                 if (currentInterval <= 0)
                 {
-                    ChangeImageTransform();
+                    StartCoroutine(ChangeImageTransform());
                     currentInterval = intervalTime;
                     canPlayAnim = true;
                 }
@@ -107,10 +120,39 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void ChangeImageTransform()
+    private IEnumerator ChangeImageTransform()
     {
         // Code to be executed every x second
         EventHandler.CallChangeImageTransformEvent();
+
+        yield return new WaitForSeconds(.3f);
+
+        GameManager.instance.isThoucedActive = true;
+    }
+
+    private IEnumerator ObjectAlert()
+    {
+        // Tween the alpha of a object alert color to 1
+        DOTween.ToAlpha(() => objectAlert.color, x => objectAlert.color = x, 0, 0);
+
+        objectAlert.gameObject.SetActive(true);
+        objectAlert.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
+
+        yield return new WaitForSeconds(2f); // objectalert wait for this seconds
+
+        objectAlert.DOKill();
+        objectAlert.gameObject.SetActive(false);
+    }
+
+    private IEnumerator ObjectInAndOut()
+    {
+        float x = objectInAndOut.position.x;
+
+        objectInAndOut.DOMoveX(-6, 0.5f).SetEase(Ease.OutBack);
+
+        yield return new WaitForSeconds(2.3f); // objectInAndOut wait for this seconds
+
+        objectInAndOut.DOMoveX(x, 0.5f).SetEase(Ease.InOutBack);
     }
 
     private void DecreaseHealth()
@@ -119,8 +161,12 @@ public class LevelManager : MonoBehaviour
         {
             if (images[i].enabled)
             {
-                images[i].enabled = false;
                 maxHealth--;
+                images[i].transform.DOPunchScale(new Vector3(.7f, .7f, .7f), .3f, 0, 0.2f).OnComplete(() =>
+                {
+                    images[i].enabled = false;
+                });
+
                 break;
             }
         }
@@ -153,6 +199,7 @@ public class LevelManager : MonoBehaviour
 
         //TODO: change with images animation then set active the gameover panel
         gameOverWinUI.SetActive(true);
+
         Debug.Log("Game Over - Win");
     }
 
@@ -163,12 +210,16 @@ public class LevelManager : MonoBehaviour
 
         //TODO: change with images animation then set active the gameover panel
         gameOverLoseUI.SetActive(true);
+
         Debug.Log("Game Over - Lose");
     }
 
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        GameManager.instance.isGameActive = true;
+        GameManager.instance.isThoucedActive = true;
 
         Time.timeScale = 1;
 

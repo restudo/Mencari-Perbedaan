@@ -96,7 +96,7 @@ public class LevelManager : MonoBehaviour
 
                 currentInterval -= Time.deltaTime;
 
-                if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim)
+                if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim && currentTime >= 5)
                 {
                     canPlayAnim = false;
 
@@ -162,10 +162,12 @@ public class LevelManager : MonoBehaviour
         {
             if (images[i].enabled)
             {
+                GameManager.instance.isThoucedActive = false;
                 maxHealth--;
                 images[i].transform.DOPunchScale(new Vector3(.7f, .7f, .7f), .3f, 0, 0.2f).OnComplete(() =>
                 {
                     images[i].enabled = false;
+                    GameManager.instance.isThoucedActive = true;
                 });
 
                 break;
@@ -174,7 +176,10 @@ public class LevelManager : MonoBehaviour
 
         if (maxHealth <= 0)
         {
-            Lose();
+            GameManager.instance.isGameActive = false;
+
+            // Lose();
+            Invoke("Lose", 2f); // change with Lose(); if there is an animation when winning
         }
     }
 
@@ -186,13 +191,15 @@ public class LevelManager : MonoBehaviour
 
         if (progressCounter == maxProgress)
         {
-            Win();
+            GameManager.instance.isGameActive = false;
+
+            // Win();
+            Invoke("Win", 2f); // change with Win(); if there is an animation when winning
         }
     }
 
     private void Win()
     {
-        GameManager.instance.isGameActive = false;
         EventHandler.CallResetImageTransformEvent();
 
         // Unlock level selection
@@ -200,6 +207,8 @@ public class LevelManager : MonoBehaviour
 
         //TODO: change with images animation then set active the gameover panel
         gameOverWinUI.SetActive(true);
+        gameOverWinUI.transform.localScale = Vector3.zero;
+        gameOverWinUI.transform.DOScale(1, 0.4f).SetEase(Ease.OutBounce);
 
         Debug.Log("Game Over - Win");
     }
@@ -211,12 +220,16 @@ public class LevelManager : MonoBehaviour
 
         //TODO: change with images animation then set active the gameover panel
         gameOverLoseUI.SetActive(true);
+        gameOverLoseUI.transform.localScale = Vector3.zero;
+        gameOverLoseUI.transform.DOScale(1, 0.4f).SetEase(Ease.OutBounce);
 
         Debug.Log("Game Over - Lose");
     }
 
     public void RestartScene()
     {
+        DOTween.KillAll();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         GameManager.instance.isGameActive = true;
@@ -229,6 +242,11 @@ public class LevelManager : MonoBehaviour
 
     public void Pause()
     {
+        if (!GameManager.instance.isGameActive)
+        {
+            return;
+        }
+
         Time.timeScale = 0;
         GameManager.instance.isGameActive = false;
 

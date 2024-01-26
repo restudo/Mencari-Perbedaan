@@ -10,7 +10,6 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private GameObject collectionPanel;
     [SerializeField] private GameObject collectionContainer;
     [SerializeField] private SimpleScrollSnap simpleScrollSnap;
-    [SerializeField] private TextMeshProUGUI title;
 
     [Space(50)]
     [SerializeField] private Transform scrollSnapObj;
@@ -22,15 +21,8 @@ public class CollectionMenu : MonoBehaviour
     [Space(50)]
     [SerializeField] private Button[] collectionButtons;
     [SerializeField] private GameObject[] collectionObjects;
+    [SerializeField] private TextMeshProUGUI[] collectionTitles;
     [SerializeField] private TextMeshProUGUI[] collectionDescriptions;
-
-    private const string collection1 = "Chichen Itza, Meksiko";
-    private const string collection2 = "Colosseum Roma, Italia";
-    private const string collection3 = "Petra, Yordania";
-    private const string collection4 = "Taj Mahal, India";
-    private const string collection5 = "Machu Picchu, Peru";
-    private const string collection6 = "Patung Christ the Redeemer, Brazil";
-    private const string collection7 = "Tembok Besar, China";
 
     private float nextButtonTargetX;
     private float previousButtonTargetX;
@@ -40,7 +32,6 @@ public class CollectionMenu : MonoBehaviour
     {
         collectionPanel.SetActive(false);
         collectionContainer.SetActive(true);
-        title.gameObject.SetActive(true);
 
         nextButtonTargetX = nextButton.localPosition.x;
         previousButtonTargetX = previousButton.localPosition.x;
@@ -59,8 +50,10 @@ public class CollectionMenu : MonoBehaviour
                 collectionButtons[i].interactable = false;
                 collectionButtons[i].transform.GetChild(0).gameObject.SetActive(true); // set active the locked icon
 
-                // set active the blocking panel and locked icon
+                // set active the blocking panel and locked icon, be sure the blocking panel is in last children
                 collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(true);
+                collectionTitles[i].text = "???"; // set the title to unknown
+                // collectionTitles[i].alignment = TextAlignmentOptions.Left;
                 collectionDescriptions[i].text = "???"; // set the description to unknown
             }
             else
@@ -71,31 +64,41 @@ public class CollectionMenu : MonoBehaviour
                 // nonactive the blocking panel and locked icon
                 collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(false);
 
-                switch (i) // set the description to actual description
+                // collectionTitles[i].alignment = TextAlignmentOptions.Center;
+
+                switch (i) // set the title and description to its actual 
                 {
                     case 0:
-                        collectionDescriptions[i].text = collection1;
+                        collectionTitles[i].text = Settings.collectionTitle1;
+                        collectionDescriptions[i].text = Settings.collectionDesc1;
                         break;
                     case 1:
-                        collectionDescriptions[i].text = collection2;
+                        collectionTitles[i].text = Settings.collectionTitle2;
+                        collectionDescriptions[i].text = Settings.collectionDesc2;
                         break;
                     case 2:
-                        collectionDescriptions[i].text = collection3;
+                        collectionTitles[i].text = Settings.collectionTitle3;
+                        collectionDescriptions[i].text = Settings.collectionDesc3;
                         break;
                     case 3:
-                        collectionDescriptions[i].text = collection4;
+                        collectionTitles[i].text = Settings.collectionTitle4;
+                        collectionDescriptions[i].text = Settings.collectionDesc4;
                         break;
                     case 4:
-                        collectionDescriptions[i].text = collection5;
+                        collectionTitles[i].text = Settings.collectionTitle5;
+                        collectionDescriptions[i].text = Settings.collectionDesc5;
                         break;
                     case 5:
-                        collectionDescriptions[i].text = collection6;
+                        collectionTitles[i].text = Settings.collectionTitle6;
+                        collectionDescriptions[i].text = Settings.collectionDesc6;
                         break;
                     case 6:
-                        collectionDescriptions[i].text = collection7;
+                        collectionTitles[i].text = Settings.collectionTitle7;
+                        collectionDescriptions[i].text = Settings.collectionDesc7;
                         break;
                     default:
-                        collectionDescriptions[i].text = "???";
+                        collectionTitles[i].text = "???";
+                        collectionDescriptions[i].text = "?????";
                         break;
                 }
             }
@@ -160,8 +163,6 @@ public class CollectionMenu : MonoBehaviour
 
         collectionPanel.SetActive(false);
         collectionContainer.SetActive(true);
-        title.gameObject.SetActive(true);
-
         backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
 
         StartCoroutine(CollectionPopAnim());
@@ -171,7 +172,6 @@ public class CollectionMenu : MonoBehaviour
     {
         collectionPanel.SetActive(true);
         collectionContainer.SetActive(false);
-        title.gameObject.SetActive(false);
 
         simpleScrollSnap.CustomGoToPanel(index);
 

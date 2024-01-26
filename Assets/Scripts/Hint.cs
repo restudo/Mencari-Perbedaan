@@ -22,7 +22,7 @@ public class Hint : MonoBehaviour
         hintButton.interactable = false;
         isEnable = false;
 
-        GameObject[] pointSpots = GameObject.FindGameObjectsWithTag("PointSpot");
+        GameObject[] pointSpots = GameObject.FindGameObjectsWithTag("Checkpoint");
 
         int maxAttempts = 50;
         int remainingAttempts = maxAttempts;
@@ -55,7 +55,7 @@ public class Hint : MonoBehaviour
 
     public void ShowHintButton()
     {
-        if (isEnable)
+        if (isEnable && GameManager.instance.isGameActive)
         {
             StartCoroutine(ShowHint());
         }

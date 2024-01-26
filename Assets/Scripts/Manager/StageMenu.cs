@@ -12,6 +12,7 @@ public class StageMenu : MonoBehaviour
     [SerializeField] private Button[] levelButtons;
 
     private int level;
+    private int previousLevel;
 
     private void Start()
     {
@@ -55,9 +56,17 @@ public class StageMenu : MonoBehaviour
     // assign to every level button
     public void SelectLevel()
     {
+        previousLevel = level; //for determine condition if level != previous level 
         level = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex() + 1;
 
-        if (!startButton.activeSelf)
+        RectTransform startButtonRect = (RectTransform)startButton.transform;
+        Vector3 originAnchorPos = startButtonRect.anchoredPosition; //define anchored pos from recttransform in inspector
+
+        startButton.transform.SetParent(EventSystem.current.currentSelectedGameObject.transform);
+
+        startButtonRect.anchoredPosition = originAnchorPos;
+
+        if (!startButton.activeSelf || previousLevel != level)
         {
             startButton.SetActive(true);
             startButton.transform.localScale = Vector3.zero;

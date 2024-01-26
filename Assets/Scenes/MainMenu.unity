@@ -625,8 +625,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameActive: 0
   isThoucedActive: 0
-  countdownTimer: 90
-  intervalTimer: 15
+  countdownTimer: 60
+  intervalTimer: 10
 --- !u!4 &816956472
 Transform:
   m_ObjectHideFlags: 0

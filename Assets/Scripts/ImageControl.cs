@@ -1,13 +1,17 @@
 using UnityEngine;
 using System;
 using DG.Tweening;
+using System.Collections;
 
 public class ImageControl : MonoBehaviour
 {
     [SerializeField] private GameObject[] images;
-    [SerializeField] private GameObject[] points;
+    [SerializeField] private GameObject[] checkpointsLeft;
+    [SerializeField] private GameObject[] checkpointsRight;
     [SerializeField] private Pooler pool;
     [Tooltip("automatically filled while playing")][SerializeField] private GameObject[] objPools;
+
+    private bool isSwitched = false;
 
     private void Start()
     {
@@ -50,14 +54,17 @@ public class ImageControl : MonoBehaviour
         switch (imgTransform)
         {
             case ImageTransform.Flip:
-                Flip();
+                StartCoroutine(Flips());
                 break;
-            case ImageTransform.RotateLeft:
-                RotateLeft();
+            case ImageTransform.Switch:
+                Switch();
                 break;
-            case ImageTransform.RotateRight:
-                RotateRight();
-                break;
+            // case ImageTransform.RotateLeft:
+            //     RotateLeft();
+            //     break;
+            // case ImageTransform.RotateRight:
+            //     RotateRight();
+            //     break;
             default:
                 break;
         }
@@ -71,123 +78,216 @@ public class ImageControl : MonoBehaviour
         return allImgTransform[UnityEngine.Random.Range(0, allImgTransform.Length)];
     }
 
-    private void Flip()
-    {
-        foreach (GameObject image in images)
-        {
-            Vector3 scaler = image.transform.localScale;
-            scaler.x *= -1;
-            // image.transform.localScale = scaler;
-            image.transform.DOScaleX(scaler.x, 0.3f);
-        }
+    /// <summary>
+    /// Normal Flip
+    /// </summary>
+    // private void Flip()
+    // {
+    //     foreach (GameObject image in images)
+    //     {
+    //         Vector3 scaler = image.transform.localScale;
+    //         scaler.x *= -1;
+    //         // image.transform.localScale = scaler;
+    //         image.transform.DOScaleX(scaler.x, 0.3f);
+    //     }
 
-        foreach (GameObject point in points)
+    //     foreach (GameObject point in pointsLeft)
+    //     {
+    //         Vector3 scaler = point.transform.localScale;
+    //         scaler.x *= -1;
+    //         // point.transform.localScale = scaler;
+    //         point.transform.DOScaleX(scaler.x, 0.3f);
+    //     }
+
+    //     foreach (GameObject point in pointsRight)
+    //     {
+    //         Vector3 scaler = point.transform.localScale;
+    //         scaler.x *= -1;
+    //         // point.transform.localScale = scaler;
+    //         point.transform.DOScaleX(scaler.x, 0.3f);
+    //     }
+
+    //     foreach (GameObject objPool in objPools)
+    //     {
+    //         if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
+    //         {
+    //             Vector3 scaler = objPool.transform.localScale;
+    //             scaler.x *= -1;
+    //             // objPool.transform.localScale = scaler;
+    //             objPool.transform.DOScaleX(scaler.x, 0.3f);
+    //         }
+    //     }
+    // }
+
+    /// <summary>
+    /// Take turn Flip
+    /// </summary>
+    private IEnumerator Flips()
+    {
+        if (!isSwitched)
         {
-            Vector3 scaler = point.transform.localScale;
-            scaler.x *= -1;
-            // point.transform.localScale = scaler;
-            point.transform.DOScaleX(scaler.x, 0.3f);
+            ImageLeftFirst();
+            yield return new WaitForSeconds(0.2f);
+            ImageRightFirst();
+        }
+        else
+        {
+            ImageRightFirst();
+            yield return new WaitForSeconds(0.2f);
+            ImageLeftFirst();
         }
 
         foreach (GameObject objPool in objPools)
         {
             if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
             {
-                Vector3 scaler = objPool.transform.localScale;
-                scaler.x *= -1;
-                // objPool.transform.localScale = scaler;
-                objPool.transform.DOScaleX(scaler.x, 0.3f);
+                Vector3 scalerPool = objPool.transform.localScale;
+                scalerPool.x *= -1;
+                // objPool.transform.localScale = scalerPool;
+                objPool.transform.DOScaleX(scalerPool.x, 0.3f);
             }
         }
     }
 
-    private void RotateLeft()
+    private void ImageLeftFirst()
     {
-        foreach (GameObject image in images)
-        {
-            // image.transform.Rotate(0, 0, 90);
-            image.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
-        }
+        Vector3 scaler = images[0].transform.localScale;
+        scaler.x *= -1;
 
-        foreach (GameObject point in points)
-        {
-            if (point.transform.localScale.x < 0)
-            {
-                // point.transform.Rotate(0, 0, 90);
-                point.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
-            }
-            else
-            {
-                // point.transform.Rotate(0, 0, -90);
-                point.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
-            }
-        }
+        images[0].transform.DOScaleX(scaler.x, 0.3f);
 
-        foreach (GameObject objPool in objPools)
+        foreach (GameObject point in checkpointsLeft)
         {
-            if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
-            {
-                if (objPool.transform.localScale.x < 0)
-                {
-                    // objPool.transform.Rotate(0, 0, 90);
-                    objPool.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
-                }
-                else
-                {
-                    // objPool.transform.Rotate(0, 0, -90);
-                    objPool.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
-                }
-            }
-
+            Vector3 scalerPoint = point.transform.localScale;
+            scalerPoint.x *= -1;
+            point.transform.DOScaleX(scalerPoint.x, 0.3f);
         }
     }
 
-    private void RotateRight()
+    private void ImageRightFirst()
     {
-        foreach (GameObject image in images)
-        {
-            // image.transform.Rotate(0, 0, -90);
-            image.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
-        }
+        Vector3 scaler = images[1].transform.localScale;
+        scaler.x *= -1;
 
-        foreach (GameObject point in points)
-        {
-            if (point.transform.localScale.x < 0)
-            {
-                // point.transform.Rotate(0, 0, -90);
-                point.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
-            }
-            else
-            {
-                // point.transform.Rotate(0, 0, 90);
-                point.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
-            }
-        }
+        images[1].transform.DOScaleX(scaler.x, 0.3f);
 
-        foreach (GameObject objPool in objPools)
+        foreach (GameObject point in checkpointsRight)
         {
-            if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
-            {
-                if (objPool.transform.localScale.x < 0)
-                {
-                    // objPool.transform.Rotate(0, 0, -90);
-                    objPool.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
-                }
-                else
-                {
-                    // objPool.transform.Rotate(0, 0, 90);
-                    objPool.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
-                }
-            }
+            Vector3 scalerPoint = point.transform.localScale;
+            scalerPoint.x *= -1;
+            point.transform.DOScaleX(scalerPoint.x, 0.3f);
         }
     }
+
+    /// <summary>
+    /// switch position between two images (left and right)
+    /// </summary>
+    private void Switch()
+    {
+        Vector3 tempPos = images[0].transform.position;
+        // images[0].transform.position = images[1].transform.position;
+        // images[1].transform.position = tempPos;
+
+        images[0].transform.DOJump(images[1].transform.position, 3f, 0, 0.5f, false);
+        images[1].transform.DOJump(tempPos, -3f, 0, 0.5f, false);
+
+        if (!isSwitched)
+        {
+            isSwitched = true;
+        }
+        else
+        {
+            isSwitched = false;
+        }
+    }
+
+    // private void RotateLeft()
+    // {
+    //     foreach (GameObject image in images)
+    //     {
+    //         // image.transform.Rotate(0, 0, 90);
+    //         image.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
+    //     }
+
+    //     foreach (GameObject point in points)
+    //     {
+    //         if (point.transform.localScale.x < 0)
+    //         {
+    //             // point.transform.Rotate(0, 0, 90);
+    //             point.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
+    //         }
+    //         else
+    //         {
+    //             // point.transform.Rotate(0, 0, -90);
+    //             point.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
+    //         }
+    //     }
+
+    //     foreach (GameObject objPool in objPools)
+    //     {
+    //         if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
+    //         {
+    //             if (objPool.transform.localScale.x < 0)
+    //             {
+    //                 // objPool.transform.Rotate(0, 0, 90);
+    //                 objPool.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
+    //             }
+    //             else
+    //             {
+    //                 // objPool.transform.Rotate(0, 0, -90);
+    //                 objPool.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
+    //             }
+    //         }
+
+    //     }
+    // }
+
+    // private void RotateRight()
+    // {
+    //     foreach (GameObject image in images)
+    //     {
+    //         // image.transform.Rotate(0, 0, -90);
+    //         image.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
+    //     }
+
+    //     foreach (GameObject point in points)
+    //     {
+    //         if (point.transform.localScale.x < 0)
+    //         {
+    //             // point.transform.Rotate(0, 0, -90);
+    //             point.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
+    //         }
+    //         else
+    //         {
+    //             // point.transform.Rotate(0, 0, 90);
+    //             point.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
+    //         }
+    //     }
+
+    //     foreach (GameObject objPool in objPools)
+    //     {
+    //         if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
+    //         {
+    //             if (objPool.transform.localScale.x < 0)
+    //             {
+    //                 // objPool.transform.Rotate(0, 0, -90);
+    //                 objPool.transform.DOLocalRotate(new Vector3(0, 0, -90f), 0.3f, RotateMode.LocalAxisAdd);
+    //             }
+    //             else
+    //             {
+    //                 // objPool.transform.Rotate(0, 0, 90);
+    //                 objPool.transform.DOLocalRotate(new Vector3(0, 0, 90f), 0.3f, RotateMode.LocalAxisAdd);
+    //             }
+    //         }
+    //     }
+    // }
 
     private void ResetImageTransform()
     {
         foreach (GameObject image in images)
         {
             // image.transform.rotation = Quaternion.identity;
-            image.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
+            // image.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
 
             if (image.transform.localScale.x < 0)
             {
@@ -198,10 +298,23 @@ public class ImageControl : MonoBehaviour
             }
         }
 
-        foreach (GameObject point in points)
+        foreach (GameObject point in checkpointsLeft)
         {
             // point.transform.rotation = Quaternion.identity;
-            point.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
+            // point.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
+            if (point.transform.localScale.x < 0)
+            {
+                Vector3 scaler = point.transform.localScale;
+                scaler.x *= -1;
+                // point.transform.localScale = scaler;
+                point.transform.DOScaleX(scaler.x, 0.3f);
+            }
+        }
+
+        foreach (GameObject point in checkpointsRight)
+        {
+            // point.transform.rotation = Quaternion.identity;
+            // point.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
             if (point.transform.localScale.x < 0)
             {
                 Vector3 scaler = point.transform.localScale;
@@ -216,7 +329,7 @@ public class ImageControl : MonoBehaviour
             if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
             {
                 // objPool.transform.rotation = Quaternion.identity;
-                objPool.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
+                // objPool.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
 
                 if (objPool.transform.localScale.x < 0)
                 {

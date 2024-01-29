@@ -6,7 +6,7 @@ public class Point : MonoBehaviour
     [SerializeField] private Point pair;
 
     [SerializeField] private SpriteRenderer spRend;
-    [SerializeField] private GameObject checkRend;
+    [SerializeField] private SpriteRenderer checkRend;
 
     [SerializeField] private int loopTime = 2;
 
@@ -26,8 +26,8 @@ public class Point : MonoBehaviour
         col = GetComponent<Collider2D>();
         isClicked = false;
 
-        checkRend.SetActive(false);
-        pair.checkRend.SetActive(false);
+        checkRend.enabled = false;
+        pair.checkRend.enabled = false;
 
         //set the position to Camera nearClipPlane, so its always on top 
         transform.position = new Vector3(transform.position.x, transform.position.y, -Camera.main.nearClipPlane);
@@ -37,21 +37,22 @@ public class Point : MonoBehaviour
     {
         if (GameManager.instance.isGameActive && GameManager.instance.isThoucedActive)
         {
-            if (isClicked)
+            if (isClicked && pair.isClicked)
             {
                 return;
             }
             else
             {
                 isClicked = true;
+                pair.isClicked = true;
 
                 EventHandler.CallDifferenceClickedEvent();
 
                 spRend.transform.DOScale(1.1f, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo);
                 pair.spRend.transform.DOScale(1.1f, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo).OnComplete(() =>
                 {
-                    checkRend.SetActive(true);
-                    pair.checkRend.SetActive(true);
+                    checkRend.enabled = true;
+                    pair.checkRend.enabled = true;
                 });
             }
         }

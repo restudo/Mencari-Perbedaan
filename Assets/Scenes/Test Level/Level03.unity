@@ -492,7 +492,7 @@ MonoBehaviour:
   checkpointsLeft:
   - {fileID: 5878786555694812076}
   - {fileID: 7759598951060368871}
-  - {fileID: 7759598951060368871}
+  - {fileID: 8638329920115891394}
   - {fileID: 6811436621210484209}
   checkpointsRight:
   - {fileID: 5505339179210820834}
@@ -4557,7 +4557,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Debug Mode
+  m_text: Click me if confused
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7146,6 +7146,11 @@ GameObject:
 --- !u!1 &8638329920115891393 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8900392543111451216, guid: 80c8dd333f674c44aaab3ebe500c4ad2, type: 3}
+  m_PrefabInstance: {fileID: 8638329920115891389}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8638329920115891394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2024226107393529048, guid: 80c8dd333f674c44aaab3ebe500c4ad2, type: 3}
   m_PrefabInstance: {fileID: 8638329920115891389}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &9214398417468269214 stripped

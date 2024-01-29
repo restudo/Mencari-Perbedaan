@@ -8,7 +8,7 @@ public class Hint : MonoBehaviour
     [SerializeField] private Button hintButton;
     [SerializeField] private GameObject hintObject;
     [SerializeField] private float hintTime;
-    
+
     private bool isEnable;
     private GameObject instantiatedHint;
 
@@ -55,7 +55,7 @@ public class Hint : MonoBehaviour
 
     public void ShowHintButton()
     {
-        if (isEnable && GameManager.instance.isGameActive)
+        if (isEnable && GameManager.instance.isGameActive && GameManager.instance.isThoucedActive)
         {
             StartCoroutine(ShowHint());
         }

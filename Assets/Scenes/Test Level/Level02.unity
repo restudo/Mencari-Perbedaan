@@ -492,7 +492,7 @@ MonoBehaviour:
   checkpointsLeft:
   - {fileID: 5878786555694812076}
   - {fileID: 7759598951060368871}
-  - {fileID: 7759598951060368871}
+  - {fileID: 3579342130955303130}
   - {fileID: 6811436621210484209}
   checkpointsRight:
   - {fileID: 5505339179210820834}
@@ -3175,7 +3175,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 20.48, y: 15.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -4557,7 +4557,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Debug Mode
+  m_text: Click me if confused
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4584,8 +4584,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7055,6 +7055,11 @@ GameObject:
 --- !u!1 &3579342130955303129 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5809630702107992320, guid: e0851403c514f6b40aea469931864355, type: 3}
+  m_PrefabInstance: {fileID: 3579342130955303125}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3579342130955303130 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5527390275011409645, guid: e0851403c514f6b40aea469931864355, type: 3}
   m_PrefabInstance: {fileID: 3579342130955303125}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &3944888561229584818 stripped

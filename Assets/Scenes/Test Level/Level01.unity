@@ -357,7 +357,7 @@ MonoBehaviour:
   checkpointsLeft:
   - {fileID: 2380292345462958075}
   - {fileID: 4572273057374370168}
-  - {fileID: 4572273057374370168}
+  - {fileID: 1253568146}
   - {fileID: 6928411653065699177}
   checkpointsRight:
   - {fileID: 5113835658985832756}
@@ -2089,6 +2089,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1178646776}
   m_CullTransparentMesh: 1
+--- !u!1 &1253568146 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5550739133390150422, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+  m_PrefabInstance: {fileID: 3948580647343513473}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1380888744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,7 +2321,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Debug Mode
+  m_text: Click me if confused
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2343,8 +2348,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2957,7 +2962,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 221, y: 0}
-  m_SizeDelta: {x: 143.9399, y: 58.9583}
+  m_SizeDelta: {x: 168.2662, y: 58.9583}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1981752872
 MonoBehaviour:
@@ -3365,6 +3370,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 511261381}
     m_Modifications:
+    - target: {fileID: 1589176883467403889, guid: ffc17380f54b80b49b11b127258beb16, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1589176883467403889, guid: ffc17380f54b80b49b11b127258beb16, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.85
+      objectReference: {fileID: 0}
     - target: {fileID: 2859631511905878068, guid: ffc17380f54b80b49b11b127258beb16, type: 3}
       propertyPath: pair
       value: 
@@ -3459,6 +3472,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7447133078472643629, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
   m_PrefabInstance: {fileID: 3948580647343513473}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &2380292345462958077 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3134725689460076605, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+  m_PrefabInstance: {fileID: 3948580647343513473}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3274056971805897086 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3128301846415063600, guid: ffc17380f54b80b49b11b127258beb16, type: 3}
@@ -3487,6 +3505,10 @@ PrefabInstance:
       propertyPath: pair
       value: 
       objectReference: {fileID: 3274056971805897086}
+    - target: {fileID: 1027939244209515010, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2663391555755060157, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -3538,11 +3560,27 @@ PrefabInstance:
     - target: {fileID: 2670761984870720334, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
       propertyPath: checkRend
       value: 
-      objectReference: {fileID: 2380292345462958075}
+      objectReference: {fileID: 2380292345462958077}
+    - target: {fileID: 3017976644566574946, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017976644566574946, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219713896132993425, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6220099691364099630, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
       propertyPath: pair
       value: 
       objectReference: {fileID: 2042863940337095890}
+    - target: {fileID: 7681917369424061202, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8176309187576834148, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
       propertyPath: pair
       value: 
@@ -3550,6 +3588,10 @@ PrefabInstance:
     - target: {fileID: 8225109975482798206, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
       propertyPath: m_Name
       value: Point Check Left Image
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654165308195552367, guid: b0ffd2ec07b726c45a50c31364590855, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

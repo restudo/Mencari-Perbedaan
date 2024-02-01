@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class DebugMode : MonoBehaviour
 {
-    [SerializeField] private GameObject[] debugObj;
+    private GameObject[] debugObj;
 
     public void ToggleDebugMode()
     {
+        debugObj = GameObject.FindGameObjectsWithTag("Checkpoint");
         foreach (var item in debugObj)
         {
-            if(item.activeSelf)
+            SpriteRenderer rend = item.GetComponent<SpriteRenderer>();
+            if(rend.enabled)
             {
-                item.SetActive(false);
+                rend.enabled = false;
             }
             else
             {
-                item.SetActive(true);
+                rend.enabled = true;
             }
         }
     }

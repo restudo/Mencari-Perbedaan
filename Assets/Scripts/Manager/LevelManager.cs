@@ -18,8 +18,10 @@ public class LevelManager : MonoBehaviour
 
 
     [Header("Health")]
-    [SerializeField] private Image[] images;
-    private int maxHealth = 0;
+    [SerializeField] private Image[] hearts;
+    [SerializeField] private Sprite fullHeart;
+    [SerializeField] private Sprite emptyHeart;
+    private int health = 0;
 
 
     [Header("Progress")]
@@ -57,10 +59,10 @@ public class LevelManager : MonoBehaviour
         currentTime = GameManager.instance.countdownTimer; //for now all the level has the same countdown timer
         currentInterval = GameManager.instance.intervalTimer; //and also intervalTimer as well
 
-        for (int i = 0; i < images.Length; i++)
+        for (int i = 0; i < hearts.Length; i++)
         {
-            images[i].enabled = true;
-            maxHealth++;
+            hearts[i].sprite = fullHeart;
+            health++;
         }
 
         progressCounter = 0;
@@ -158,15 +160,15 @@ public class LevelManager : MonoBehaviour
 
     private void DecreaseHealth()
     {
-        for (int i = 0; i < images.Length; i++)
+        for (int i = 0; i < hearts.Length; i++)
         {
-            if (images[i].enabled)
+            if (i < health)
             {
                 GameManager.instance.isThoucedActive = false;
-                maxHealth--;
-                images[i].transform.DOPunchScale(new Vector3(.7f, .7f, .7f), .3f, 0, 0.2f).OnComplete(() =>
+                health--;
+                hearts[health].transform.DOPunchScale(new Vector3(.7f, .7f, .7f), .3f, 0, 0.2f).OnComplete(() =>
                 {
-                    images[i].enabled = false;
+                    hearts[health].sprite = emptyHeart;
                     GameManager.instance.isThoucedActive = true;
                 });
 
@@ -174,7 +176,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        if (maxHealth <= 0)
+        if (health <= 0)
         {
             GameManager.instance.isGameActive = false;
             GameManager.instance.isThoucedActive = false;

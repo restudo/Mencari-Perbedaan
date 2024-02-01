@@ -2,19 +2,22 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ImageControl : MonoBehaviour
 {
     [SerializeField] private GameObject[] images;
     [SerializeField] private GameObject[] checkpointsLeft;
     [SerializeField] private GameObject[] checkpointsRight;
-    [SerializeField] private Pooler pool;
+    private Pooler pool;
     [Tooltip("automatically filled while playing")][SerializeField] private GameObject[] objPools;
 
     private bool isSwitched = false;
 
     private void Start()
     {
+        pool = GetComponent<Pooler>();
+
         PoolToArray();
     }
 
@@ -32,11 +35,20 @@ public class ImageControl : MonoBehaviour
 
     private void PoolToArray()
     {
-        int totalPool = pool.transform.childCount;
+        List<Transform> objCounter = new List<Transform>();
+        for (int i = 0; i < pool.transform.childCount; i++)
+        {
+            if (pool.gameObject.transform.GetChild(i).CompareTag("Cross"))
+            {
+                objCounter.Add(pool.gameObject.transform.GetChild(i));
+            }
+        }
+
+        int totalPool = objCounter.Count;
         objPools = new GameObject[totalPool];
         for (int i = 0; i < objPools.Length; i++)
         {
-            objPools[i] = pool.transform.GetChild(i).gameObject;
+            objPools[i] = objCounter[i].gameObject;
         }
     }
 

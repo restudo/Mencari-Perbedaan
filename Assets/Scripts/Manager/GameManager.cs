@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     public int LoadUnlockedLevel()
     {
         unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);

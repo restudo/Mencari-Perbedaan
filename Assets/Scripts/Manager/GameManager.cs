@@ -25,11 +25,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        PlayerPrefs.DeleteAll();
-    }
-
     public int LoadUnlockedLevel()
     {
         unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
@@ -41,15 +36,12 @@ public class GameManager : MonoBehaviour
         string sceneName = SceneManager.GetActiveScene().name;
         int level;
 
-        if (int.TryParse(sceneName.Substring("Level".Length), out level))
+        if (int.TryParse(sceneName.Substring("Level".Length), out level) && level >= LoadUnlockedLevel())
         {
             PlayerPrefs.SetInt("UnlockedLevel", level + 1);
             PlayerPrefs.Save();
         }
-    }
 
-    public void ResetData()
-    {
-        PlayerPrefs.DeleteAll();
+        Debug.Log(level);
     }
 }

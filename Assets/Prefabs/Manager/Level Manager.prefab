@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5657273471215253169
 MonoBehaviour:
@@ -74,3 +74,4 @@ MonoBehaviour:
   hintButton: {fileID: 0}
   hintObject: {fileID: 5438029199706481804, guid: a42ab76dbee7ffa46bbb50e62cc2e380, type: 3}
   hintTime: 3
+  hintLimit: 1

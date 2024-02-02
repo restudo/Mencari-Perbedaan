@@ -2950,6 +2950,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3610609758558341840, guid: e46b63aff4f444a4ca3d2f6a6cffe40c, type: 3}
+      propertyPath: hintLimit
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610609758558341840, guid: e46b63aff4f444a4ca3d2f6a6cffe40c, type: 3}
       propertyPath: hintButton
       value: 
       objectReference: {fileID: 2027870291}

@@ -8,6 +8,7 @@ public class Hint : MonoBehaviour
     [SerializeField] private Button hintButton;
     [SerializeField] private GameObject hintObject;
     [SerializeField] private float hintTime;
+    [SerializeField] private float hintLimit;
 
     private bool isEnable;
     private GameObject instantiatedHint;
@@ -50,14 +51,22 @@ public class Hint : MonoBehaviour
         Destroy(instantiatedHint);
 
         isEnable = true;
-        hintButton.interactable = true;
+        if (hintLimit > 0)
+        {
+            hintButton.interactable = true;
+        }
+        else
+        {
+            hintButton.interactable = false;
+        }
     }
 
     public void ShowHintButton()
     {
-        if (isEnable && GameManager.instance.isGameActive && GameManager.instance.isThoucedActive)
+        if (isEnable && GameManager.instance.isGameActive && GameManager.instance.isThoucedActive && hintLimit > 0)
         {
             StartCoroutine(ShowHint());
+            hintLimit--;
         }
     }
 }

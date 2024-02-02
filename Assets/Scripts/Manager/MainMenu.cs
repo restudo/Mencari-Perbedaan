@@ -37,4 +37,9 @@ public class MainMenu : MonoBehaviour
 
         SceneController.instance.LoadScene(Scenes.CollectionMenu.ToString());
     }
+
+    public void ResetData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

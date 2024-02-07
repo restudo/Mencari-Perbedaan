@@ -30,4 +30,11 @@ public static class EventHandler
         if (ResetImageTransform != null)
             ResetImageTransform();
     }
+    
+    public static event Action PlaySFX;
+    public static void CallPlaySFXEvent()
+    {
+        if (PlaySFX != null)
+            PlaySFX();
+    }
 }

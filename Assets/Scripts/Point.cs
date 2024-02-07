@@ -9,6 +9,7 @@ public class Point : MonoBehaviour
     [SerializeField] private SpriteRenderer checkRend;
 
     [SerializeField] private int loopTime = 2;
+    [Tooltip("Boink Feedback")][SerializeField] private float scaleIncrement = 0.1f;
 
     [Space(20)]
     [Header("Random Image")]
@@ -48,8 +49,9 @@ public class Point : MonoBehaviour
 
                 EventHandler.CallDifferenceClickedEvent();
 
-                spRend.transform.DOScale(1.1f, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo);
-                pair.spRend.transform.DOScale(1.1f, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo).OnComplete(() =>
+                Vector3 targetScale = new Vector3(spRend.transform.localScale.x + scaleIncrement, spRend.transform.localScale.y + scaleIncrement, spRend.transform.localScale.z + scaleIncrement);
+                spRend.transform.DOScale(targetScale, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo);
+                pair.spRend.transform.DOScale(targetScale, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo).OnComplete(() =>
                 {
                     checkRend.enabled = true;
                     pair.checkRend.enabled = true;

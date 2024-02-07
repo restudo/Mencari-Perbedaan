@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Xml.Serialization;
 
 public class CollectionMenu : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private GameObject[] collectionObjects;
     [SerializeField] private TextMeshProUGUI[] collectionTitles;
     [SerializeField] private TextMeshProUGUI[] collectionDescriptions;
+
+    [Space(50)]
+    [Header("Audio")]
+    [SerializeField] private AudioClip[] collectionAudioClip;
 
     private float nextButtonTargetX;
     private float previousButtonTargetX;
@@ -174,6 +179,7 @@ public class CollectionMenu : MonoBehaviour
         collectionContainer.SetActive(false);
 
         simpleScrollSnap.CustomGoToPanel(index);
+        simpleScrollSnap.OnPanelCentered.Invoke(simpleScrollSnap.CenteredPanel, simpleScrollSnap.SelectedPanel);
 
         ShowCollectionAnim();
     }
@@ -183,6 +189,8 @@ public class CollectionMenu : MonoBehaviour
         if (collectionPanel.activeSelf)
         {
             StartCoroutine(CloseCollectionAnim());
+
+            AudioManager.Instance.StopSFX();
         }
         else
         {
@@ -190,5 +198,47 @@ public class CollectionMenu : MonoBehaviour
 
             SceneController.instance.LoadScene(Scenes.MainMenu.ToString());
         }
+    }
+
+    public void PlaySound()
+    {
+        int unlockedCollection = GameManager.instance.LoadUnlockedLevel() - 1;
+
+        AudioManager.Instance.StopSFX();
+
+        if (simpleScrollSnap.CenteredPanel < unlockedCollection)
+        {
+            switch (simpleScrollSnap.CenteredPanel)
+            {
+                case 0:
+                    AudioManager.Instance.PlaySFX(collectionAudioClip[0]);
+                    break;
+                case 1:
+                    AudioManager.Instance.PlaySFX(collectionAudioClip[1]);
+                    break;
+                case 2:
+                    AudioManager.Instance.PlaySFX(collectionAudioClip[2]);
+                    break;
+                case 3:
+                    AudioManager.Instance.PlaySFX(collectionAudioClip[3]);
+                    break;
+                case 4:
+                    AudioManager.Instance.PlaySFX(collectionAudioClip[4]);
+                    break;
+                case 5:
+                    AudioManager.Instance.PlaySFX(collectionAudioClip[5]);
+                    break;
+                case 6:
+                    AudioManager.Instance.PlaySFX(collectionAudioClip[6]);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void Test()
+    {
+        Debug.Log(simpleScrollSnap.CenteredPanel + " : " + simpleScrollSnap.SelectedPanel);
     }
 }

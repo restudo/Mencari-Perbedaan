@@ -3,7 +3,8 @@ using DG.Tweening;
 
 public class Point : MonoBehaviour
 {
-    [SerializeField] private Point pair;
+    public Point pair;
+    public bool isDuplicate { get; set; }
 
     [SerializeField] private SpriteRenderer spRend;
     [SerializeField] private SpriteRenderer checkRend;
@@ -15,16 +16,28 @@ public class Point : MonoBehaviour
     [Header("Random Image")]
     [SerializeField] private Sprite[] imageVariant;
     private Collider2D col;
+    private Collider2D pairCol;
     private bool isClicked;
 
     private void Start()
     {
+        col = GetComponent<Collider2D>();
+        pairCol = pair.GetComponent<Collider2D>();
+
         spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)];
 
-        do { pair.spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)]; }
-        while (pair.spRend.sprite == spRend.sprite);
+        if (!isDuplicate)
+        {
+            do { pair.spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)]; }
+            while (pair.spRend.sprite == spRend.sprite);
+        }
+        else
+        {
+            pair.spRend.sprite = spRend.sprite;
+            col.enabled = false;
+            pairCol.enabled = false;
+        }
 
-        col = GetComponent<Collider2D>();
         isClicked = false;
 
         checkRend.enabled = false;

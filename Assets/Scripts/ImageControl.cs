@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class ImageControl : MonoBehaviour
 {
-    [SerializeField] private GameObject[] images;
+    [SerializeField] public GameObject[] images;
     [SerializeField] private GameObject[] checkpointsLeft;
     [SerializeField] private GameObject[] checkpointsRight;
     private Pooler pool;
@@ -52,16 +52,8 @@ public class ImageControl : MonoBehaviour
         }
     }
 
-    private void ChangeImageTransform()
+    private void ChangeImageTransform(ImageTransform imgTransform)
     {
-        ImageTransform imgTransform;
-
-        do
-        {
-            imgTransform = GetRandomTransform();
-        } while (imgTransform == ImageTransform.Flip &&
-                 (images[0].transform.eulerAngles.z == 90f ||
-                  images[0].transform.eulerAngles.z == 270));
 
         switch (imgTransform)
         {
@@ -82,12 +74,6 @@ public class ImageControl : MonoBehaviour
         }
 
         Debug.Log(imgTransform);
-    }
-
-    private ImageTransform GetRandomTransform()
-    {
-        ImageTransform[] allImgTransform = (ImageTransform[])Enum.GetValues(typeof(ImageTransform));
-        return allImgTransform[UnityEngine.Random.Range(0, allImgTransform.Length)];
     }
 
     /// <summary>

@@ -18,16 +18,20 @@ public class LevelManager : MonoBehaviour
 
 
     [Header("Health")]
-    [SerializeField] private Image[] hearts;
+    [SerializeField] private GameObject healthContainer;
     [SerializeField] private Sprite fullHeart;
     [SerializeField] private Sprite emptyHeart;
-    private int health = 0;
+    private Image[] hearts;
+    private int healthCount;
 
 
     [Header("Progress")]
-    [SerializeField] private TextMeshProUGUI proggressText;
-    [SerializeField] private int maxProgress = 5; //TODO: change value from level data
-    private int progressCounter;
+    [SerializeField] private GameObject progressContainer;
+    [SerializeField] private Sprite fullProgress;
+    [SerializeField] private Sprite emptyProgress;
+    private Image[] progresses;
+    private int progressCount;
+    // [SerializeField] private int maxProgress = 5; //TODO: change value from level data
 
 
     [Header("GameOver Panel")]
@@ -37,9 +41,13 @@ public class LevelManager : MonoBehaviour
     [Header("Pause")]
     [SerializeField] private GameObject pauseUI;
 
-    [Header("Animator")]
+    [Header("Animator & Image Control")]
+    [SerializeField] private ImageControl imgControl;
     [SerializeField] private Transform objectInAndOut;
     [SerializeField] private Image objectAlert;
+    [SerializeField] private Sprite flipSprite;
+    [SerializeField] private Sprite switchSprite;
+    private ImageTransform imageTransform;
     private bool canPlayAnim;
 
     private void OnEnable()
@@ -59,14 +67,24 @@ public class LevelManager : MonoBehaviour
         currentTime = GameManager.instance.countdownTimer; //for now all the level has the same countdown timer
         currentInterval = GameManager.instance.intervalTimer; //and also intervalTimer as well
 
-        for (int i = 0; i < hearts.Length; i++)
+        int heartContainerChildCount = healthContainer.transform.childCount;
+        hearts = new Image[heartContainerChildCount];
+        for (int i = 0; i < heartContainerChildCount; i++)
         {
-            hearts[i].sprite = fullHeart;
-            health++;
+            hearts[i] = healthContainer.transform.GetChild(i).gameObject.GetComponent<Image>();
+            hearts[i].sprite = emptyHeart;
+            healthCount++;
         }
-
-        progressCounter = 0;
-        proggressText.text = progressCounter + "/" + maxProgress;
+        
+        int progressContainerChildCount = progressContainer.transform.childCount;
+        progresses = new Image[progressContainerChildCount];
+        for (int i = 0; i < progressContainerChildCount; i++)
+        {
+            progresses[i] = progressContainer.transform.GetChild(i).gameObject.GetComponent<Image>();
+            progresses[i].sprite = emptyProgress;
+            progressCount++;
+        }
+        // proggressText.text = progressCounter + "/" + maxProgress;
 
         gameOverWinUI.SetActive(false);
         gameOverLoseUI.SetActive(false);
@@ -103,7 +121,8 @@ public class LevelManager : MonoBehaviour
                     canPlayAnim = false;
 
                     // animate object
-                    StartCoroutine(ObjectAlert());
+                    imageTransform = RandomTransform();
+                    StartCoroutine(ObjectAlert(imageTransform));
                     StartCoroutine(ObjectInAndOut());
                 }
 
@@ -114,7 +133,7 @@ public class LevelManager : MonoBehaviour
 
                 if (currentInterval <= 0)
                 {
-                    StartCoroutine(ChangeImageTransform());
+                    StartCoroutine(ChangeImageTransform(imageTransform));
                     // currentInterval = intervalTime;
                     currentInterval = GameManager.instance.intervalTimer;
                     canPlayAnim = true;
@@ -123,18 +142,26 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ChangeImageTransform()
+    private IEnumerator ObjectAlert(ImageTransform imageTransform)
     {
-        // Code to be executed every x second
-        EventHandler.CallChangeImageTransformEvent();
+        switch (imageTransform)
+        {
+            case ImageTransform.Flip:
+                objectAlert.sprite = flipSprite;
+                break;
+            case ImageTransform.Switch:
+                objectAlert.sprite = switchSprite;
+                break;
+            // case ImageTransform.RotateLeft:
+            //     RotateLeft();
+            //     break;
+            // case ImageTransform.RotateRight:
+            //     RotateRight();
+            //     break;
+            default:
+                break;
+        }
 
-        yield return new WaitForSeconds(.3f);
-
-        GameManager.instance.isThoucedActive = true;
-    }
-
-    private IEnumerator ObjectAlert()
-    {
         // Tween the alpha of a object alert color to 1
         DOTween.ToAlpha(() => objectAlert.color, x => objectAlert.color = x, 0, 0);
 
@@ -158,17 +185,49 @@ public class LevelManager : MonoBehaviour
         objectInAndOut.DOMoveX(x, 0.5f).SetEase(Ease.InOutBack);
     }
 
+    private ImageTransform RandomTransform()
+    {
+        ImageTransform imgTransform;
+
+        do
+        {
+            imgTransform = GetRandomTransform();
+        } while (imgTransform == ImageTransform.Flip && 
+                (imgControl.images[0].transform.eulerAngles.z == 90f || 
+                imgControl.images[0].transform.eulerAngles.z == 270));
+
+        return imgTransform;
+    }
+
+    private ImageTransform GetRandomTransform()
+    {
+        ImageTransform[] allImgTransform = (ImageTransform[])Enum.GetValues(typeof(ImageTransform));
+        return allImgTransform[UnityEngine.Random.Range(0, allImgTransform.Length)];
+    }
+
+    private IEnumerator ChangeImageTransform(ImageTransform imageTransform)
+    {
+        // Code to be executed every x second
+        EventHandler.CallChangeImageTransformEvent(imageTransform);
+
+        yield return new WaitForSeconds(.3f);
+
+        GameManager.instance.isThoucedActive = true;
+    }
+
     private void DecreaseHealth()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-            if (i < health)
+            if (i < healthCount)
             {
                 GameManager.instance.isThoucedActive = false;
-                health--;
-                hearts[health].transform.DOPunchScale(new Vector3(.7f, .7f, .7f), .3f, 0, 0.2f).OnComplete(() =>
+                healthCount--;
+                hearts[healthCount].sprite = fullHeart;
+
+                Vector3 punch = new Vector3(.7f, .7f, .7f);
+                hearts[healthCount].transform.DOPunchScale(punch, .3f, 0, 0.2f).OnComplete(() =>
                 {
-                    hearts[health].sprite = emptyHeart;
                     GameManager.instance.isThoucedActive = true;
                 });
 
@@ -176,7 +235,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        if (health <= 0)
+        if (healthCount <= 0)
         {
             GameManager.instance.isGameActive = false;
             GameManager.instance.isThoucedActive = false;
@@ -188,16 +247,42 @@ public class LevelManager : MonoBehaviour
 
     private void UpdateObjectiveText()
     {
-        progressCounter++;
+        // progressCount++;
 
-        proggressText.text = progressCounter + "/" + maxProgress;
+        // proggressText.text = progressCounter + "/" + maxProgress;
 
-        if (progressCounter == maxProgress)
+        // if (progressCount == maxProgress)
+        // {
+        //     GameManager.instance.isGameActive = false;
+        //     GameManager.instance.isThoucedActive = false;
+
+        //     // Win();
+        //     Invoke("Win", 2f); // change with Win(); if there is an animation when winning
+        // }
+
+        for (int i = 0; i < progresses.Length; i++)
+        {
+            if (i < progressCount)
+            {
+                GameManager.instance.isThoucedActive = false;
+                progressCount--;
+                progresses[progressCount].sprite = fullProgress;
+
+                Vector3 punch = new Vector3(.7f, .7f, .7f);
+                progresses[progressCount].transform.DOPunchScale(punch, .3f, 0, 0.2f).OnComplete(() =>
+                {
+                    GameManager.instance.isThoucedActive = true;
+                });
+
+                break;
+            }
+        }
+
+        if (progressCount <= 0)
         {
             GameManager.instance.isGameActive = false;
             GameManager.instance.isThoucedActive = false;
 
-            // Win();
             Invoke("Win", 2f); // change with Win(); if there is an animation when winning
         }
     }
@@ -214,6 +299,7 @@ public class LevelManager : MonoBehaviour
         gameOverWinUI.transform.DOScale(1, 0.4f).SetEase(Ease.OutBounce).OnComplete(() =>
         {
             gameOverWinUI.SetActive(true);
+            DOTween.KillAll();
         });
 
         Debug.Log("Game Over - Win");
@@ -229,6 +315,7 @@ public class LevelManager : MonoBehaviour
         gameOverLoseUI.transform.DOScale(1, 0.4f).SetEase(Ease.OutBounce).OnComplete(() =>
         {
             gameOverLoseUI.SetActive(true);
+            DOTween.KillAll();
         });
 
         Debug.Log("Game Over - Lose");
@@ -238,14 +325,14 @@ public class LevelManager : MonoBehaviour
     {
         DOTween.KillAll();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
         GameManager.instance.isGameActive = true;
         GameManager.instance.isThoucedActive = true;
 
         Time.timeScale = 1;
 
         GameManager.instance.isGameActive = true;
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Pause()

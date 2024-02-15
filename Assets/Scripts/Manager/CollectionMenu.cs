@@ -236,9 +236,4 @@ public class CollectionMenu : MonoBehaviour
             }
         }
     }
-
-    public void Test()
-    {
-        Debug.Log(simpleScrollSnap.CenteredPanel + " : " + simpleScrollSnap.SelectedPanel);
-    }
 }

@@ -17,11 +17,11 @@ public static class EventHandler
             DecreaseHealth();
     }
 
-    public static event Action ChangeImageTransform;
-    public static void CallChangeImageTransformEvent()
+    public static event Action<ImageTransform> ChangeImageTransform;
+    public static void CallChangeImageTransformEvent(ImageTransform imgTransform)
     {
         if (ChangeImageTransform != null)
-            ChangeImageTransform();
+            ChangeImageTransform(imgTransform);
     }
     
     public static event Action ResetImageTransform;

@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5657273471215253169
 MonoBehaviour:
@@ -46,19 +46,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 0}
-  hearts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  fullHeart: {fileID: 21300000, guid: df0cd065aaa3d6245885c031179d762c, type: 3}
-  emptyHeart: {fileID: 21300000, guid: 5ea2719c668b7db47adc0c938eef3bb1, type: 3}
-  proggressText: {fileID: 0}
-  maxProgress: 5
+  healthContainer: {fileID: 0}
+  progressContainer: {fileID: 0}
   gameOverWinUI: {fileID: 0}
   gameOverLoseUI: {fileID: 0}
   pauseUI: {fileID: 0}
+  imgControl: {fileID: 0}
   objectInAndOut: {fileID: 0}
-  objectAlert: {fileID: 0}
+  objectAlertSwitch: {fileID: 0}
+  objectAlertFlipLeft: {fileID: 0}
+  objectAlertFlipRight: {fileID: 0}
 --- !u!114 &3610609758558341840
 MonoBehaviour:
   m_ObjectHideFlags: 0

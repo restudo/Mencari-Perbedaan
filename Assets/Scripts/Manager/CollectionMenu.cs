@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System.Xml.Serialization;
 
 public class CollectionMenu : MonoBehaviour
 {
@@ -23,6 +22,7 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private Button[] collectionButtons;
     [SerializeField] private GameObject[] collectionObjects;
     [SerializeField] private TextMeshProUGUI[] collectionTitles;
+    [SerializeField] private TextMeshProUGUI[] collectionLocations;
     [SerializeField] private TextMeshProUGUI[] collectionDescriptions;
 
     [Space(50)]
@@ -59,6 +59,7 @@ public class CollectionMenu : MonoBehaviour
                 collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(true);
                 collectionTitles[i].text = "???"; // set the title to unknown
                 // collectionTitles[i].alignment = TextAlignmentOptions.Left;
+                collectionLocations[i].text = "???";
                 collectionDescriptions[i].text = "???"; // set the description to unknown
             }
             else
@@ -75,34 +76,42 @@ public class CollectionMenu : MonoBehaviour
                 {
                     case 0:
                         collectionTitles[i].text = Settings.collectionTitle1;
+                        collectionLocations[i].text = Settings.collectionLocation1;
                         collectionDescriptions[i].text = Settings.collectionDesc1;
                         break;
                     case 1:
                         collectionTitles[i].text = Settings.collectionTitle2;
+                        collectionLocations[i].text = Settings.collectionLocation2;
                         collectionDescriptions[i].text = Settings.collectionDesc2;
                         break;
                     case 2:
                         collectionTitles[i].text = Settings.collectionTitle3;
+                        collectionLocations[i].text = Settings.collectionLocation3;
                         collectionDescriptions[i].text = Settings.collectionDesc3;
                         break;
                     case 3:
                         collectionTitles[i].text = Settings.collectionTitle4;
+                        collectionLocations[i].text = Settings.collectionLocation4;
                         collectionDescriptions[i].text = Settings.collectionDesc4;
                         break;
                     case 4:
                         collectionTitles[i].text = Settings.collectionTitle5;
+                        collectionLocations[i].text = Settings.collectionLocation5;
                         collectionDescriptions[i].text = Settings.collectionDesc5;
                         break;
                     case 5:
                         collectionTitles[i].text = Settings.collectionTitle6;
+                        collectionLocations[i].text = Settings.collectionLocation6;
                         collectionDescriptions[i].text = Settings.collectionDesc6;
                         break;
                     case 6:
                         collectionTitles[i].text = Settings.collectionTitle7;
+                        collectionLocations[i].text = Settings.collectionLocation7;
                         collectionDescriptions[i].text = Settings.collectionDesc7;
                         break;
                     default:
                         collectionTitles[i].text = "???";
+                        collectionLocations[i].text = "???";
                         collectionDescriptions[i].text = "?????";
                         break;
                 }

@@ -23,12 +23,12 @@ public class Hint : MonoBehaviour
         hintButton.interactable = false;
         isEnable = false;
 
-        GameObject[] pointSpots = GameObject.FindGameObjectsWithTag("Checkpoint");
+        GameObject[] pointSpots = GameObject.FindGameObjectsWithTag("DifferentPoint");
 
         int maxAttempts = 50;
         int remainingAttempts = maxAttempts;
         int randomIndex = Random.Range(0, pointSpots.Length);
-        while (remainingAttempts > 0 && pointSpots[randomIndex].GetComponent<SpriteRenderer>().enabled)
+        while (remainingAttempts > 0 && !pointSpots[randomIndex].GetComponent<Collider2D>().enabled)
         {
             randomIndex = Random.Range(0, pointSpots.Length);
             remainingAttempts--;

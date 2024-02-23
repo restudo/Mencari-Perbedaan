@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 public class ImageControl : MonoBehaviour
 {
+    [SerializeField] private float initialShuffleDuration = 0.2f;
+    [SerializeField] private float finalShuffleDuration = 0.5f;
+    [SerializeField] private int minShuffle = 4;
+    [SerializeField] private int maxShuffle = 7;
+
     [SerializeField] public GameObject[] images;
     [SerializeField] private GameObject[] checkpointsLeft;
     [SerializeField] private GameObject[] checkpointsRight;
@@ -14,11 +19,17 @@ public class ImageControl : MonoBehaviour
 
     private bool isSwitched = false;
 
+    private GameObject imageLeftOrigin;
+    private GameObject imageRightOrigin;
+
     private void Start()
     {
         pool = GetComponent<Pooler>();
 
         PoolToArray();
+
+        imageLeftOrigin = images[0];
+        imageRightOrigin = images[1];
     }
 
     private void OnEnable()
@@ -61,7 +72,7 @@ public class ImageControl : MonoBehaviour
                 StartCoroutine(Flips());
                 break;
             case ImageTransform.Switch:
-                Switch();
+                StartCoroutine(Switch());
                 break;
             // case ImageTransform.RotateLeft:
             //     RotateLeft();
@@ -72,8 +83,6 @@ public class ImageControl : MonoBehaviour
             default:
                 break;
         }
-
-        Debug.Log(imgTransform);
     }
 
     /// <summary>
@@ -122,81 +131,117 @@ public class ImageControl : MonoBehaviour
     /// </summary>
     private IEnumerator Flips()
     {
-        if (!isSwitched)
-        {
-            ImageLeftFirst();
-            yield return new WaitForSeconds(0.2f);
-            ImageRightFirst();
-        }
-        else
-        {
-            ImageRightFirst();
-            yield return new WaitForSeconds(0.2f);
-            ImageLeftFirst();
-        }
+        int numberOfIterations = UnityEngine.Random.Range(minShuffle - 2, maxShuffle - 2);
+        float durationStep = (initialShuffleDuration - finalShuffleDuration) / (numberOfIterations - 1);
 
-        foreach (GameObject objPool in objPools)
+        for (int i = 0; i < numberOfIterations; i++)
         {
-            if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
+            if (!isSwitched)
             {
-                Vector3 scalerPool = objPool.transform.localScale;
-                scalerPool.x *= -1;
-                // objPool.transform.localScale = scalerPool;
-                objPool.transform.DOScaleX(scalerPool.x, 0.3f);
+                ImageLeftFirst(i, durationStep);
+                yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
+                ImageRightFirst(i, durationStep);
             }
+            else
+            {
+                ImageRightFirst(i, durationStep);
+                yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
+                ImageLeftFirst(i, durationStep);
+            }
+
+            foreach (GameObject objPool in objPools)
+            {
+                if (objPool.transform.parent == images[0].transform || objPool.transform.parent == images[1].transform)
+                {
+                    Vector3 scalerPool = objPool.transform.localScale;
+                    scalerPool.x *= -1;
+                    // objPool.transform.localScale = scalerPool;
+                    objPool.transform.DOScaleX(scalerPool.x, initialShuffleDuration - (i * durationStep)).SetEase(Ease.OutCirc);
+                }
+            }
+
+            yield return new WaitForSeconds(initialShuffleDuration - (i * durationStep));
         }
     }
 
-    private void ImageLeftFirst()
+    private void ImageLeftFirst(int iteration, float durationStep)
     {
         Vector3 scaler = images[0].transform.localScale;
         scaler.x *= -1;
 
-        images[0].transform.DOScaleX(scaler.x, 0.3f);
+        images[0].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
 
         foreach (GameObject point in checkpointsLeft)
         {
             Vector3 scalerPoint = point.transform.localScale;
             scalerPoint.x *= -1;
-            point.transform.DOScaleX(scalerPoint.x, 0.3f);
+            point.transform.DOScaleX(scalerPoint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
         }
     }
 
-    private void ImageRightFirst()
+    private void ImageRightFirst(int iteration, float durationStep)
     {
         Vector3 scaler = images[1].transform.localScale;
         scaler.x *= -1;
 
-        images[1].transform.DOScaleX(scaler.x, 0.3f);
+        images[1].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
 
         foreach (GameObject point in checkpointsRight)
         {
             Vector3 scalerPoint = point.transform.localScale;
             scalerPoint.x *= -1;
-            point.transform.DOScaleX(scalerPoint.x, 0.3f);
+            point.transform.DOScaleX(scalerPoint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
         }
     }
 
     /// <summary>
     /// switch position between two images (left and right)
     /// </summary>
-    private void Switch()
+    private IEnumerator Switch()
+    {
+        int numberOfIterations = UnityEngine.Random.Range(minShuffle, maxShuffle);
+        float durationStep = (initialShuffleDuration - finalShuffleDuration) / (numberOfIterations - 1);
+
+        for (int i = 0; i < numberOfIterations; i++)
+        {
+            Vector3 tempPos = images[0].transform.position;
+
+            images[0].transform.DOJump(images[1].transform.position, 3f, 0, initialShuffleDuration - (i * durationStep), false).SetEase(Ease.OutQuad);
+            images[1].transform.DOJump(tempPos, -3f, 0, initialShuffleDuration - (i * durationStep), false).SetEase(Ease.OutQuad);
+
+            if (!isSwitched)
+            {
+                isSwitched = true;
+            }
+            else
+            {
+                isSwitched = false;
+            }
+
+            SwapImagesObject();
+
+            yield return new WaitForSeconds(initialShuffleDuration - (i * durationStep));
+        }
+
+        if (numberOfIterations % 2 != 0)
+        {
+            SwapImagesObject();
+            SwapImagesPosition();
+        }
+    }
+
+    private void SwapImagesObject()
+    {
+        GameObject tempObj = images[0];
+        images[0] = images[1];
+        images[1] = tempObj;
+    }
+
+    private void SwapImagesPosition()
     {
         Vector3 tempPos = images[0].transform.position;
-        // images[0].transform.position = images[1].transform.position;
-        // images[1].transform.position = tempPos;
-
-        images[0].transform.DOJump(images[1].transform.position, 3f, 0, 0.5f, false);
-        images[1].transform.DOJump(tempPos, -3f, 0, 0.5f, false);
-
-        if (!isSwitched)
-        {
-            isSwitched = true;
-        }
-        else
-        {
-            isSwitched = false;
-        }
+        images[0].transform.position = images[1].transform.position;
+        images[1].transform.position = tempPos;
     }
 
     // private void RotateLeft()

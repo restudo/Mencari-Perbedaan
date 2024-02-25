@@ -83,7 +83,6 @@ public class StageMenu : MonoBehaviour
             {
                 startButton.SetActive(false);
             });
-            // startButton.transform.localScale = Vector3.zero;
         }
     }
 
@@ -91,8 +90,7 @@ public class StageMenu : MonoBehaviour
     {
         DOTween.KillAll();
 
-        string sceneName = "Level" + level.ToString("D2"); // e.g "Level01"
-        SceneController.instance.LoadScene(sceneName);
+        SceneController.instance.LoadScene(((Scenes)level).ToString());
         GameManager.instance.isGameActive = true;
     }
 

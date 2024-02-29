@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,16 +10,33 @@ public class ImageControl : MonoBehaviour
     [SerializeField] private int minShuffle = 4;
     [SerializeField] private int maxShuffle = 7;
 
+
     [SerializeField] public GameObject[] images;
+    [SerializeField] private Transform[] imagesEntryTransform;
     [SerializeField] private GameObject[] checkpointsLeft;
     [SerializeField] private GameObject[] checkpointsRight;
     private Pooler pool;
     [Tooltip("automatically filled while playing")][SerializeField] private GameObject[] objPools;
 
     private bool isSwitched = false;
-
     private GameObject imageLeftOrigin;
     private GameObject imageRightOrigin;
+    private Vector3[] imagesOriginPos;
+    private Vector3[] imagesOriginRot;
+
+    private void OnEnable()
+    {
+        EventHandler.ImagesEntry += ImageSetupAnim;
+        EventHandler.ChangeImageTransform += ChangeImageTransform;
+        EventHandler.ResetImageTransform += ResetImageTransform;
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.ImagesEntry -= ImageSetupAnim;
+        EventHandler.ChangeImageTransform -= ChangeImageTransform;
+        EventHandler.ResetImageTransform -= ResetImageTransform;
+    }
 
     private void Start()
     {
@@ -30,18 +46,19 @@ public class ImageControl : MonoBehaviour
 
         imageLeftOrigin = images[0];
         imageRightOrigin = images[1];
-    }
 
-    private void OnEnable()
-    {
-        EventHandler.ChangeImageTransform += ChangeImageTransform;
-        EventHandler.ResetImageTransform += ResetImageTransform;
-    }
+        imagesOriginPos = new Vector3[images.Length];
+        imagesOriginRot = new Vector3[images.Length];
 
-    private void OnDisable()
-    {
-        EventHandler.ChangeImageTransform -= ChangeImageTransform;
-        EventHandler.ResetImageTransform -= ResetImageTransform;
+        imagesOriginPos[0] = images[0].transform.position;
+        imagesOriginPos[1] = images[1].transform.position;
+        imagesOriginRot[0] = images[0].transform.eulerAngles;
+        imagesOriginRot[1] = images[1].transform.eulerAngles;
+
+        images[0].transform.position = imagesEntryTransform[0].transform.position;
+        images[1].transform.position = imagesEntryTransform[1].transform.position;
+        images[0].transform.eulerAngles = imagesEntryTransform[0].transform.eulerAngles;
+        images[1].transform.eulerAngles = imagesEntryTransform[1].transform.eulerAngles;
     }
 
     private void PoolToArray()
@@ -61,6 +78,15 @@ public class ImageControl : MonoBehaviour
         {
             objPools[i] = objCounter[i].gameObject;
         }
+    }
+
+    private void ImageSetupAnim()
+    {
+        images[0].transform.DOMove(imagesOriginPos[0], 0.3f).SetEase(Ease.OutBack);
+        images[1].transform.DOMove(imagesOriginPos[1], 0.3f).SetEase(Ease.OutBack).SetDelay(0.15f);
+
+        images[0].transform.DORotate(imagesOriginRot[0], 0.3f).SetEase(Ease.OutBack);
+        images[1].transform.DORotate(imagesOriginRot[1], 0.3f).SetEase(Ease.OutBack).SetDelay(0.15f);
     }
 
     private void ChangeImageTransform(ImageTransform imgTransform)
@@ -162,6 +188,8 @@ public class ImageControl : MonoBehaviour
 
             yield return new WaitForSeconds(initialShuffleDuration - (i * durationStep));
         }
+
+        GameManager.Instance.isThoucedActive = true;
     }
 
     private void ImageLeftFirst(int iteration, float durationStep)
@@ -228,6 +256,8 @@ public class ImageControl : MonoBehaviour
             SwapImagesObject();
             SwapImagesPosition();
         }
+
+        GameManager.Instance.isThoucedActive = true;
     }
 
     private void SwapImagesObject()

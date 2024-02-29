@@ -873,6 +873,8 @@ Transform:
   - {fileID: 1401366113096899897}
   - {fileID: 6235814126050886324}
   - {fileID: 667987667678094340}
+  - {fileID: 5433016040587084627}
+  - {fileID: 3887719990900539460}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -888,9 +890,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a21bd26f2ff3adf4fa01bf5baaf42cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialShuffleDuration: 0.2
+  finalShuffleDuration: 0.5
+  minShuffle: 4
+  maxShuffle: 7
   images:
   - {fileID: 8677704753740278913}
   - {fileID: 6222190461886690704}
+  imagesEntryTransform:
+  - {fileID: 5433016040587084627}
+  - {fileID: 3887719990900539460}
   checkpointsLeft:
   - {fileID: 6474260650310123395}
   - {fileID: 8971564887373750968}
@@ -1279,6 +1288,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2609126716056421410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3887719990900539460}
+  m_Layer: 0
+  m_Name: Right Image Entry Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3887719990900539460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2609126716056421410}
+  m_LocalRotation: {x: 0, y: 0, z: 0.3420201, w: 0.9396927}
+  m_LocalPosition: {x: 10.69, y: -11.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7779335068498141446}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40}
 --- !u!1 &2646276899415462977
 GameObject:
   m_ObjectHideFlags: 0
@@ -3546,6 +3586,37 @@ PolygonCollider2D:
       - {x: 0.58778536, y: -0.80901694}
       - {x: 0.9510565, y: 0.30901712}
   m_UseDelaunayMesh: 0
+--- !u!1 &5971003598358386765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5433016040587084627}
+  m_Layer: 0
+  m_Name: Left Image Entry Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5433016040587084627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971003598358386765}
+  m_LocalRotation: {x: 0, y: 0, z: -0.3420201, w: 0.9396927}
+  m_LocalPosition: {x: -10.69, y: -11.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7779335068498141446}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -40}
 --- !u!1 &6060471756643551420
 GameObject:
   m_ObjectHideFlags: 0

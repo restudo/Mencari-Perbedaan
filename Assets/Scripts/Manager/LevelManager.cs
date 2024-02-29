@@ -64,8 +64,11 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        currentTime = GameManager.instance.countdownTimer; //for now all the level has the same countdown timer
-        currentInterval = GameManager.instance.intervalTimer; //and also intervalTimer as well
+        GameManager.Instance.isGameActive = false;
+        GameManager.Instance.isThoucedActive = false;
+
+        currentTime = GameManager.Instance.countdownTimer; //for now all the level has the same countdown timer
+        currentInterval = GameManager.Instance.intervalTimer; //and also intervalTimer as well
 
         int heartContainerChildCount = healthContainer.transform.childCount;
         hearts = new GameObject[heartContainerChildCount];
@@ -98,13 +101,13 @@ public class LevelManager : MonoBehaviour
 
         canPlayAnim = true;
 
-        GameManager.instance.isGameActive = true;
-        GameManager.instance.isThoucedActive = true;
+        time = TimeSpan.FromSeconds(currentTime);
+        timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
     }
 
     private void Update()
     {
-        if (GameManager.instance.isGameActive)
+        if (GameManager.Instance.isGameActive)
         {
             // Update countdown time
             currentTime -= Time.deltaTime;
@@ -134,14 +137,15 @@ public class LevelManager : MonoBehaviour
 
                 if (currentInterval < 1 && currentInterval >= 0)
                 {
-                    GameManager.instance.isThoucedActive = false;
+                    GameManager.Instance.isThoucedActive = false;
                 }
 
                 if (currentInterval <= 0)
                 {
-                    StartCoroutine(ChangeImageTransform(imageTransform));
+                    // StartCoroutine(ChangeImageTransform(imageTransform));
+                    EventHandler.CallChangeImageTransformEvent(imageTransform);
                     // currentInterval = intervalTime;
-                    currentInterval = GameManager.instance.intervalTimer;
+                    currentInterval = GameManager.Instance.intervalTimer;
                     canPlayAnim = true;
                 }
             }
@@ -200,6 +204,8 @@ public class LevelManager : MonoBehaviour
     {
         float x = objectInAndOut.position.x;
 
+        yield return new WaitForSeconds(1);
+
         objectInAndOut.DOMoveX(-6, 0.5f).SetEase(Ease.OutBack);
 
         yield return new WaitForSeconds(2.3f); // objectInAndOut wait for this seconds
@@ -227,15 +233,11 @@ public class LevelManager : MonoBehaviour
         return allImgTransform[UnityEngine.Random.Range(0, allImgTransform.Length)];
     }
 
-    private IEnumerator ChangeImageTransform(ImageTransform imageTransform)
-    {
-        // Code to be executed every x second
-        EventHandler.CallChangeImageTransformEvent(imageTransform);
-
-        yield return new WaitForSeconds(.3f);
-
-        GameManager.instance.isThoucedActive = true;
-    }
+    // private IEnumerator ChangeImageTransform(ImageTransform imageTransform)
+    // {
+    //     // Code to be executed every x second
+    //     EventHandler.CallChangeImageTransformEvent(imageTransform);
+    // }
 
     private void DecreaseHealth()
     {
@@ -243,7 +245,7 @@ public class LevelManager : MonoBehaviour
         {
             if (i < healthCount)
             {
-                GameManager.instance.isThoucedActive = false;
+                GameManager.Instance.isThoucedActive = false;
                 healthCount--;
                 // hearts[healthCount].sprite = fullHeart;
                 hearts[healthCount].transform.GetChild(0).gameObject.SetActive(true);
@@ -251,7 +253,7 @@ public class LevelManager : MonoBehaviour
                 Vector3 punch = new Vector3(.7f, .7f, .7f);
                 hearts[healthCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.2f).OnComplete(() =>
                 {
-                    GameManager.instance.isThoucedActive = true;
+                    GameManager.Instance.isThoucedActive = true;
                 });
 
                 break;
@@ -260,8 +262,8 @@ public class LevelManager : MonoBehaviour
 
         if (healthCount <= 0)
         {
-            GameManager.instance.isGameActive = false;
-            GameManager.instance.isThoucedActive = false;
+            GameManager.Instance.isGameActive = false;
+            GameManager.Instance.isThoucedActive = false;
 
             // Lose();
             Invoke("Lose", 2f); // change with Lose(); if there is an animation when winning
@@ -287,7 +289,7 @@ public class LevelManager : MonoBehaviour
         {
             if (i < progressCount)
             {
-                GameManager.instance.isThoucedActive = false;
+                GameManager.Instance.isThoucedActive = false;
                 progressCount--;
                 // progresses[progressCount].sprite = fullProgress;
                 progresses[progressCount].transform.GetChild(0).gameObject.SetActive(true);
@@ -295,7 +297,7 @@ public class LevelManager : MonoBehaviour
                 Vector3 punch = new Vector3(.7f, .7f, .7f);
                 progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.2f).OnComplete(() =>
                 {
-                    GameManager.instance.isThoucedActive = true;
+                    GameManager.Instance.isThoucedActive = true;
                 });
 
                 break;
@@ -304,8 +306,8 @@ public class LevelManager : MonoBehaviour
 
         if (progressCount <= 0)
         {
-            GameManager.instance.isGameActive = false;
-            GameManager.instance.isThoucedActive = false;
+            GameManager.Instance.isGameActive = false;
+            GameManager.Instance.isThoucedActive = false;
 
             Invoke("Win", 2f); // change with Win(); if there is an animation when winning
         }
@@ -315,9 +317,6 @@ public class LevelManager : MonoBehaviour
     {
         EventHandler.CallResetImageTransformEvent();
 
-        // Unlock level selection
-        GameManager.instance.UnlockLevelSelection();
-
         //TODO: change with images animation then set active the gameover panel
         gameOverWinUI.transform.localScale = Vector3.zero;
         gameOverWinUI.transform.DOScale(1, 0.4f).SetEase(Ease.OutBounce).OnComplete(() =>
@@ -326,12 +325,24 @@ public class LevelManager : MonoBehaviour
             DOTween.KillAll();
         });
 
+        string sceneName = SceneManager.GetActiveScene().name;
+        int level;
+
+        if (int.TryParse(sceneName.Substring("Level".Length), out level) && level == GameManager.Instance.LoadUnlockedLevel())
+        {
+            GameManager.Instance.canStageButtonAnim = true;
+            Debug.Log("Unlocked Anim");
+        }
+
+        // Unlock level selection
+        GameManager.Instance.UnlockLevelSelection();
+
         Debug.Log("Game Over - Win");
     }
 
     private void Lose()
     {
-        GameManager.instance.isGameActive = false;
+        GameManager.Instance.isGameActive = false;
         EventHandler.CallResetImageTransformEvent();
 
         //TODO: change with images animation then set active the gameover panel
@@ -349,25 +360,25 @@ public class LevelManager : MonoBehaviour
     {
         DOTween.KillAll();
 
-        GameManager.instance.isGameActive = true;
-        GameManager.instance.isThoucedActive = true;
+        GameManager.Instance.isGameActive = true;
+        GameManager.Instance.isThoucedActive = true;
 
         Time.timeScale = 1;
 
-        GameManager.instance.isGameActive = true;
+        GameManager.Instance.isGameActive = true;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Pause()
     {
-        if (!GameManager.instance.isGameActive)
+        if (!GameManager.Instance.isGameActive)
         {
             return;
         }
 
         Time.timeScale = 0;
-        GameManager.instance.isGameActive = false;
+        GameManager.Instance.isGameActive = false;
 
         pauseUI.SetActive(true);
         Debug.Log("Paused!!");
@@ -376,7 +387,7 @@ public class LevelManager : MonoBehaviour
     public void Resume()
     {
         Time.timeScale = 1;
-        GameManager.instance.isGameActive = true;
+        GameManager.Instance.isGameActive = true;
 
         pauseUI.SetActive(false);
         Debug.Log("Resumed!!");
@@ -386,7 +397,7 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        GameManager.instance.isGameActive = true;
+        GameManager.Instance.isGameActive = true;
     }
 
     public void LoadMainMenu()

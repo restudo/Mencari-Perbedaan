@@ -47,7 +47,7 @@ public class CollectionMenu : MonoBehaviour
 
     private void LoadCollection()
     {
-        int unlockedCollection = GameManager.instance.LoadUnlockedLevel() - 1;
+        int unlockedCollection = GameManager.Instance.LoadUnlockedLevel() - 1;
         for (int i = 0; i < collectionButtons.Length; i++)
         {
             if (i + 1 > unlockedCollection)
@@ -211,7 +211,7 @@ public class CollectionMenu : MonoBehaviour
 
     public void PlaySound()
     {
-        int unlockedCollection = GameManager.instance.LoadUnlockedLevel() - 1;
+        int unlockedCollection = GameManager.Instance.LoadUnlockedLevel() - 1;
 
         AudioManager.Instance.StopSFX();
 

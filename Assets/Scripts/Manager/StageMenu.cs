@@ -9,10 +9,13 @@ public class StageMenu : MonoBehaviour
 {
     [SerializeField] private GameObject backButton;
 
-    [SerializeField] private GameObject[] startButtons;
     [SerializeField] private GameObject[] selectedVFX;
+    [SerializeField] private Image[] graphics;
+    [SerializeField] private GameObject[] startButtons;
     [SerializeField] private Button[] levelButtons;
+    [SerializeField] private GameObject[] lockedIcon;
 
+    int unlockedLevel;
     private int level;
     private int previousLevel;
     private GameObject currentSelectedLevel;
@@ -30,19 +33,30 @@ public class StageMenu : MonoBehaviour
             vfx.SetActive(false);
         }
 
-        int unlockedLevel = GameManager.instance.LoadUnlockedLevel();
+        unlockedLevel = GameManager.Instance.LoadUnlockedLevel();
         for (int i = 0; i < levelButtons.Length; i++)
         {
             if (i + 1 > unlockedLevel)
             {
-                levelButtons[i].interactable = false;
-                levelButtons[i].transform.GetChild(levelButtons[i].transform.childCount - 1).gameObject.SetActive(true); // set locked icon to true, locked icon in the last child
+                // levelButtons[i].interactable = false;
+                lockedIcon[i].SetActive(true); // set locked icon to true
+
+                graphics[i].color = new Color32(94, 94, 94, 255);
             }
             else
             {
-                levelButtons[i].interactable = true;
-                levelButtons[i].transform.GetChild(levelButtons[i].transform.childCount - 1).gameObject.SetActive(false); // set locked icon to false, locked icon in the last child
+                // levelButtons[i].interactable = true;
+                lockedIcon[i].SetActive(false); // set locked icon to false
+
+                graphics[i].color = Color.white;
             }
+        }
+
+        if (GameManager.Instance.canStageButtonAnim)
+        {
+            GameManager.Instance.isThoucedActive = false;
+            lockedIcon[unlockedLevel - 1].SetActive(true);
+            graphics[unlockedLevel - 1].color = new Color32(94, 94, 94, 255);
         }
 
         StartCoroutine(ButtonPopAnim());
@@ -63,16 +77,59 @@ public class StageMenu : MonoBehaviour
             button.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
             yield return new WaitForSeconds(0.05f);
         }
+
+        if (GameManager.Instance.canStageButtonAnim)
+        {
+            UnlockButtonAnim();
+
+            GameManager.Instance.canStageButtonAnim = false;
+        }
+    }
+
+    private void UnlockButtonAnim()
+    {
+        graphics[unlockedLevel - 1].DOColor(Color.white, 1.3f).SetEase(Ease.InExpo);
+        lockedIcon[unlockedLevel - 1].transform.DOScale(0, 1f).SetEase(Ease.InElastic).OnComplete(() =>
+        {
+            lockedIcon[unlockedLevel - 1].SetActive(false);
+            selectedVFX[unlockedLevel - 1].SetActive(true);
+            startButtons[unlockedLevel - 1].SetActive(true);
+
+            selectedVFX[unlockedLevel - 1].transform.localScale = Vector3.zero;
+            startButtons[unlockedLevel - 1].transform.localScale = Vector3.zero;
+            selectedVFX[unlockedLevel - 1].transform.DOScale(1f, 0.2f).SetEase(Ease.InQuad);
+            startButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
+            {
+                startButtons[unlockedLevel - 1].transform.DOScale(1f, 0.7f).SetEase(Ease.OutQuad).SetLoops(-1, LoopType.Yoyo);
+
+                GameManager.Instance.isThoucedActive = true;
+            });
+        });
+
+        level = unlockedLevel;
     }
 
     // assign to every level button
-    public void SelectLevel()
+    public void SelectLevel(int selectedLevel)
     {
-        Debug.Log(level);
-        currentSelectedLevel = EventSystem.current.currentSelectedGameObject;
+        if (!GameManager.Instance.isThoucedActive)
+        {
+            Debug.Log("blabla");
+            return;
+        }
+
+        DOTween.KillAll();
+
+        if (lockedIcon[selectedLevel].activeSelf)
+        {
+            lockedIcon[selectedLevel].transform.DOShakeRotation(0.3f, 40);
+
+            return;
+        }
+
+        // currentSelectedLevel = EventSystem.current.currentSelectedGameObject;
         previousLevel = level; //for determine condition if level != previous level 
-        level = currentSelectedLevel.transform.GetSiblingIndex() + 1;
-        Debug.Log(level);
+        level = selectedLevel + 1;
 
         // RectTransform startButtonRect = (RectTransform)startButton.transform;
         // Vector3 originAnchorPos = startButtonRect.anchoredPosition; //define anchored pos from recttransform in inspector
@@ -98,6 +155,11 @@ public class StageMenu : MonoBehaviour
     // assign to background gameobject
     public void HideStartButton()
     {
+        if (!GameManager.Instance.isThoucedActive)
+        {
+            return;
+        }
+
         // startButtons[level - 1].transform.DOScale(0, 0.3f).SetEase(Ease.OutQuart).OnComplete(() =>
         // {
         //     startButtons[level - 1].SetActive(false);
@@ -112,11 +174,16 @@ public class StageMenu : MonoBehaviour
         DOTween.KillAll();
 
         SceneController.instance.LoadScene(((Scenes)level - 1).ToString());
-        GameManager.instance.isGameActive = true;
+        GameManager.Instance.isGameActive = true;
     }
 
     public void LoadMainMenu()
     {
+        if (!GameManager.Instance.isThoucedActive)
+        {
+            return;
+        }
+
         DOTween.KillAll();
 
         SceneController.instance.LoadScene(Scenes.MainMenu.ToString());

@@ -8,7 +8,7 @@ public class Images : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.instance.isGameActive && GameManager.instance.isThoucedActive)
+        if (GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive)
         {
             EventHandler.CallDecreaseHealthEvent();
 

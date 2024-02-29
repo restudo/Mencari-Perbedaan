@@ -9,14 +9,16 @@ public class GameManager : MonoBehaviour
     public float countdownTimer;
     public float intervalTimer;
 
+    public bool canStageButtonAnim;
+
     private int unlockedLevel;
 
-    public static GameManager instance;
+    public static GameManager Instance;
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -42,6 +44,6 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        Debug.Log(level);
+        Debug.Log("Unlock level: " + level);
     }
 }

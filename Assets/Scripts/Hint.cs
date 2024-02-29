@@ -20,6 +20,11 @@ public class Hint : MonoBehaviour
 
     private IEnumerator ShowHint()
     {
+        if (!GameManager.Instance.isThoucedActive)
+        {
+            yield return null;
+        }
+
         hintButton.interactable = false;
         isEnable = false;
 
@@ -28,7 +33,9 @@ public class Hint : MonoBehaviour
         int maxAttempts = 50;
         int remainingAttempts = maxAttempts;
         int randomIndex = Random.Range(0, pointSpots.Length);
-        while (remainingAttempts > 0 && !pointSpots[randomIndex].GetComponent<Collider2D>().enabled)
+        while ((remainingAttempts > 0 && !pointSpots[randomIndex].GetComponent<Collider2D>().enabled) ||
+               (remainingAttempts > 0 && pointSpots[randomIndex].GetComponent<Collider2D>().enabled && 
+                    pointSpots[randomIndex].GetComponent<Point>().isClicked))
         {
             randomIndex = Random.Range(0, pointSpots.Length);
             remainingAttempts--;
@@ -63,7 +70,7 @@ public class Hint : MonoBehaviour
 
     public void ShowHintButton()
     {
-        if (isEnable && GameManager.instance.isGameActive && GameManager.instance.isThoucedActive && hintLimit > 0)
+        if (isEnable && GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive && hintLimit > 0)
         {
             StartCoroutine(ShowHint());
             hintLimit--;

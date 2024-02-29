@@ -37,4 +37,11 @@ public static class EventHandler
         if (PlaySFX != null)
             PlaySFX();
     }
+    
+    public static event Action ImagesEntry;
+    public static void CallImagesEntryEvent()
+    {
+        if (ImagesEntry != null)
+            ImagesEntry();
+    }
 }

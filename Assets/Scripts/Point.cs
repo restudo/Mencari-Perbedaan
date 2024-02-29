@@ -17,7 +17,7 @@ public class Point : MonoBehaviour
     [SerializeField] private Sprite[] imageVariant;
     private Collider2D col;
     private Collider2D pairCol;
-    private bool isClicked;
+    public bool isClicked { get; private set; }
 
     private void Start()
     {
@@ -49,7 +49,7 @@ public class Point : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.instance.isGameActive && GameManager.instance.isThoucedActive)
+        if (GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive)
         {
             if (isClicked && pair.isClicked)
             {

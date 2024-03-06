@@ -10,6 +10,7 @@ public class Images : MonoBehaviour
     {
         if (GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive)
         {
+            EventHandler.CallDestroyHintEvent();
             EventHandler.CallDecreaseHealthEvent();
 
             Vector3 mousePos = Input.mousePosition;

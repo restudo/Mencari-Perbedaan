@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Animator & Image Control")]
     [SerializeField] private ImageControl imgControl;
-    [SerializeField] private Transform objectInAndOut;
+    [SerializeField] private RectTransform objectInAndOut;
     [SerializeField] private Image objectAlertSwitch;
     [SerializeField] private Image objectAlertFlipLeft;
     [SerializeField] private Image objectAlertFlipRight;
@@ -52,14 +52,14 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventHandler.DecreaseHealth += DecreaseHealth;
-        EventHandler.DifferenceClicked += UpdateObjectiveText;
+        EventHandler.DecreaseHealth += DecreaseHealthUI;
+        EventHandler.DifferenceClicked += UpdateProgressUI;
     }
 
     private void OnDisable()
     {
-        EventHandler.DecreaseHealth -= DecreaseHealth;
-        EventHandler.DifferenceClicked -= UpdateObjectiveText;
+        EventHandler.DecreaseHealth -= DecreaseHealthUI;
+        EventHandler.DifferenceClicked -= UpdateProgressUI;
     }
 
     private void Start()
@@ -91,9 +91,10 @@ public class LevelManager : MonoBehaviour
         }
         // proggressText.text = progressCounter + "/" + maxProgress;
 
-        gameOverWinUI.SetActive(false);
-        gameOverLoseUI.SetActive(false);
+        gameOverWinUI.transform.parent.gameObject.SetActive(false);
+        gameOverLoseUI.transform.parent.gameObject.SetActive(false);
         pauseUI.SetActive(false);
+        objectInAndOut.gameObject.SetActive(false);
 
         objectAlertFlipLeft.gameObject.SetActive(false);
         objectAlertFlipRight.gameObject.SetActive(false);
@@ -116,7 +117,10 @@ public class LevelManager : MonoBehaviour
             // If countdown time is up, stop the timer and do something
             if (currentTime <= 0f)
             {
-                Lose();
+                GameManager.Instance.isGameActive = false;
+                GameManager.Instance.isThoucedActive = false;
+
+                StartCoroutine(Lose());
                 Debug.Log("Countdown time is up!");
             }
             else
@@ -142,9 +146,7 @@ public class LevelManager : MonoBehaviour
 
                 if (currentInterval <= 0)
                 {
-                    // StartCoroutine(ChangeImageTransform(imageTransform));
                     EventHandler.CallChangeImageTransformEvent(imageTransform);
-                    // currentInterval = intervalTime;
                     currentInterval = GameManager.Instance.intervalTimer;
                     canPlayAnim = true;
                 }
@@ -202,15 +204,20 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator ObjectInAndOut()
     {
-        float x = objectInAndOut.position.x;
+        float x = objectInAndOut.anchoredPosition.x;
 
         yield return new WaitForSeconds(1);
 
-        objectInAndOut.DOMoveX(-6, 0.5f).SetEase(Ease.OutBack);
+        objectInAndOut.gameObject.SetActive(true);
+
+        objectInAndOut.DOAnchorPosX(-740, 0.5f).SetEase(Ease.OutBack);
 
         yield return new WaitForSeconds(2.3f); // objectInAndOut wait for this seconds
 
-        objectInAndOut.DOMoveX(x, 0.5f).SetEase(Ease.InOutBack);
+        objectInAndOut.DOAnchorPosX(x, 0.5f).SetEase(Ease.InOutBack).OnComplete(() =>
+        {
+            objectInAndOut.gameObject.SetActive(false);
+        });
     }
 
     private ImageTransform RandomTransform()
@@ -233,13 +240,7 @@ public class LevelManager : MonoBehaviour
         return allImgTransform[UnityEngine.Random.Range(0, allImgTransform.Length)];
     }
 
-    // private IEnumerator ChangeImageTransform(ImageTransform imageTransform)
-    // {
-    //     // Code to be executed every x second
-    //     EventHandler.CallChangeImageTransformEvent(imageTransform);
-    // }
-
-    private void DecreaseHealth()
+    private void DecreaseHealthUI()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
@@ -266,25 +267,12 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.isThoucedActive = false;
 
             // Lose();
-            Invoke("Lose", 2f); // change with Lose(); if there is an animation when winning
+            StartCoroutine(Lose()); // change with Lose(); if there is an animation when winning
         }
     }
 
-    private void UpdateObjectiveText()
+    private void UpdateProgressUI()
     {
-        // progressCount++;
-
-        // proggressText.text = progressCounter + "/" + maxProgress;
-
-        // if (progressCount == maxProgress)
-        // {
-        //     GameManager.instance.isGameActive = false;
-        //     GameManager.instance.isThoucedActive = false;
-
-        //     // Win();
-        //     Invoke("Win", 2f); // change with Win(); if there is an animation when winning
-        // }
-
         for (int i = 0; i < progresses.Length; i++)
         {
             if (i < progressCount)
@@ -309,21 +297,25 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.isGameActive = false;
             GameManager.Instance.isThoucedActive = false;
 
-            Invoke("Win", 2f); // change with Win(); if there is an animation when winning
+            StartCoroutine(Win()); // change with Win(); if there is an animation when winning
         }
     }
 
-    private void Win()
+    private IEnumerator Win()
     {
+        yield return new WaitForSeconds(1);
+
         EventHandler.CallResetImageTransformEvent();
 
+        yield return new WaitForSeconds(1);
+
+        // Anim
+        gameOverWinUI.transform.parent.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        gameOverWinUI.transform.parent.localScale = Vector3.zero;
+        gameOverWinUI.transform.parent.gameObject.SetActive(true);
         //TODO: change with images animation then set active the gameover panel
-        gameOverWinUI.transform.localScale = Vector3.zero;
-        gameOverWinUI.transform.DOScale(1, 0.4f).SetEase(Ease.OutBounce).OnComplete(() =>
-        {
-            gameOverWinUI.SetActive(true);
-            DOTween.KillAll();
-        });
+        gameOverWinUI.transform.parent.DOScale(1, 0.4f).SetEase(Ease.OutBounce).SetDelay(0.6f);
+        gameOverWinUI.transform.parent.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 150), 1.5f).SetDelay(1f);
 
         string sceneName = SceneManager.GetActiveScene().name;
         int level;
@@ -340,18 +332,21 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Game Over - Win");
     }
 
-    private void Lose()
+    private IEnumerator Lose()
     {
-        GameManager.Instance.isGameActive = false;
+        yield return new WaitForSeconds(1);
+
         EventHandler.CallResetImageTransformEvent();
 
+        yield return new WaitForSeconds(1);
+
+        // Anim
+        gameOverLoseUI.transform.parent.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        gameOverLoseUI.transform.parent.localScale = Vector3.zero;
+        gameOverLoseUI.transform.parent.gameObject.SetActive(true);
         //TODO: change with images animation then set active the gameover panel
-        gameOverLoseUI.transform.localScale = Vector3.zero;
-        gameOverLoseUI.transform.DOScale(1, 0.4f).SetEase(Ease.OutBounce).OnComplete(() =>
-        {
-            gameOverLoseUI.SetActive(true);
-            DOTween.KillAll();
-        });
+        gameOverLoseUI.transform.parent.DOScale(1, 0.4f).SetEase(Ease.OutBounce).SetDelay(0.6f);
+        gameOverLoseUI.transform.parent.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 150), 1.5f).SetDelay(1f);
 
         Debug.Log("Game Over - Lose");
     }

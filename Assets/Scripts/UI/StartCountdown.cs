@@ -6,6 +6,7 @@ using DG.Tweening;
 public class StartCountdown : MonoBehaviour
 {
     [SerializeField] private Image countdownDisplay;
+    [SerializeField] private Image goDisplay;
     [SerializeField] private Sprite[] countdownSprite;
     [SerializeField] private Sprite goSprite;
 
@@ -13,24 +14,32 @@ public class StartCountdown : MonoBehaviour
 
     void Start()
     {
-        originScale = countdownDisplay.transform.localScale;
+        countdownDisplay.gameObject.SetActive(false);
+        goDisplay.gameObject.SetActive(false);
+
+        originScale = countdownDisplay.transform.parent.localScale;
         StartCoroutine(Countdown());
     }
 
     private IEnumerator Countdown()
     {
+        countdownDisplay.gameObject.SetActive(true);
+
         for (int i = 0; i < countdownSprite.Length; i++)
         {
-            countdownDisplay.transform.localScale = Vector3.zero;
+            countdownDisplay.transform.parent.localScale = Vector3.zero;
             countdownDisplay.sprite = countdownSprite[i];
-            countdownDisplay.transform.DOScale(originScale, 0.2f).SetEase(Ease.OutExpo);
+            countdownDisplay.transform.parent.DOScale(originScale, 0.2f).SetEase(Ease.OutExpo);
 
             yield return new WaitForSeconds(1);
         }
 
-        countdownDisplay.transform.localScale = Vector3.zero;
-        countdownDisplay.sprite = goSprite;
-        countdownDisplay.transform.DOScale(originScale, 0.2f).SetEase(Ease.OutExpo);
+        countdownDisplay.gameObject.SetActive(false);
+        goDisplay.gameObject.SetActive(true);
+
+        goDisplay.transform.parent.localScale = Vector3.zero;
+        goDisplay.sprite = goSprite;
+        goDisplay.transform.parent.DOScale(originScale, 0.2f).SetEase(Ease.OutExpo);
 
         EventHandler.CallImagesEntryEvent();
 
@@ -39,6 +48,6 @@ public class StartCountdown : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        countdownDisplay.gameObject.SetActive(false);
+        countdownDisplay.transform.parent.gameObject.SetActive(false);
     }
 }

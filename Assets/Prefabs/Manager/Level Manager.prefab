@@ -86,8 +86,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countdownDisplay: {fileID: 0}
+  goDisplay: {fileID: 0}
   countdownSprite:
-  - {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  - {fileID: 2747690628134850419, guid: b670ab75dde984907b8570040daa08c5, type: 3}
-  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  goSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  - {fileID: 21300000, guid: 1aba441009a79e94785fa21f47cf979c, type: 3}
+  - {fileID: 21300000, guid: 642bbcd9e5cbad2498326c3f99d79e4d, type: 3}
+  - {fileID: 21300000, guid: e641d7578291b96499f0c35ab03678b8, type: 3}
+  goSprite: {fileID: 21300000, guid: 904debd93f87be647ac129974762b3f7, type: 3}

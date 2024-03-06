@@ -7,22 +7,32 @@ public class Hint : MonoBehaviour
 {
     [SerializeField] private Button hintButton;
     [SerializeField] private GameObject hintObject;
-    [SerializeField] private float hintTime;
+    // [SerializeField] private float hintTime;
     [SerializeField] private float hintLimit;
 
     private bool isEnable;
     private GameObject instantiatedHint;
+
+    private void OnEnable()
+    {
+        EventHandler.DestroyHint += DestroyHint;
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.DestroyHint -= DestroyHint;
+    }
 
     private void Start()
     {
         isEnable = true;
     }
 
-    private IEnumerator ShowHint()
+    private void ShowHint()
     {
         if (!GameManager.Instance.isThoucedActive)
         {
-            yield return null;
+            return;
         }
 
         hintButton.interactable = false;
@@ -34,7 +44,7 @@ public class Hint : MonoBehaviour
         int remainingAttempts = maxAttempts;
         int randomIndex = Random.Range(0, pointSpots.Length);
         while ((remainingAttempts > 0 && !pointSpots[randomIndex].GetComponent<Collider2D>().enabled) ||
-               (remainingAttempts > 0 && pointSpots[randomIndex].GetComponent<Collider2D>().enabled && 
+               (remainingAttempts > 0 && pointSpots[randomIndex].GetComponent<Collider2D>().enabled &&
                     pointSpots[randomIndex].GetComponent<Point>().isClicked))
         {
             randomIndex = Random.Range(0, pointSpots.Length);
@@ -51,20 +61,32 @@ public class Hint : MonoBehaviour
         float newScaley = instantiatedHint.transform.localScale.y + 2f;
         float newScalez = instantiatedHint.transform.localScale.z + 2f;
         instantiatedHint.transform.localScale = new Vector3(newScalex, newScaley, newScalez);
-        instantiatedHint.transform.DOScale(originScale, 0.5f).SetEase(Ease.OutExpo);
-
-        yield return new WaitForSeconds(hintTime);
-
-        Destroy(instantiatedHint);
-
-        isEnable = true;
-        if (hintLimit > 0)
+        instantiatedHint.transform.DOScale(originScale, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
         {
-            hintButton.interactable = true;
-        }
-        else
+            instantiatedHint.transform.DOScale(originScale + new Vector3(0.2f, 0.2f, 0.2f), 0.5f).SetEase(Ease.InExpo).SetLoops(-1, LoopType.Yoyo);
+        });
+
+        hintButton.interactable = false;
+    }
+
+    private void DestroyHint()
+    {
+        if (instantiatedHint != null)
         {
-            hintButton.interactable = false;
+            DOTween.Kill(instantiatedHint.transform);
+
+            Destroy(instantiatedHint);
+            
+            isEnable = true;
+
+            if (hintLimit > 0)
+            {
+                hintButton.interactable = true;
+            }
+            else
+            {
+                hintButton.interactable = false;
+            }
         }
     }
 
@@ -72,7 +94,7 @@ public class Hint : MonoBehaviour
     {
         if (isEnable && GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive && hintLimit > 0)
         {
-            StartCoroutine(ShowHint());
+            ShowHint();
             hintLimit--;
         }
     }

@@ -18,10 +18,11 @@ public class StageMenu : MonoBehaviour
     int unlockedLevel;
     private int level;
     private int previousLevel;
-    private GameObject currentSelectedLevel;
 
     private void Start()
     {
+        GameManager.Instance.isThoucedActive = true;
+
         level = 1;
 
         foreach (var button in startButtons)
@@ -38,21 +39,19 @@ public class StageMenu : MonoBehaviour
         {
             if (i + 1 > unlockedLevel)
             {
-                // levelButtons[i].interactable = false;
                 lockedIcon[i].SetActive(true); // set locked icon to true
 
                 graphics[i].color = new Color32(94, 94, 94, 255);
             }
             else
             {
-                // levelButtons[i].interactable = true;
                 lockedIcon[i].SetActive(false); // set locked icon to false
 
                 graphics[i].color = Color.white;
             }
         }
 
-        if (GameManager.Instance.canStageButtonAnim)
+        if (GameManager.Instance.canStageButtonAnim && graphics[unlockedLevel - 1] != null)
         {
             GameManager.Instance.isThoucedActive = false;
             lockedIcon[unlockedLevel - 1].SetActive(true);
@@ -78,7 +77,7 @@ public class StageMenu : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 
-        if (GameManager.Instance.canStageButtonAnim)
+        if (GameManager.Instance.canStageButtonAnim && graphics[unlockedLevel - 1] != null)
         {
             UnlockButtonAnim();
 
@@ -114,7 +113,6 @@ public class StageMenu : MonoBehaviour
     {
         if (!GameManager.Instance.isThoucedActive)
         {
-            Debug.Log("blabla");
             return;
         }
 
@@ -122,34 +120,22 @@ public class StageMenu : MonoBehaviour
 
         if (lockedIcon[selectedLevel].activeSelf)
         {
-            lockedIcon[selectedLevel].transform.DOShakeRotation(0.3f, 40);
+            lockedIcon[selectedLevel].transform.DOShakeRotation(0.4f, 40);
+            lockedIcon[selectedLevel].transform.rotation = Quaternion.identity;
 
             return;
         }
+        else
+        {
+            previousLevel = level; //for determine condition if level != previous level 
+            level = selectedLevel + 1;
 
-        // currentSelectedLevel = EventSystem.current.currentSelectedGameObject;
-        previousLevel = level; //for determine condition if level != previous level 
-        level = selectedLevel + 1;
+            startButtons[previousLevel - 1].SetActive(false);
+            selectedVFX[previousLevel - 1].SetActive(false);
 
-        // RectTransform startButtonRect = (RectTransform)startButton.transform;
-        // Vector3 originAnchorPos = startButtonRect.anchoredPosition; //define anchored pos from recttransform in inspector
-
-        // startButton.transform.SetParent(currentSelectedLevel.transform);
-
-        // startButtonRect.anchoredPosition = originAnchorPos;
-
-        // if (!startButton.activeSelf || previousLevel != level)
-        // {
-        //     startButton.SetActive(true);
-        //     startButton.transform.localScale = Vector3.zero;
-        //     startButton.transform.DOScale(1, 0.3f).SetEase(Ease.OutBack);
-        // }
-
-        startButtons[previousLevel - 1].SetActive(false);
-        selectedVFX[previousLevel - 1].SetActive(false);
-
-        startButtons[level - 1].SetActive(true);
-        selectedVFX[level - 1].SetActive(true);
+            startButtons[level - 1].SetActive(true);
+            selectedVFX[level - 1].SetActive(true);
+        }
     }
 
     // assign to background gameobject
@@ -159,11 +145,6 @@ public class StageMenu : MonoBehaviour
         {
             return;
         }
-
-        // startButtons[level - 1].transform.DOScale(0, 0.3f).SetEase(Ease.OutQuart).OnComplete(() =>
-        // {
-        //     startButtons[level - 1].SetActive(false);
-        // });
 
         startButtons[level - 1].SetActive(false);
         selectedVFX[level - 1].SetActive(false);

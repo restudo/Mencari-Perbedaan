@@ -70,6 +70,8 @@ public class Point : MonoBehaviour
                     pair.checkRend.enabled = true;
                 });
             }
+
+            EventHandler.CallDestroyHintEvent();
         }
     }
 }

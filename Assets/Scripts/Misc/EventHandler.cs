@@ -44,4 +44,11 @@ public static class EventHandler
         if (ImagesEntry != null)
             ImagesEntry();
     }
+    
+    public static event Action DestroyHint;
+    public static void CallDestroyHintEvent()
+    {
+        if (DestroyHint != null)
+            DestroyHint();
+    }
 }

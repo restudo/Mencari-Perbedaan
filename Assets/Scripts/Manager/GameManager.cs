@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerPrefs.DeleteKey("UnlockedLevel");
+        // PlayerPrefs.DeleteKey("UnlockedLevel");
     }
 
     public int LoadUnlockedLevel()

@@ -43,7 +43,8 @@ public class LevelManager : MonoBehaviour
 
     [Header("Animator & Image Control")]
     [SerializeField] private ImageControl imgControl;
-    [SerializeField] private RectTransform objectInAndOut;
+    [SerializeField] private Transform objectInAndOut;
+    [SerializeField] private Transform inAndOutEndTransform;
     [SerializeField] private Image objectAlertSwitch;
     [SerializeField] private Image objectAlertFlipLeft;
     [SerializeField] private Image objectAlertFlipRight;
@@ -204,17 +205,18 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator ObjectInAndOut()
     {
-        float x = objectInAndOut.anchoredPosition.x;
+        Vector3 start = objectInAndOut.transform.position;
+        Vector3 end = inAndOutEndTransform.transform.position; // in and out end
 
         yield return new WaitForSeconds(1);
 
         objectInAndOut.gameObject.SetActive(true);
 
-        objectInAndOut.DOAnchorPosX(-740, 0.5f).SetEase(Ease.OutBack);
+        objectInAndOut.DOMove(end, 0.5f).SetEase(Ease.OutBack);
 
         yield return new WaitForSeconds(2.3f); // objectInAndOut wait for this seconds
 
-        objectInAndOut.DOAnchorPosX(x, 0.5f).SetEase(Ease.InOutBack).OnComplete(() =>
+        objectInAndOut.DOMove(start, 0.5f).SetEase(Ease.InOutBack).OnComplete(() =>
         {
             objectInAndOut.gameObject.SetActive(false);
         });

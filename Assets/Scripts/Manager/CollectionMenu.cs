@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class CollectionMenu : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class CollectionMenu : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.isThoucedActive = true;
+
         collectionPanel.SetActive(false);
         collectionContainer.SetActive(true);
 
@@ -211,12 +214,22 @@ public class CollectionMenu : MonoBehaviour
 
     public void PlaySound()
     {
+        if (!GameManager.Instance.isThoucedActive)
+        {
+            return;
+        }
+
+        Transform currentObj = EventSystem.current.currentSelectedGameObject.transform;
+        Vector3 targetScaleAnim = new Vector3(currentObj.transform.localScale.x + 0.05f, currentObj.transform.localScale.y + 0.05f, currentObj.transform.localScale.z + 0.05f);
+
         int unlockedCollection = GameManager.Instance.LoadUnlockedLevel() - 1;
 
         AudioManager.Instance.StopSFX();
 
-        if (simpleScrollSnap.CenteredPanel < unlockedCollection)
+        if (simpleScrollSnap.CenteredPanel < unlockedCollection && GameManager.Instance.isThoucedActive)
         {
+            GameManager.Instance.isThoucedActive = false;
+        
             switch (simpleScrollSnap.CenteredPanel)
             {
                 case 0:
@@ -243,6 +256,26 @@ public class CollectionMenu : MonoBehaviour
                 default:
                     break;
             }
+
+            currentObj.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+            {
+                GameManager.Instance.isThoucedActive = true;
+            });
         }
+    }
+
+    public void PlayFeedbackAnim()
+    {
+        if (!GameManager.Instance.isThoucedActive)
+        {
+            return;
+        }
+
+        GameManager.Instance.isThoucedActive = false;
+        Vector3 targetScale = new Vector3(scrollSnapObj.transform.localScale.x + 0.05f, scrollSnapObj.transform.localScale.y + 0.05f, scrollSnapObj.transform.localScale.z + 0.05f);
+        scrollSnapObj.transform.DOScale(targetScale, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+        {
+            GameManager.Instance.isThoucedActive = true;
+        });
     }
 }

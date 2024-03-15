@@ -18,6 +18,7 @@ public class StageMenu : MonoBehaviour
     int unlockedLevel;
     private int level;
     private int previousLevel;
+    private bool isPlayAnim;
 
     private void Start()
     {
@@ -118,23 +119,35 @@ public class StageMenu : MonoBehaviour
 
         DOTween.KillAll();
 
+        Vector3 targetScaleAnim = new Vector3(levelButtons[selectedLevel].transform.localScale.x + 0.1f, levelButtons[selectedLevel].transform.localScale.y + 0.1f, levelButtons[selectedLevel].transform.localScale.z + 0.1f);
+
         if (lockedIcon[selectedLevel].activeSelf)
         {
-            lockedIcon[selectedLevel].transform.DOShakeRotation(0.4f, 40);
-            lockedIcon[selectedLevel].transform.rotation = Quaternion.identity;
+            GameManager.Instance.isThoucedActive = false;
+            levelButtons[selectedLevel].transform.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+            {
+                GameManager.Instance.isThoucedActive = true;
+                return;
+            });
 
-            return;
         }
         else
         {
             previousLevel = level; //for determine condition if level != previous level 
             level = selectedLevel + 1;
 
+            if (startButtons[level - 1].activeSelf)
+            {
+                return;
+            }
+
             startButtons[previousLevel - 1].SetActive(false);
             selectedVFX[previousLevel - 1].SetActive(false);
+            levelButtons[previousLevel - 1].transform.DOScale(1, 0.1f).SetEase(Ease.OutQuad);
 
             startButtons[level - 1].SetActive(true);
             selectedVFX[level - 1].SetActive(true);
+            levelButtons[level - 1].transform.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuad);
         }
     }
 
@@ -145,6 +158,8 @@ public class StageMenu : MonoBehaviour
         {
             return;
         }
+
+        levelButtons[level - 1].transform.DOScale(1, 0.1f).SetEase(Ease.OutQuad);
 
         startButtons[level - 1].SetActive(false);
         selectedVFX[level - 1].SetActive(false);

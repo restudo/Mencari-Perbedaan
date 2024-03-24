@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Linq;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class StageMenu : MonoBehaviour
@@ -10,15 +9,23 @@ public class StageMenu : MonoBehaviour
     [SerializeField] private GameObject backButton;
 
     [SerializeField] private GameObject[] selectedVFX;
-    [SerializeField] private Image[] graphics;
     [SerializeField] private GameObject[] startButtons;
     [SerializeField] private Button[] levelButtons;
+    [SerializeField] private Image[] lockedBackground;
     [SerializeField] private GameObject[] lockedIcon;
+
+    [Space(20)]
+    [Header("Confirmation Panel")]
+    [SerializeField] private GameObject confirmationPanel;
+    [SerializeField] private Image levelImage;
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private Sprite[] levelImageRef;
 
     int unlockedLevel;
     private int level;
     private int previousLevel;
-    private bool isPlayAnim;
+    private Vector3 levelButtonInitScale;
+    private Vector3 confirmationPanelScale;
 
     private void Start()
     {
@@ -40,24 +47,25 @@ public class StageMenu : MonoBehaviour
         {
             if (i + 1 > unlockedLevel)
             {
+                lockedBackground[i].gameObject.SetActive(true); // set locked background to true
                 lockedIcon[i].SetActive(true); // set locked icon to true
-
-                graphics[i].color = new Color32(94, 94, 94, 255);
             }
             else
             {
+                lockedBackground[i].gameObject.SetActive(false); // set locked background to false
                 lockedIcon[i].SetActive(false); // set locked icon to false
-
-                graphics[i].color = Color.white;
             }
         }
 
-        if (GameManager.Instance.canStageButtonAnim && graphics[unlockedLevel - 1] != null)
+        if (GameManager.Instance.canStageButtonAnim && lockedBackground[unlockedLevel - 1] != null)
         {
             GameManager.Instance.isThoucedActive = false;
             lockedIcon[unlockedLevel - 1].SetActive(true);
-            graphics[unlockedLevel - 1].color = new Color32(94, 94, 94, 255);
+            lockedBackground[unlockedLevel - 1].gameObject.SetActive(true);
         }
+
+        levelButtonInitScale = levelButtons[0].transform.localScale;
+        confirmationPanelScale = confirmationPanel.transform.localScale;
 
         StartCoroutine(ButtonPopAnim());
     }
@@ -74,11 +82,11 @@ public class StageMenu : MonoBehaviour
 
         foreach (Button button in levelButtons)
         {
-            button.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+            button.transform.DOScale(levelButtonInitScale, 0.3f).SetEase(Ease.OutBounce);
             yield return new WaitForSeconds(0.05f);
         }
 
-        if (GameManager.Instance.canStageButtonAnim && graphics[unlockedLevel - 1] != null)
+        if (GameManager.Instance.canStageButtonAnim && lockedBackground[unlockedLevel - 1] != null)
         {
             UnlockButtonAnim();
 
@@ -88,7 +96,7 @@ public class StageMenu : MonoBehaviour
 
     private void UnlockButtonAnim()
     {
-        graphics[unlockedLevel - 1].DOColor(Color.white, 1.3f).SetEase(Ease.InExpo);
+        lockedBackground[unlockedLevel - 1].DOFade(0, 1.3f).SetEase(Ease.InExpo);
         lockedIcon[unlockedLevel - 1].transform.DOScale(0, 1f).SetEase(Ease.InElastic).OnComplete(() =>
         {
             lockedIcon[unlockedLevel - 1].SetActive(false);
@@ -97,7 +105,7 @@ public class StageMenu : MonoBehaviour
 
             selectedVFX[unlockedLevel - 1].transform.localScale = Vector3.zero;
             startButtons[unlockedLevel - 1].transform.localScale = Vector3.zero;
-            levelButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.1f).SetEase(Ease.InQuad);
+            levelButtons[unlockedLevel - 1].transform.DOScale(1f, 0.1f).SetEase(Ease.InQuad);
             selectedVFX[unlockedLevel - 1].transform.DOScale(1f, 0.2f).SetEase(Ease.InQuad);
             startButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
             {
@@ -120,7 +128,7 @@ public class StageMenu : MonoBehaviour
 
         DOTween.KillAll();
 
-        Vector3 targetScaleAnim = new Vector3(levelButtons[selectedLevel].transform.localScale.x + 0.1f, levelButtons[selectedLevel].transform.localScale.y + 0.1f, levelButtons[selectedLevel].transform.localScale.z + 0.1f);
+        Vector3 targetScaleAnim = new Vector3(levelButtonInitScale.x + 0.1f, levelButtonInitScale.y + 0.1f, levelButtonInitScale.z + 0.1f);
 
         if (lockedIcon[selectedLevel].activeSelf)
         {
@@ -144,7 +152,7 @@ public class StageMenu : MonoBehaviour
 
             startButtons[previousLevel - 1].SetActive(false);
             selectedVFX[previousLevel - 1].SetActive(false);
-            levelButtons[previousLevel - 1].transform.DOScale(1, 0.1f).SetEase(Ease.OutQuad);
+            levelButtons[previousLevel - 1].transform.DOScale(levelButtonInitScale, 0.1f).SetEase(Ease.OutQuad);
 
             startButtons[level - 1].SetActive(true);
             selectedVFX[level - 1].SetActive(true);
@@ -160,10 +168,66 @@ public class StageMenu : MonoBehaviour
             return;
         }
 
-        levelButtons[level - 1].transform.DOScale(1, 0.1f).SetEase(Ease.OutQuad);
+        levelButtons[level - 1].transform.DOScale(levelButtonInitScale, 0.1f).SetEase(Ease.OutQuad);
 
         startButtons[level - 1].SetActive(false);
         selectedVFX[level - 1].SetActive(false);
+    }
+
+    public void OpenConfirmationPanel()
+    {
+        GameManager.Instance.isThoucedActive = false;
+
+        levelImage.sprite = levelImageRef[level - 1];
+        switch (level - 1)
+        {
+            case 0:
+                titleText.text = Settings.collectionTitle1;
+                break;
+            case 1:
+                titleText.text = Settings.collectionTitle2;
+                break;
+            case 2:
+                titleText.text = Settings.collectionTitle3Alt;
+                break;
+            case 3:
+                titleText.text = Settings.collectionTitle4;
+                break;
+            case 4:
+                titleText.text = Settings.collectionTitle5;
+                break;
+            case 5:
+                titleText.text = Settings.collectionTitle6;
+                break;
+            case 6:
+                titleText.text = Settings.collectionTitle7;
+                break;
+            default:
+                titleText.text = "???";
+                break;
+        }
+
+        confirmationPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        confirmationPanel.transform.localScale = Vector3.zero;
+        confirmationPanel.SetActive(true);
+
+        confirmationPanel.transform.DOScale(1, 0.4f).SetEase(Ease.OutExpo);
+        confirmationPanel.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 150), 0.3f).SetDelay(0.2f);
+    }
+
+    public void CloseConfirmationPanel()
+    {
+        confirmationPanel.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 0), 0.1f).OnComplete(() =>
+        {
+            confirmationPanel.transform.DOScale(0, 0.2f).SetEase(Ease.OutExpo).OnComplete(() =>
+            {
+                confirmationPanel.GetComponent<Image>().color = new Color32(0, 0, 0, 150);
+                confirmationPanel.transform.localScale = confirmationPanelScale;
+
+                GameManager.Instance.isThoucedActive = true;
+                confirmationPanel.SetActive(false);
+            });
+        });
     }
 
     public void LoadToLevel()

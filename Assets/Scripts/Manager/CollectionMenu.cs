@@ -17,7 +17,6 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private Transform nextButton;
     [SerializeField] private Transform previousButton;
     [SerializeField] private Transform backButton;
-    [SerializeField] private Transform pagination;
 
     [Space(50)]
     [Header("Collection")]
@@ -36,7 +35,6 @@ public class CollectionMenu : MonoBehaviour
 
     private float nextButtonTargetX;
     private float previousButtonTargetX;
-    private float paginationTargetY;
 
     private void Start()
     {
@@ -47,7 +45,6 @@ public class CollectionMenu : MonoBehaviour
 
         nextButtonTargetX = nextButton.localPosition.x;
         previousButtonTargetX = previousButton.localPosition.x;
-        paginationTargetY = pagination.localPosition.y;
 
         LoadCollection();
     }
@@ -169,8 +166,6 @@ public class CollectionMenu : MonoBehaviour
         nextButton.localScale = Vector3.zero;
         previousButton.localPosition = Vector3.zero;
         previousButton.localScale = Vector3.zero;
-        pagination.localPosition = Vector3.zero;
-        pagination.localScale = Vector3.zero;
 
         scrollSnapObj.DOScale(1f, 0.3f).SetEase(Ease.OutCubic);
         backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
@@ -179,8 +174,6 @@ public class CollectionMenu : MonoBehaviour
         nextButton.DOScale(1, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         previousButton.DOLocalMoveX(previousButtonTargetX, .5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         previousButton.DOScale(1, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
-        pagination.DOLocalMoveY(paginationTargetY, .5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
-        pagination.DOScale(1, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
     }
 
     private IEnumerator CloseCollectionAnim()
@@ -192,8 +185,6 @@ public class CollectionMenu : MonoBehaviour
         nextButton.DOScale(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         previousButton.DOLocalMoveX(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         previousButton.DOScale(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
-        pagination.DOLocalMoveY(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
-        pagination.DOScale(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
 
         yield return new WaitForSeconds(0.2f);
 

@@ -20,8 +20,12 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private Transform pagination;
 
     [Space(50)]
+    [Header("Collection")]
     [SerializeField] private Button[] collectionButtons;
-    [SerializeField] private GameObject[] collectionObjects;
+    [SerializeField] private GameObject[] lockedBackground;
+    [SerializeField] private GameObject[] infos;
+    [SerializeField] private GameObject[] lockedInfos;
+    [SerializeField] private TextMeshProUGUI[] collectionShortTitles;
     [SerializeField] private TextMeshProUGUI[] collectionTitles;
     [SerializeField] private TextMeshProUGUI[] collectionLocations;
     [SerializeField] private TextMeshProUGUI[] collectionDescriptions;
@@ -55,64 +59,79 @@ public class CollectionMenu : MonoBehaviour
         {
             if (i + 1 > unlockedCollection)
             {
-                collectionButtons[i].interactable = false;
-                collectionButtons[i].transform.GetChild(0).gameObject.SetActive(true); // set active the locked icon
+                collectionButtons[i].transform.GetChild(0).gameObject.SetActive(true); // blocking graphic
+                lockedBackground[i].SetActive(true);
+                lockedInfos[i].SetActive(true);
+                infos[i].SetActive(false);
 
-                // set active the blocking panel and locked icon, be sure the blocking panel is in last children
-                collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(true);
+                collectionButtons[i].transform.GetChild(collectionButtons[i].transform.childCount - 1).GetComponent<TextMeshProUGUI>().text = "???"; // set title of photo to ???  
+                collectionShortTitles[i].text = "???";
                 collectionTitles[i].text = "???"; // set the title to unknown
-                // collectionTitles[i].alignment = TextAlignmentOptions.Left;
                 collectionLocations[i].text = "???";
                 collectionDescriptions[i].text = "???"; // set the description to unknown
             }
             else
             {
-                collectionButtons[i].interactable = true;
-                collectionButtons[i].transform.GetChild(0).gameObject.SetActive(false);
+                collectionButtons[i].transform.GetChild(0).gameObject.SetActive(false); // blocking graphic
+                lockedBackground[i].SetActive(false);
+                lockedInfos[i].SetActive(false);
+                infos[i].SetActive(true);
 
-                // nonactive the blocking panel and locked icon
-                collectionObjects[i].transform.GetChild(collectionObjects[i].transform.childCount - 1).gameObject.SetActive(false);
-
-                // collectionTitles[i].alignment = TextAlignmentOptions.Center;
+                TextMeshProUGUI buttonTitleText = collectionButtons[i].transform.GetChild(collectionButtons[i].transform.childCount - 1).GetComponent<TextMeshProUGUI>();
 
                 switch (i) // set the title and description to its actual 
                 {
                     case 0:
+                        buttonTitleText.text = Settings.collectionTitle1;
+                        collectionShortTitles[i].text = Settings.collectionTitle1;
                         collectionTitles[i].text = Settings.collectionTitle1;
                         collectionLocations[i].text = Settings.collectionLocation1;
                         collectionDescriptions[i].text = Settings.collectionDesc1;
                         break;
                     case 1:
+                        buttonTitleText.text = Settings.collectionTitle2;
+                        collectionShortTitles[i].text = Settings.collectionTitle2;
                         collectionTitles[i].text = Settings.collectionTitle2;
                         collectionLocations[i].text = Settings.collectionLocation2;
                         collectionDescriptions[i].text = Settings.collectionDesc2;
                         break;
                     case 2:
+                        buttonTitleText.text = Settings.collectionTitle3Alt;
+                        collectionShortTitles[i].text = Settings.collectionTitle3Alt;
                         collectionTitles[i].text = Settings.collectionTitle3;
                         collectionLocations[i].text = Settings.collectionLocation3;
                         collectionDescriptions[i].text = Settings.collectionDesc3;
                         break;
                     case 3:
+                        buttonTitleText.text = Settings.collectionTitle4;
+                        collectionShortTitles[i].text = Settings.collectionTitle4;
                         collectionTitles[i].text = Settings.collectionTitle4;
                         collectionLocations[i].text = Settings.collectionLocation4;
                         collectionDescriptions[i].text = Settings.collectionDesc4;
                         break;
                     case 4:
+                        buttonTitleText.text = Settings.collectionTitle5;
+                        collectionShortTitles[i].text = Settings.collectionTitle5;
                         collectionTitles[i].text = Settings.collectionTitle5;
                         collectionLocations[i].text = Settings.collectionLocation5;
                         collectionDescriptions[i].text = Settings.collectionDesc5;
                         break;
                     case 5:
+                        buttonTitleText.text = Settings.collectionTitle6;
+                        collectionShortTitles[i].text = Settings.collectionTitle6;
                         collectionTitles[i].text = Settings.collectionTitle6;
                         collectionLocations[i].text = Settings.collectionLocation6;
                         collectionDescriptions[i].text = Settings.collectionDesc6;
                         break;
                     case 6:
+                        buttonTitleText.text = Settings.collectionTitle7;
+                        collectionShortTitles[i].text = Settings.collectionTitle7;
                         collectionTitles[i].text = Settings.collectionTitle7;
                         collectionLocations[i].text = Settings.collectionLocation7;
                         collectionDescriptions[i].text = Settings.collectionDesc7;
                         break;
                     default:
+                        buttonTitleText.text = "???";
                         collectionTitles[i].text = "???";
                         collectionLocations[i].text = "???";
                         collectionDescriptions[i].text = "?????";
@@ -187,13 +206,30 @@ public class CollectionMenu : MonoBehaviour
 
     public void ShowCollection(int index)
     {
-        collectionPanel.SetActive(true);
-        collectionContainer.SetActive(false);
+        if (!GameManager.Instance.isThoucedActive)
+        {
+            return;
+        }
 
-        simpleScrollSnap.CustomGoToPanel(index);
-        simpleScrollSnap.OnPanelCentered.Invoke(simpleScrollSnap.CenteredPanel, simpleScrollSnap.SelectedPanel);
+        if (collectionButtons[index].transform.GetChild(0).gameObject.activeSelf)
+        {
+            GameManager.Instance.isThoucedActive = false;
+            Vector3 targetScale = new Vector3(collectionButtons[index].transform.localScale.x + 0.05f, collectionButtons[index].transform.localScale.y + 0.05f, collectionButtons[index].transform.localScale.z + 0.05f);
+            collectionButtons[index].transform.DOScale(targetScale, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+            {
+                GameManager.Instance.isThoucedActive = true;
+            });
+        }
+        else
+        {
+            collectionPanel.SetActive(true);
+            collectionContainer.SetActive(false);
 
-        ShowCollectionAnim();
+            simpleScrollSnap.CustomGoToPanel(index);
+            simpleScrollSnap.OnPanelCentered.Invoke(simpleScrollSnap.CenteredPanel, simpleScrollSnap.SelectedPanel);
+
+            ShowCollectionAnim();
+        }
     }
 
     public void Back()
@@ -218,18 +254,32 @@ public class CollectionMenu : MonoBehaviour
         {
             return;
         }
+        else
+        {
+            GameManager.Instance.isThoucedActive = false;
 
-        Transform currentObj = EventSystem.current.currentSelectedGameObject.transform;
-        Vector3 targetScaleAnim = new Vector3(currentObj.transform.localScale.x + 0.05f, currentObj.transform.localScale.y + 0.05f, currentObj.transform.localScale.z + 0.05f);
+            Transform currentObj = EventSystem.current.currentSelectedGameObject.transform;
+
+            DOTween.Kill(currentObj.transform);
+
+            Sound();
+
+            Vector3 targetScaleAnim = new Vector3(currentObj.transform.localScale.x - 0.05f, currentObj.transform.localScale.y - 0.05f, currentObj.transform.localScale.z - 0.05f);
+            currentObj.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+            {
+                GameManager.Instance.isThoucedActive = true;
+            });
+        }
+    }
+
+    public void Sound()
+    {
+        AudioManager.Instance.StopSFX();
 
         int unlockedCollection = GameManager.Instance.LoadUnlockedLevel() - 1;
 
-        AudioManager.Instance.StopSFX();
-
-        if (simpleScrollSnap.CenteredPanel < unlockedCollection && GameManager.Instance.isThoucedActive)
+        if (simpleScrollSnap.CenteredPanel < unlockedCollection)
         {
-            GameManager.Instance.isThoucedActive = false;
-        
             switch (simpleScrollSnap.CenteredPanel)
             {
                 case 0:
@@ -257,10 +307,6 @@ public class CollectionMenu : MonoBehaviour
                     break;
             }
 
-            currentObj.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
-            {
-                GameManager.Instance.isThoucedActive = true;
-            });
         }
     }
 

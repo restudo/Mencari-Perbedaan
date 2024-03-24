@@ -97,6 +97,7 @@ public class StageMenu : MonoBehaviour
 
             selectedVFX[unlockedLevel - 1].transform.localScale = Vector3.zero;
             startButtons[unlockedLevel - 1].transform.localScale = Vector3.zero;
+            levelButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.1f).SetEase(Ease.InQuad);
             selectedVFX[unlockedLevel - 1].transform.DOScale(1f, 0.2f).SetEase(Ease.InQuad);
             startButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
             {

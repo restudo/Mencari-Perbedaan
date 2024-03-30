@@ -11,7 +11,7 @@ public class AutoSizeText : MonoBehaviour
     private float minWidth;
     private float maxWidth;
 
-    void Start()
+    void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
         rectTransform = GetComponent<RectTransform>();

@@ -7,10 +7,11 @@ public class Point : MonoBehaviour
     public bool isDuplicate { get; set; }
 
     [SerializeField] private SpriteRenderer spRend;
-    [SerializeField] private SpriteRenderer checkRend;
+    [SerializeField] private GameObject checkRend;
+    [SerializeField] private GameObject circCheckRend;
 
     [SerializeField] private int loopTime = 2;
-    [Tooltip("Boink Feedback")][SerializeField] private float scaleIncrement = 0.1f;
+    [Tooltip("Boink Feedback")][SerializeField] private float scaleIncrement = 0.07f;
 
     [Space(20)]
     [Header("Random Image")]
@@ -40,8 +41,10 @@ public class Point : MonoBehaviour
 
         isClicked = false;
 
-        checkRend.enabled = false;
-        pair.checkRend.enabled = false;
+        checkRend.SetActive(false);
+        pair.checkRend.SetActive(false);
+        circCheckRend.SetActive(false);
+        pair.circCheckRend.SetActive(false);
 
         //set the position to Camera nearClipPlane, so its always on top 
         transform.position = new Vector3(transform.position.x, transform.position.y, -Camera.main.nearClipPlane);
@@ -53,6 +56,7 @@ public class Point : MonoBehaviour
         {
             if (isClicked && pair.isClicked)
             {
+                Debug.Log("returned " + gameObject.name);
                 return;
             }
             else
@@ -66,8 +70,10 @@ public class Point : MonoBehaviour
                 spRend.transform.DOScale(targetScale, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo);
                 pair.spRend.transform.DOScale(targetScale, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo).OnComplete(() =>
                 {
-                    checkRend.enabled = true;
-                    pair.checkRend.enabled = true;
+                    checkRend.SetActive(true);
+                    pair.checkRend.SetActive(true);
+                    circCheckRend.SetActive(true);
+                    pair.circCheckRend.SetActive(true);
                 });
             }
 

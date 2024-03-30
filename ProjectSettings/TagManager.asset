@@ -51,3 +51,18 @@ TagManager:
   - name: Object
     uniqueID: 2656766063
     locked: 0
+  - name: Visual Object
+    uniqueID: 2568286693
+    locked: 0
+  - name: Check
+    uniqueID: 1710628225
+    locked: 0
+  - name: Left Side
+    uniqueID: 52748585
+    locked: 0
+  - name: Right Side
+    uniqueID: 943221139
+    locked: 0
+  - name: Icon
+    uniqueID: 2854891569
+    locked: 0

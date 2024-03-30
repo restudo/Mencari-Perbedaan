@@ -6,12 +6,15 @@ using DG.Tweening;
 public class Hint : MonoBehaviour
 {
     [SerializeField] private Button hintButton;
+    [SerializeField] private Material grayscaleMat;
     [SerializeField] private GameObject hintObject;
+    [SerializeField] private Transform hintInitTransform;
     // [SerializeField] private float hintTime;
     [SerializeField] private float hintLimit;
 
     private bool isEnable;
     private GameObject instantiatedHint;
+    private Image hintButtonImage;
 
     private void OnEnable()
     {
@@ -25,6 +28,8 @@ public class Hint : MonoBehaviour
 
     private void Start()
     {
+        hintButtonImage = hintButton.GetComponent<Image>();
+
         isEnable = true;
     }
 
@@ -51,22 +56,33 @@ public class Hint : MonoBehaviour
             remainingAttempts--;
         }
 
-        Vector3 position = pointSpots[randomIndex].transform.position;
-        Transform parent = pointSpots[randomIndex].transform;
-        instantiatedHint = Instantiate(hintObject, position, Quaternion.identity, parent);
-
-        // Play Animation fade or something
-        Vector3 originScale = instantiatedHint.transform.localScale;
-        float newScalex = instantiatedHint.transform.localScale.x + 2f;
-        float newScaley = instantiatedHint.transform.localScale.y + 2f;
-        float newScalez = instantiatedHint.transform.localScale.z + 2f;
-        instantiatedHint.transform.localScale = new Vector3(newScalex, newScaley, newScalez);
-        instantiatedHint.transform.DOScale(originScale, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
+        GameObject hintTransform = pointSpots[randomIndex];
+        foreach (Transform child in hintTransform.transform)
         {
-            instantiatedHint.transform.DOScale(originScale + new Vector3(0.2f, 0.2f, 0.2f), 0.5f).SetEase(Ease.InExpo).SetLoops(-1, LoopType.Yoyo);
-        });
+            if (child.tag == "Checkpoint")
+            {
+                Vector3 position = child.transform.position;
+                Transform parent = hintTransform.transform;
 
-        hintButton.interactable = false;
+                instantiatedHint = Instantiate(hintObject, hintInitTransform.transform.position, Quaternion.identity, parent);
+
+                // Play Animation fade or something
+                // Vector3 originScale = instantiatedHint.transform.localScale;
+                // float newScalex = instantiatedHint.transform.localScale.x + 2f;
+                // float newScaley = instantiatedHint.transform.localScale.y + 2f;
+                // float newScalez = instantiatedHint.transform.localScale.z + 2f;
+                // instantiatedHint.transform.localScale = new Vector3(newScalex, newScaley, newScalez);
+                // instantiatedHint.transform.DOScale(originScale, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
+                // {
+                //     instantiatedHint.transform.DOScale(originScale + new Vector3(0.2f, 0.2f, 0.2f), 0.5f).SetEase(Ease.InExpo).SetLoops(-1, LoopType.Yoyo);
+                // });
+
+                instantiatedHint.transform.DOMove(position, 0.4f).SetEase(Ease.OutExpo);
+
+                hintButton.interactable = false;
+                hintButtonImage.material = grayscaleMat;
+            }
+        }
     }
 
     private void DestroyHint()
@@ -76,16 +92,18 @@ public class Hint : MonoBehaviour
             DOTween.Kill(instantiatedHint.transform);
 
             Destroy(instantiatedHint);
-            
+
             isEnable = true;
 
             if (hintLimit > 0)
             {
                 hintButton.interactable = true;
+                hintButtonImage.material = null;
             }
             else
             {
                 hintButton.interactable = false;
+                hintButtonImage.material = grayscaleMat;
             }
         }
     }

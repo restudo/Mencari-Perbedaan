@@ -1,0 +1,125 @@
+
+Spine_PerbedaanCover.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background
+  rotate: false
+  xy: 2, 1146
+  size: 1614, 866
+  orig: 1614, 866
+  offset: 0, 0
+  index: -1
+balon1
+  rotate: false
+  xy: 1984, 1746
+  size: 47, 63
+  orig: 47, 63
+  offset: 0, 0
+  index: -1
+balon2
+  rotate: false
+  xy: 1984, 1689
+  size: 33, 55
+  orig: 33, 56
+  offset: 0, 0
+  index: -1
+balon3
+  rotate: false
+  xy: 1927, 1485
+  size: 93, 133
+  orig: 93, 133
+  offset: 0, 0
+  index: -1
+bg
+  rotate: true
+  xy: 905, 178
+  size: 791, 799
+  orig: 791, 799
+  offset: 0, 0
+  index: -1
+bird1
+  rotate: true
+  xy: 2015, 1638
+  size: 49, 14
+  orig: 49, 14
+  offset: 0, 0
+  index: -1
+bird2
+  rotate: true
+  xy: 1984, 1635
+  size: 52, 15
+  orig: 52, 15
+  offset: 0, 0
+  index: -1
+bird3
+  rotate: false
+  xy: 1984, 1620
+  size: 29, 13
+  orig: 29, 13
+  offset: 0, 0
+  index: -1
+devan_body
+  rotate: true
+  xy: 1618, 971
+  size: 319, 298
+  orig: 319, 298
+  offset: 0, 0
+  index: -1
+devan_face
+  rotate: true
+  xy: 1618, 1620
+  size: 392, 364
+  orig: 392, 364
+  offset: 0, 0
+  index: -1
+devan_poni
+  rotate: false
+  xy: 292, 77
+  size: 245, 198
+  orig: 245, 198
+  offset: 0, 0
+  index: -1
+fg
+  rotate: false
+  xy: 2, 277
+  size: 901, 867
+  orig: 901, 867
+  offset: 0, 0
+  index: -1
+rhea_armfar
+  rotate: true
+  xy: 1984, 1811
+  size: 201, 54
+  orig: 201, 56
+  offset: 0, 2
+  index: -1
+rhea_armnear
+  rotate: true
+  xy: 1918, 1142
+  size: 148, 120
+  orig: 148, 120
+  offset: 0, 0
+  index: -1
+rhea_body
+  rotate: true
+  xy: 539, 98
+  size: 177, 250
+  orig: 177, 250
+  offset: 0, 0
+  index: -1
+rhea_face
+  rotate: false
+  xy: 1618, 1292
+  size: 307, 326
+  orig: 307, 326
+  offset: 0, 0
+  index: -1
+rhea_poni
+  rotate: true
+  xy: 2, 2
+  size: 273, 288
+  orig: 273, 288
+  offset: 0, 0
+  index: -1

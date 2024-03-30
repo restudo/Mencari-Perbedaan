@@ -45,9 +45,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private ImageControl imgControl;
     [SerializeField] private Transform objectInAndOut;
     [SerializeField] private Transform inAndOutEndTransform;
+    [SerializeField] private GameObject transformIcon;
     [SerializeField] private Image objectAlertSwitch;
     [SerializeField] private Image objectAlertFlipLeft;
     [SerializeField] private Image objectAlertFlipRight;
+
+    private GameObject switchIcon;
+    private GameObject flipIcon;
     private ImageTransform imageTransform;
     private bool canPlayAnim;
 
@@ -95,11 +99,17 @@ public class LevelManager : MonoBehaviour
         gameOverWinUI.transform.parent.gameObject.SetActive(false);
         gameOverLoseUI.transform.parent.gameObject.SetActive(false);
         pauseUI.SetActive(false);
-        objectInAndOut.gameObject.SetActive(false);
 
+        objectInAndOut.gameObject.SetActive(false);
         objectAlertFlipLeft.gameObject.SetActive(false);
         objectAlertFlipRight.gameObject.SetActive(false);
         objectAlertSwitch.gameObject.SetActive(false);
+
+        switchIcon = transformIcon.transform.GetChild(0).gameObject; //swicth icon in the first child
+        flipIcon = transformIcon.transform.GetChild(transformIcon.transform.childCount - 1).gameObject; //flip icon in the last child
+
+        switchIcon.SetActive(false);
+        flipIcon.SetActive(false);
 
         canPlayAnim = true;
 
@@ -111,6 +121,16 @@ public class LevelManager : MonoBehaviour
     {
         if (GameManager.Instance.isGameActive)
         {
+            // if (Input.GetKeyDown(KeyCode.T))
+            // {
+            //     EventHandler.CallChangeImageTransformEvent(ImageTransform.Flip);
+            // }
+            // if (Input.GetKeyDown(KeyCode.Y))
+            // {
+            //     EventHandler.CallChangeImageTransformEvent(ImageTransform.Switch);
+            // }
+
+
             // Update countdown time
             currentTime -= Time.deltaTime;
             time = TimeSpan.FromSeconds(currentTime);
@@ -132,17 +152,14 @@ public class LevelManager : MonoBehaviour
 
                 if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim && currentTime >= 5)
                 {
+                    GameManager.Instance.isThoucedActive = false;
+
                     canPlayAnim = false;
 
                     // animate object
                     imageTransform = RandomTransform();
                     StartCoroutine(ObjectAlert(imageTransform));
                     StartCoroutine(ObjectInAndOut());
-                }
-
-                if (currentInterval < 1 && currentInterval >= 0)
-                {
-                    GameManager.Instance.isThoucedActive = false;
                 }
 
                 if (currentInterval <= 0)
@@ -157,39 +174,63 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator ObjectAlert(ImageTransform imageTransform)
     {
+        transformIcon.SetActive(true);
+        transformIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 0);
+        transformIcon.GetComponent<Image>().DOFade(1, 0.5f).SetEase(Ease.OutExpo);
+
         switch (imageTransform)
         {
             case ImageTransform.Flip:
-                objectAlertFlipLeft.gameObject.SetActive(true);
-                objectAlertFlipRight.gameObject.SetActive(true);
+                Vector3 flipIconOrigin = flipIcon.transform.localScale;
+
+                // objectAlertFlipLeft.gameObject.SetActive(true);
+                // objectAlertFlipRight.gameObject.SetActive(true);
+                flipIcon.SetActive(true);
 
                 // Tween the alpha of a object alert color to 1
-                DOTween.ToAlpha(() => objectAlertFlipLeft.color, x => objectAlertFlipLeft.color = x, 0, 0);
-                DOTween.ToAlpha(() => objectAlertFlipRight.color, x => objectAlertFlipRight.color = x, 0, 0);
+                // DOTween.ToAlpha(() => objectAlertFlipLeft.color, x => objectAlertFlipLeft.color = x, 0, 0);
+                // DOTween.ToAlpha(() => objectAlertFlipRight.color, x => objectAlertFlipRight.color = x, 0, 0);
 
-                objectAlertFlipLeft.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
-                objectAlertFlipRight.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
+                // objectAlertFlipLeft.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
+                // objectAlertFlipRight.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
+                flipIcon.transform.DOScaleX(-1, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
 
                 yield return new WaitForSeconds(2f); // objectalertFlip wait for this seconds
 
-                objectAlertFlipLeft.DOKill();
-                objectAlertFlipRight.DOKill();
-                objectAlertFlipLeft.gameObject.SetActive(false);
-                objectAlertFlipRight.gameObject.SetActive(false);
+                // objectAlertFlipLeft.DOKill();
+                // objectAlertFlipRight.DOKill();
+                // objectAlertFlipLeft.gameObject.SetActive(false);
+                // objectAlertFlipRight.gameObject.SetActive(false);
+                flipIcon.transform.DOKill();
+                flipIcon.SetActive(false);
+
+                flipIcon.transform.localScale = flipIconOrigin;
+
+                transformIcon.SetActive(false);
 
                 break;
             case ImageTransform.Switch:
-                objectAlertSwitch.gameObject.SetActive(true);
+                Vector3 switchIconOrigin = switchIcon.transform.eulerAngles;
+
+                // objectAlertSwitch.gameObject.SetActive(true);
+                switchIcon.SetActive(true);
 
                 // Tween the alpha of a object alert color to 1
-                DOTween.ToAlpha(() => objectAlertSwitch.color, x => objectAlertSwitch.color = x, 0, 0);
+                // DOTween.ToAlpha(() => objectAlertSwitch.color, x => objectAlertSwitch.color = x, 0, 0);
 
-                objectAlertSwitch.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
+                // objectAlertSwitch.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
+                switchIcon.transform.DOLocalRotate(new Vector3(0, 0, -360), 1.5f, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
 
                 yield return new WaitForSeconds(2f); // objectAlertSwitch wait for this seconds
 
-                objectAlertSwitch.DOKill();
-                objectAlertSwitch.gameObject.SetActive(false);
+                // objectAlertSwitch.DOKill();
+                // objectAlertSwitch.gameObject.SetActive(false);
+                switchIcon.transform.DOKill();
+                switchIcon.SetActive(false);
+
+                switchIcon.transform.eulerAngles = switchIconOrigin;
+
+                transformIcon.SetActive(false);
 
                 break;
             // case ImageTransform.RotateLeft:
@@ -208,13 +249,13 @@ public class LevelManager : MonoBehaviour
         Vector3 start = objectInAndOut.transform.position;
         Vector3 end = inAndOutEndTransform.transform.position; // in and out end
 
-        yield return new WaitForSeconds(1);
+        // yield return new WaitForSeconds(1);
 
         objectInAndOut.gameObject.SetActive(true);
 
         objectInAndOut.DOMove(end, 0.5f).SetEase(Ease.OutBack);
 
-        yield return new WaitForSeconds(2.3f); // objectInAndOut wait for this seconds
+        yield return new WaitForSeconds(2f); // objectInAndOut wait for this seconds
 
         objectInAndOut.DOMove(start, 0.5f).SetEase(Ease.InOutBack).OnComplete(() =>
         {
@@ -254,7 +295,7 @@ public class LevelManager : MonoBehaviour
                 hearts[healthCount].transform.GetChild(0).gameObject.SetActive(true);
 
                 Vector3 punch = new Vector3(.7f, .7f, .7f);
-                hearts[healthCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.2f).OnComplete(() =>
+                hearts[healthCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.3f).OnComplete(() =>
                 {
                     GameManager.Instance.isThoucedActive = true;
                 });
@@ -285,7 +326,7 @@ public class LevelManager : MonoBehaviour
                 progresses[progressCount].transform.GetChild(0).gameObject.SetActive(true);
 
                 Vector3 punch = new Vector3(.7f, .7f, .7f);
-                progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.2f).OnComplete(() =>
+                progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.3f).OnComplete(() =>
                 {
                     GameManager.Instance.isThoucedActive = true;
                 });

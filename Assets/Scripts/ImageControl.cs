@@ -91,7 +91,6 @@ public class ImageControl : MonoBehaviour
 
     private void ChangeImageTransform(ImageTransform imgTransform)
     {
-
         switch (imgTransform)
         {
             case ImageTransform.Flip:
@@ -170,9 +169,9 @@ public class ImageControl : MonoBehaviour
             }
             else
             {
-                ImageRightFirst(i, durationStep);
-                yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
                 ImageLeftFirst(i, durationStep);
+                yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
+                ImageRightFirst(i, durationStep);
             }
 
             foreach (GameObject objPool in objPools)
@@ -251,12 +250,6 @@ public class ImageControl : MonoBehaviour
             yield return new WaitForSeconds(initialShuffleDuration - (i * durationStep));
         }
 
-        if (numberOfIterations % 2 != 0)
-        {
-            SwapImagesObject();
-            SwapImagesPosition();
-        }
-
         GameManager.Instance.isThoucedActive = true;
     }
 
@@ -265,13 +258,10 @@ public class ImageControl : MonoBehaviour
         GameObject tempObj = images[0];
         images[0] = images[1];
         images[1] = tempObj;
-    }
 
-    private void SwapImagesPosition()
-    {
-        Vector3 tempPos = images[0].transform.position;
-        images[0].transform.position = images[1].transform.position;
-        images[1].transform.position = tempPos;
+        GameObject[] temp = checkpointsLeft;
+        checkpointsLeft = checkpointsRight;
+        checkpointsRight = temp;
     }
 
     // private void RotateLeft()

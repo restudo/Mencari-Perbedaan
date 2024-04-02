@@ -18,7 +18,7 @@ public class ImageControl : MonoBehaviour
     private Pooler pool;
     [Tooltip("automatically filled while playing")][SerializeField] private GameObject[] objPools;
 
-    private bool isSwitched = false;
+    // private bool isSwitched = false;
     private GameObject imageLeftOrigin;
     private GameObject imageRightOrigin;
     private Vector3[] imagesOriginPos;
@@ -161,18 +161,18 @@ public class ImageControl : MonoBehaviour
 
         for (int i = 0; i < numberOfIterations; i++)
         {
-            if (!isSwitched)
-            {
+            // if (!isSwitched)
+            // {
                 ImageLeftFirst(i, durationStep);
                 yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
                 ImageRightFirst(i, durationStep);
-            }
-            else
-            {
-                ImageLeftFirst(i, durationStep);
-                yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
-                ImageRightFirst(i, durationStep);
-            }
+            // }
+            // else
+            // {
+            //     ImageLeftFirst(i, durationStep);
+            //     yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
+            //     ImageRightFirst(i, durationStep);
+            // }
 
             foreach (GameObject objPool in objPools)
             {
@@ -193,32 +193,30 @@ public class ImageControl : MonoBehaviour
 
     private void ImageLeftFirst(int iteration, float durationStep)
     {
-        Vector3 scaler = images[0].transform.localScale;
-        scaler.x *= -1;
-
-        images[0].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
-
         foreach (GameObject point in checkpointsLeft)
         {
             Vector3 scalerPoint = point.transform.localScale;
             scalerPoint.x *= -1;
             point.transform.DOScaleX(scalerPoint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
+        
         }
+        Vector3 scaler = images[0].transform.localScale;
+        scaler.x *= -1;
+        images[0].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
     }
 
     private void ImageRightFirst(int iteration, float durationStep)
     {
-        Vector3 scaler = images[1].transform.localScale;
-        scaler.x *= -1;
-
-        images[1].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
-
         foreach (GameObject point in checkpointsRight)
         {
             Vector3 scalerPoint = point.transform.localScale;
             scalerPoint.x *= -1;
             point.transform.DOScaleX(scalerPoint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
         }
+        
+        Vector3 scaler = images[1].transform.localScale;
+        scaler.x *= -1;
+        images[1].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
     }
 
     /// <summary>
@@ -236,14 +234,14 @@ public class ImageControl : MonoBehaviour
             images[0].transform.DOJump(images[1].transform.position, 3f, 0, initialShuffleDuration - (i * durationStep), false).SetEase(Ease.OutQuad);
             images[1].transform.DOJump(tempPos, -3f, 0, initialShuffleDuration - (i * durationStep), false).SetEase(Ease.OutQuad);
 
-            if (!isSwitched)
-            {
-                isSwitched = true;
-            }
-            else
-            {
-                isSwitched = false;
-            }
+            // if (!isSwitched)
+            // {
+            //     isSwitched = true;
+            // }
+            // else
+            // {
+            //     isSwitched = false;
+            // }
 
             SwapImagesObject();
 

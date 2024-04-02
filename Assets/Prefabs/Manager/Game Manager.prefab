@@ -48,3 +48,5 @@ MonoBehaviour:
   isThoucedActive: 0
   countdownTimer: 60
   intervalTimer: 10
+  canStageButtonAnim: 0
+  maxLevel: 7

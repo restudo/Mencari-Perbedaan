@@ -20,4 +20,9 @@ public class DebugMode : MonoBehaviour
             }
         }
     }
+
+    public void ExitApp()
+    {
+        Application.Quit();
+    }
 }

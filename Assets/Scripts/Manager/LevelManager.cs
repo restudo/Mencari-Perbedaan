@@ -363,7 +363,7 @@ public class LevelManager : MonoBehaviour
         string sceneName = SceneManager.GetActiveScene().name;
         int level;
 
-        if (int.TryParse(sceneName.Substring("Level".Length), out level) && level == GameManager.Instance.LoadUnlockedLevel())
+        if (int.TryParse(sceneName.Substring("Level".Length), out level) && level == GameManager.Instance.LoadUnlockedLevel() && level < GameManager.Instance.maxLevel)
         {
             GameManager.Instance.canStageButtonAnim = true;
             Debug.Log("Unlocked Anim");

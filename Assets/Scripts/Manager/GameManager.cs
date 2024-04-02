@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public float intervalTimer;
 
     public bool canStageButtonAnim;
+    public int maxLevel;
 
     private int unlockedLevel;
 

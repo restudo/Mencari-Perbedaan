@@ -81,7 +81,6 @@ public class LevelManager : MonoBehaviour
         {
             hearts[i] = healthContainer.transform.GetChild(i).gameObject;
             hearts[i].transform.GetChild(0).gameObject.SetActive(false);
-            // hearts[i].sprite = emptyHeart;
             healthCount++;
         }
 
@@ -91,10 +90,8 @@ public class LevelManager : MonoBehaviour
         {
             progresses[i] = progressContainer.transform.GetChild(i).gameObject;
             progresses[i].transform.GetChild(0).gameObject.SetActive(false);
-            // progresses[i].sprite = emptyProgress;
             progressCount++;
         }
-        // proggressText.text = progressCounter + "/" + maxProgress;
 
         gameOverWinUI.transform.parent.gameObject.SetActive(false);
         gameOverLoseUI.transform.parent.gameObject.SetActive(false);
@@ -121,14 +118,14 @@ public class LevelManager : MonoBehaviour
     {
         if (GameManager.Instance.isGameActive)
         {
-            // if (Input.GetKeyDown(KeyCode.T))
-            // {
-            //     EventHandler.CallChangeImageTransformEvent(ImageTransform.Flip);
-            // }
-            // if (Input.GetKeyDown(KeyCode.Y))
-            // {
-            //     EventHandler.CallChangeImageTransformEvent(ImageTransform.Switch);
-            // }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                EventHandler.CallChangeImageTransformEvent(ImageTransform.Flip);
+            }
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                EventHandler.CallChangeImageTransformEvent(ImageTransform.Switch);
+            }
 
 
             // Update countdown time
@@ -150,24 +147,24 @@ public class LevelManager : MonoBehaviour
 
                 currentInterval -= Time.deltaTime;
 
-                if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim && currentTime >= 5)
-                {
-                    GameManager.Instance.isThoucedActive = false;
+                // if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim && currentTime >= 5)
+                // {
+                //     GameManager.Instance.isThoucedActive = false;
 
-                    canPlayAnim = false;
+                //     canPlayAnim = false;
 
-                    // animate object
-                    imageTransform = RandomTransform();
-                    StartCoroutine(ObjectAlert(imageTransform));
-                    StartCoroutine(ObjectInAndOut());
-                }
+                //     // animate object
+                //     imageTransform = RandomTransform();
+                //     StartCoroutine(ObjectAlert(imageTransform));
+                //     StartCoroutine(ObjectInAndOut());
+                // }
 
-                if (currentInterval <= 0)
-                {
-                    EventHandler.CallChangeImageTransformEvent(imageTransform);
-                    currentInterval = GameManager.Instance.intervalTimer;
-                    canPlayAnim = true;
-                }
+                // if (currentInterval <= 0)
+                // {
+                //     EventHandler.CallChangeImageTransformEvent(imageTransform);
+                //     currentInterval = GameManager.Instance.intervalTimer;
+                //     canPlayAnim = true;
+                // }
             }
         }
     }
@@ -182,28 +179,13 @@ public class LevelManager : MonoBehaviour
         {
             case ImageTransform.Flip:
                 Vector3 flipIconOrigin = flipIcon.transform.localScale;
-
-                // objectAlertFlipLeft.gameObject.SetActive(true);
-                // objectAlertFlipRight.gameObject.SetActive(true);
                 flipIcon.SetActive(true);
-
-                // Tween the alpha of a object alert color to 1
-                // DOTween.ToAlpha(() => objectAlertFlipLeft.color, x => objectAlertFlipLeft.color = x, 0, 0);
-                // DOTween.ToAlpha(() => objectAlertFlipRight.color, x => objectAlertFlipRight.color = x, 0, 0);
-
-                // objectAlertFlipLeft.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
-                // objectAlertFlipRight.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
                 flipIcon.transform.DOScaleX(-1, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
 
                 yield return new WaitForSeconds(2f); // objectalertFlip wait for this seconds
 
-                // objectAlertFlipLeft.DOKill();
-                // objectAlertFlipRight.DOKill();
-                // objectAlertFlipLeft.gameObject.SetActive(false);
-                // objectAlertFlipRight.gameObject.SetActive(false);
                 flipIcon.transform.DOKill();
                 flipIcon.SetActive(false);
-
                 flipIcon.transform.localScale = flipIconOrigin;
 
                 transformIcon.SetActive(false);
@@ -211,23 +193,13 @@ public class LevelManager : MonoBehaviour
                 break;
             case ImageTransform.Switch:
                 Vector3 switchIconOrigin = switchIcon.transform.eulerAngles;
-
-                // objectAlertSwitch.gameObject.SetActive(true);
                 switchIcon.SetActive(true);
-
-                // Tween the alpha of a object alert color to 1
-                // DOTween.ToAlpha(() => objectAlertSwitch.color, x => objectAlertSwitch.color = x, 0, 0);
-
-                // objectAlertSwitch.DOFade(1, 0.5f).SetLoops(-1, LoopType.Yoyo);
                 switchIcon.transform.DOLocalRotate(new Vector3(0, 0, -360), 1.5f, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
 
                 yield return new WaitForSeconds(2f); // objectAlertSwitch wait for this seconds
 
-                // objectAlertSwitch.DOKill();
-                // objectAlertSwitch.gameObject.SetActive(false);
                 switchIcon.transform.DOKill();
                 switchIcon.SetActive(false);
-
                 switchIcon.transform.eulerAngles = switchIconOrigin;
 
                 transformIcon.SetActive(false);
@@ -248,8 +220,6 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 start = objectInAndOut.transform.position;
         Vector3 end = inAndOutEndTransform.transform.position; // in and out end
-
-        // yield return new WaitForSeconds(1);
 
         objectInAndOut.gameObject.SetActive(true);
 
@@ -346,23 +316,25 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator Win()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
 
-        EventHandler.CallResetImageTransformEvent();
+        if (imgControl.images[0].transform.localScale.x < 0)
+        {
+            EventHandler.CallResetImageTransformEvent();
+            yield return new WaitForSeconds(1);
+        }
 
-        yield return new WaitForSeconds(1);
+        EventHandler.CallDestroyHintEvent();
 
         // Anim
         gameOverWinUI.transform.parent.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         gameOverWinUI.transform.parent.localScale = Vector3.zero;
         gameOverWinUI.transform.parent.gameObject.SetActive(true);
-        //TODO: change with images animation then set active the gameover panel
         gameOverWinUI.transform.parent.DOScale(1, 0.4f).SetEase(Ease.OutBounce).SetDelay(0.6f);
         gameOverWinUI.transform.parent.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 150), 1.5f).SetDelay(1f);
 
         string sceneName = SceneManager.GetActiveScene().name;
         int level;
-
         if (int.TryParse(sceneName.Substring("Level".Length), out level) && level == GameManager.Instance.LoadUnlockedLevel() && level < GameManager.Instance.maxLevel)
         {
             GameManager.Instance.canStageButtonAnim = true;
@@ -379,15 +351,18 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        EventHandler.CallResetImageTransformEvent();
+        if (imgControl.images[0].transform.localScale.x < 0)
+        {
+            EventHandler.CallResetImageTransformEvent();
+            yield return new WaitForSeconds(1);
+        }
 
-        yield return new WaitForSeconds(1);
+        EventHandler.CallDestroyHintEvent();
 
         // Anim
         gameOverLoseUI.transform.parent.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         gameOverLoseUI.transform.parent.localScale = Vector3.zero;
         gameOverLoseUI.transform.parent.gameObject.SetActive(true);
-        //TODO: change with images animation then set active the gameover panel
         gameOverLoseUI.transform.parent.DOScale(1, 0.4f).SetEase(Ease.OutBounce).SetDelay(0.6f);
         gameOverLoseUI.transform.parent.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 150), 1.5f).SetDelay(1f);
 

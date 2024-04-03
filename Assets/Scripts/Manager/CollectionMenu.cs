@@ -142,25 +142,26 @@ public class CollectionMenu : MonoBehaviour
 
     private IEnumerator CollectionPopAnim()
     {
+        yield return new WaitForSeconds(0.1f);
         foreach (Button colButton in collectionButtons)
         {
             colButton.transform.localScale = Vector3.zero;
         }
 
-        backButton.localScale = Vector3.zero;
-        backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+        // backButton.localScale = Vector3.zero;
+        // backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
 
         foreach (Button colButton in collectionButtons)
         {
-            colButton.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
-            yield return new WaitForSeconds(0.05f);
+            colButton.transform.DOScale(1f, 0.4f).SetEase(Ease.OutBounce);
+            yield return new WaitForSeconds(0.06f);
         }
     }
 
     private void ShowCollectionAnim()
     {
         scrollSnapObj.localScale = Vector3.zero;
-        backButton.localScale = Vector3.zero;
+        // backButton.localScale = Vector3.zero;
 
         nextButton.localPosition = Vector3.zero;
         nextButton.localScale = Vector3.zero;
@@ -168,7 +169,7 @@ public class CollectionMenu : MonoBehaviour
         previousButton.localScale = Vector3.zero;
 
         scrollSnapObj.DOScale(1f, 0.3f).SetEase(Ease.OutCubic);
-        backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+        // backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
 
         nextButton.DOLocalMoveX(nextButtonTargetX, .5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         nextButton.DOScale(1, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
@@ -179,7 +180,7 @@ public class CollectionMenu : MonoBehaviour
     private IEnumerator CloseCollectionAnim()
     {
         scrollSnapObj.DOScale(0f, 0.3f).SetEase(Ease.OutExpo);
-        backButton.DOScale(0f, 0.3f).SetEase(Ease.OutExpo);
+        // backButton.DOScale(0f, 0.3f).SetEase(Ease.OutExpo);
 
         nextButton.DOLocalMoveX(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
         nextButton.DOScale(0, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.15f);
@@ -190,7 +191,7 @@ public class CollectionMenu : MonoBehaviour
 
         collectionPanel.SetActive(false);
         collectionContainer.SetActive(true);
-        backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+        // backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
 
         StartCoroutine(CollectionPopAnim());
     }

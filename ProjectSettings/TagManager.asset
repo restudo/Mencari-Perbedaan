@@ -8,6 +8,9 @@ TagManager:
   - Checkpoint
   - Cross
   - DifferentPoint
+  - HintObject
+  - Left Side
+  - Right Side
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -11,19 +10,27 @@ public class Hint : MonoBehaviour
     [SerializeField] private Transform hintInitTransform;
     // [SerializeField] private float hintTime;
     [SerializeField] private float hintLimit;
+    [SerializeField] private float animScaleIncrement;
+    public Vector3 initScaleOdd { get; private set; }
+    public Vector3 initScaleEven { get; private set; }
 
     private bool isEnable;
+    private GameObject root;
     private GameObject instantiatedHint;
+    private GameObject instantiatedHintSibling;
     private Image hintButtonImage;
+    private SpriteRenderer instantiatedHintRend;
 
     private void OnEnable()
     {
         EventHandler.DestroyHint += DestroyHint;
+        EventHandler.HintAnim += HintAnim;
     }
 
     private void OnDisable()
     {
         EventHandler.DestroyHint -= DestroyHint;
+        EventHandler.HintAnim -= HintAnim;
     }
 
     private void Start()
@@ -66,22 +73,61 @@ public class Hint : MonoBehaviour
 
                 instantiatedHint = Instantiate(hintObject, hintInitTransform.transform.position, Quaternion.identity, parent);
 
-                // Play Animation fade or something
-                // Vector3 originScale = instantiatedHint.transform.localScale;
-                // float newScalex = instantiatedHint.transform.localScale.x + 2f;
-                // float newScaley = instantiatedHint.transform.localScale.y + 2f;
-                // float newScalez = instantiatedHint.transform.localScale.z + 2f;
-                // instantiatedHint.transform.localScale = new Vector3(newScalex, newScaley, newScalez);
-                // instantiatedHint.transform.DOScale(originScale, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
-                // {
-                //     instantiatedHint.transform.DOScale(originScale + new Vector3(0.2f, 0.2f, 0.2f), 0.5f).SetEase(Ease.InExpo).SetLoops(-1, LoopType.Yoyo);
-                // });
+                initScaleEven = new Vector3(instantiatedHint.transform.localScale.x, instantiatedHint.transform.localScale.y, instantiatedHint.transform.localScale.z);
+                initScaleOdd = new Vector3(-instantiatedHint.transform.localScale.x, instantiatedHint.transform.localScale.y, instantiatedHint.transform.localScale.z);
 
-                instantiatedHint.transform.DOMove(position, 0.4f).SetEase(Ease.OutExpo);
+                // get the sibling sprite sortin layer
+                instantiatedHintSibling = instantiatedHint.transform.parent.GetChild(0).gameObject;
+                SpriteRenderer siblingRend = instantiatedHintSibling.GetComponent<SpriteRenderer>();
+
+                if (siblingRend != null)
+                {
+                    // assign the sibling sorting layer to hint sorting layer
+                    instantiatedHintRend = instantiatedHint.GetComponent<SpriteRenderer>();
+                    instantiatedHintRend.sortingLayerName = siblingRend.sortingLayerName;
+
+                    root = instantiatedHint.transform.root.gameObject;
+                    foreach (Transform side in root.transform)
+                    {
+                        if (side.CompareTag(instantiatedHintRend.sortingLayerName) && side.transform.localScale.x < 0)
+                        {
+                            Vector3 scalerHint = instantiatedHint.transform.localScale;
+                            scalerHint.x *= -1;
+                            instantiatedHint.transform.localScale = scalerHint;
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Sibling Renderer Not Found");
+                }
 
                 hintButton.interactable = false;
                 hintButtonImage.material = grayscaleMat;
+
+                // Animation Sequence
+                instantiatedHint.transform.DOMove(position, 0.4f).SetEase(Ease.OutExpo).OnComplete(() =>
+                {
+                    HintAnim(instantiatedHint.transform.localScale);
+                });
             }
+        }
+    }
+
+    private void HintAnim(Vector3 animScale)
+    {
+        if (instantiatedHint != null)
+        {
+            if (animScale.x > 0)
+            {
+                animScale = new Vector3(animScale.x + animScaleIncrement, animScale.y + animScaleIncrement, animScale.z + animScaleIncrement);
+            }
+            else if(animScale.x < 0)
+            {
+                animScale = new Vector3(animScale.x - animScaleIncrement, animScale.y + animScaleIncrement, animScale.z + animScaleIncrement);
+            }
+
+            instantiatedHint.transform.DOScale(animScale, 0.5f).SetEase(Ease.OutExpo).SetLoops(-1, LoopType.Yoyo);
         }
     }
 

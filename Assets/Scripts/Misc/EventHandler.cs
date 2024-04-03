@@ -51,4 +51,11 @@ public static class EventHandler
         if (DestroyHint != null)
             DestroyHint();
     }
+    
+    public static event Action<Vector3> HintAnim;
+    public static void CallHintAnimEvent(Vector3 animScale)
+    {
+        if (HintAnim != null)
+            HintAnim(animScale);
+    }
 }

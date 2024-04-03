@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class ImageControl : MonoBehaviour
 {
+    [SerializeField] private Hint hint;
+
     [SerializeField] private float initialShuffleDuration = 0.2f;
     [SerializeField] private float finalShuffleDuration = 0.5f;
     [SerializeField] private int minShuffle = 4;
@@ -15,12 +17,15 @@ public class ImageControl : MonoBehaviour
     [SerializeField] private Transform[] imagesEntryTransform;
     [SerializeField] private GameObject[] checkpointsLeft;
     [SerializeField] private GameObject[] checkpointsRight;
-    private Pooler pool;
     [Tooltip("automatically filled while playing")][SerializeField] private GameObject[] objPools;
+    private Pooler pool;
+    private GameObject instantiatedHint;
+    private GameObject instantiatedHintRight;
+    private GameObject instantiatedHintLeft;
+    private const string LEFT_SIDE = "Left Side";
+    private const string RIGHT_SIDE = "Right Side";
 
     // private bool isSwitched = false;
-    private GameObject imageLeftOrigin;
-    private GameObject imageRightOrigin;
     private Vector3[] imagesOriginPos;
     private Vector3[] imagesOriginRot;
 
@@ -43,9 +48,6 @@ public class ImageControl : MonoBehaviour
         pool = GetComponent<Pooler>();
 
         PoolToArray();
-
-        imageLeftOrigin = images[0];
-        imageRightOrigin = images[1];
 
         imagesOriginPos = new Vector3[images.Length];
         imagesOriginRot = new Vector3[images.Length];
@@ -91,6 +93,46 @@ public class ImageControl : MonoBehaviour
 
     private void ChangeImageTransform(ImageTransform imgTransform)
     {
+        if (instantiatedHint == null)
+        {
+            instantiatedHint = GameObject.FindGameObjectWithTag("HintObject");
+            if (instantiatedHint != null && instantiatedHint.GetComponent<SpriteRenderer>().sortingLayerName == LEFT_SIDE)
+            {
+                instantiatedHintLeft = instantiatedHint;
+            }
+            else if (instantiatedHint != null && instantiatedHint.GetComponent<SpriteRenderer>().sortingLayerName == RIGHT_SIDE)
+            {
+                instantiatedHintRight = instantiatedHint;
+            }
+        }
+
+        if (instantiatedHintLeft != null)
+        {
+            DOTween.Kill(instantiatedHintLeft.transform); // pause the hint anim
+
+            if (instantiatedHintLeft.transform.localScale.x < 0)
+            {
+                instantiatedHintLeft.transform.localScale = hint.initScaleOdd;
+            }
+            else if (instantiatedHintLeft.transform.localScale.x > 0)
+            {
+                instantiatedHintLeft.transform.localScale = hint.initScaleEven;
+            }
+        }
+        else if (instantiatedHintRight != null)
+        {
+            DOTween.Kill(instantiatedHintRight.transform); // pause the hint anim
+
+            if (instantiatedHintRight.transform.localScale.x < 0)
+            {
+                instantiatedHintRight.transform.localScale = hint.initScaleOdd;
+            }
+            else if (instantiatedHintRight.transform.localScale.x > 0)
+            {
+                instantiatedHintRight.transform.localScale = hint.initScaleEven;
+            }
+        }
+
         switch (imgTransform)
         {
             case ImageTransform.Flip:
@@ -161,18 +203,9 @@ public class ImageControl : MonoBehaviour
 
         for (int i = 0; i < numberOfIterations; i++)
         {
-            // if (!isSwitched)
-            // {
-                ImageLeftFirst(i, durationStep);
-                yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
-                ImageRightFirst(i, durationStep);
-            // }
-            // else
-            // {
-            //     ImageLeftFirst(i, durationStep);
-            //     yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
-            //     ImageRightFirst(i, durationStep);
-            // }
+            ImageLeftFirst(i, durationStep);
+            yield return new WaitForSeconds((initialShuffleDuration - (i * durationStep)) - 0.15f);
+            ImageRightFirst(i, durationStep);
 
             foreach (GameObject objPool in objPools)
             {
@@ -189,6 +222,15 @@ public class ImageControl : MonoBehaviour
         }
 
         GameManager.Instance.isThoucedActive = true;
+
+        if (instantiatedHintLeft != null)
+        {
+            EventHandler.CallHintAnimEvent(instantiatedHintLeft.transform.localScale); // resume the hint anim
+        }
+        else if (instantiatedHintRight != null)
+        {
+            EventHandler.CallHintAnimEvent(instantiatedHintRight.transform.localScale); // resume the hint anim
+        }
     }
 
     private void ImageLeftFirst(int iteration, float durationStep)
@@ -198,8 +240,15 @@ public class ImageControl : MonoBehaviour
             Vector3 scalerPoint = point.transform.localScale;
             scalerPoint.x *= -1;
             point.transform.DOScaleX(scalerPoint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
-        
         }
+
+        if (instantiatedHintLeft != null)
+        {
+            Vector3 scalerHint = instantiatedHintLeft.transform.localScale;
+            scalerHint.x *= -1;
+            instantiatedHintLeft.transform.DOScaleX(scalerHint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
+        }
+
         Vector3 scaler = images[0].transform.localScale;
         scaler.x *= -1;
         images[0].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
@@ -213,7 +262,14 @@ public class ImageControl : MonoBehaviour
             scalerPoint.x *= -1;
             point.transform.DOScaleX(scalerPoint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
         }
-        
+
+        if (instantiatedHintRight != null)
+        {
+            Vector3 scalerHint = instantiatedHintRight.transform.localScale;
+            scalerHint.x *= -1;
+            instantiatedHintRight.transform.DOScaleX(scalerHint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
+        }
+
         Vector3 scaler = images[1].transform.localScale;
         scaler.x *= -1;
         images[1].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
@@ -249,17 +305,31 @@ public class ImageControl : MonoBehaviour
         }
 
         GameManager.Instance.isThoucedActive = true;
+
+        if (instantiatedHintLeft != null)
+        {
+            EventHandler.CallHintAnimEvent(instantiatedHintLeft.transform.localScale); // resume the hint anim
+        }
+        else if (instantiatedHintRight != null)
+        {
+            EventHandler.CallHintAnimEvent(instantiatedHintRight.transform.localScale); // resume the hint anim
+        }
     }
 
     private void SwapImagesObject()
     {
-        GameObject tempObj = images[0];
-        images[0] = images[1];
-        images[1] = tempObj;
+        (images[0], images[1]) = (images[1], images[0]);
 
-        GameObject[] temp = checkpointsLeft;
-        checkpointsLeft = checkpointsRight;
-        checkpointsRight = temp;
+        (checkpointsLeft, checkpointsRight) = (checkpointsRight, checkpointsLeft);
+
+        if (instantiatedHintLeft != null && instantiatedHintRight == null)
+        {
+            (instantiatedHintLeft, instantiatedHintRight) = (instantiatedHintRight, instantiatedHintLeft);
+        }
+        else if (instantiatedHintRight != null && instantiatedHintLeft == null)
+        {
+            (instantiatedHintRight, instantiatedHintLeft) = (instantiatedHintLeft, instantiatedHintRight);
+        }
     }
 
     // private void RotateLeft()

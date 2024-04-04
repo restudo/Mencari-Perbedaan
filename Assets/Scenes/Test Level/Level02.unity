@@ -1610,7 +1610,7 @@ MonoBehaviour:
   countdownTimer: 60
   intervalTimer: 10
   canStageButtonAnim: 0
-  maxLevel: 0
+  maxLevel: 7
 --- !u!4 &986565495
 Transform:
   m_ObjectHideFlags: 0

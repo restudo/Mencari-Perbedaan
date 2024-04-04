@@ -67,6 +67,9 @@ public class StageMenu : MonoBehaviour
         levelButtonInitScale = levelButtons[0].transform.localScale;
         confirmationPanelScale = confirmationPanel.transform.localScale;
 
+        // REVIEW : select button selected when open stage menu
+        SelectLevel(unlockedLevel - 1); // set the level button by unlocked level parameter
+
         StartCoroutine(ButtonPopAnim());
     }
 
@@ -105,7 +108,7 @@ public class StageMenu : MonoBehaviour
 
             selectedVFX[unlockedLevel - 1].transform.localScale = Vector3.zero;
             startButtons[unlockedLevel - 1].transform.localScale = Vector3.zero;
-            levelButtons[unlockedLevel - 1].transform.DOScale(1f, 0.1f).SetEase(Ease.InQuad);
+            levelButtons[unlockedLevel - 1].transform.DOScale(1f, 0.15f).SetEase(Ease.InQuad);
             selectedVFX[unlockedLevel - 1].transform.DOScale(1f, 0.2f).SetEase(Ease.InQuad);
             startButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
             {

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public float intervalTimer;
 
     public bool canStageButtonAnim;
+    // public bool isFirstTimePlaying;
     public int maxLevel;
 
     private int unlockedLevel;
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
     {
         PlayerPrefs.DeleteKey("UnlockedLevel");
         // PlayerPrefs.SetInt("UnlockedLevel", 4);
+
+        // isFirstTimePlaying = true;
     }
 
     public int LoadUnlockedLevel()

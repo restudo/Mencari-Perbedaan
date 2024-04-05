@@ -118,14 +118,14 @@ public class LevelManager : MonoBehaviour
     {
         if (GameManager.Instance.isGameActive)
         {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                EventHandler.CallChangeImageTransformEvent(ImageTransform.Flip);
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                EventHandler.CallChangeImageTransformEvent(ImageTransform.Switch);
-            }
+            // if (Input.GetKeyDown(KeyCode.T))
+            // {
+            //     EventHandler.CallChangeImageTransformEvent(ImageTransform.Flip);
+            // }
+            // if (Input.GetKeyDown(KeyCode.Y))
+            // {
+            //     EventHandler.CallChangeImageTransformEvent(ImageTransform.Switch);
+            // }
 
 
             // Update countdown time
@@ -147,24 +147,24 @@ public class LevelManager : MonoBehaviour
 
                 currentInterval -= Time.deltaTime;
 
-                // if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim && currentTime >= 5)
-                // {
-                //     GameManager.Instance.isThoucedActive = false;
+                if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim && currentTime >= 5)
+                {
+                    GameManager.Instance.isThoucedActive = false;
 
-                //     canPlayAnim = false;
+                    canPlayAnim = false;
 
-                //     // animate object
-                //     imageTransform = RandomTransform();
-                //     StartCoroutine(ObjectAlert(imageTransform));
-                //     StartCoroutine(ObjectInAndOut());
-                // }
+                    // animate object
+                    imageTransform = RandomTransform();
+                    StartCoroutine(ObjectAlert(imageTransform));
+                    StartCoroutine(ObjectInAndOut());
+                }
 
-                // if (currentInterval <= 0)
-                // {
-                //     EventHandler.CallChangeImageTransformEvent(imageTransform);
-                //     currentInterval = GameManager.Instance.intervalTimer;
-                //     canPlayAnim = true;
-                // }
+                if (currentInterval <= 0)
+                {
+                    EventHandler.CallChangeImageTransformEvent(imageTransform);
+                    currentInterval = GameManager.Instance.intervalTimer;
+                    canPlayAnim = true;
+                }
             }
         }
     }

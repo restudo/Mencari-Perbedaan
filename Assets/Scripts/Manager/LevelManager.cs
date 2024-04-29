@@ -50,6 +50,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Image objectAlertFlipLeft;
     [SerializeField] private Image objectAlertFlipRight;
 
+    [Space(50)]
+    [Header("BGM")]
+    [SerializeField] private AudioClip gameplayAudioClip;
+    [Header("SFX")]
+    [SerializeField] private AudioClip[] mikoAudioClip;
+    [SerializeField] private float mikoAudioClipVolume = 1f;
+
     private GameObject switchIcon;
     private GameObject flipIcon;
     private ImageTransform imageTransform;
@@ -69,6 +76,8 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.StopMusic();
+
         GameManager.Instance.isGameActive = false;
         GameManager.Instance.isThoucedActive = false;
 
@@ -112,6 +121,8 @@ public class LevelManager : MonoBehaviour
 
         time = TimeSpan.FromSeconds(currentTime);
         timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+
+        AudioManager.Instance.PlayMusic(gameplayAudioClip);
     }
 
     private void Update()
@@ -120,7 +131,9 @@ public class LevelManager : MonoBehaviour
         {
             // if (Input.GetKeyDown(KeyCode.T))
             // {
-            //     EventHandler.CallChangeImageTransformEvent(ImageTransform.Flip);
+            //     // EventHandler.CallChangeImageTransformEvent(ImageTransform.Flip);
+            //     int index = UnityEngine.Random.Range(0, mikoAudioClip.Length); // random miko sfx
+            //     AudioManager.Instance.PlaySFX(mikoAudioClip[index]); // play miko sfx
             // }
             // if (Input.GetKeyDown(KeyCode.Y))
             // {
@@ -221,6 +234,10 @@ public class LevelManager : MonoBehaviour
         Vector3 start = objectInAndOut.transform.position;
         Vector3 end = inAndOutEndTransform.transform.position; // in and out end
 
+        int index = UnityEngine.Random.Range(0, mikoAudioClip.Length); // random miko sfx
+        AudioManager.Instance.PlaySFX(mikoAudioClip[index]); // play miko sfx
+        // AudioManager.Instance.PlaySFX(mikoAudioClip[index], transform, mikoAudioClipVolume);
+
         objectInAndOut.gameObject.SetActive(true);
 
         objectInAndOut.DOMove(end, 0.5f).SetEase(Ease.OutBack);
@@ -318,13 +335,13 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
 
+        EventHandler.CallDestroyHintEvent();
+
         if (imgControl.images[0].transform.localScale.x < 0)
         {
             EventHandler.CallResetImageTransformEvent();
             yield return new WaitForSeconds(1);
         }
-
-        EventHandler.CallDestroyHintEvent();
 
         // Anim
         gameOverWinUI.transform.parent.GetComponent<Image>().color = new Color(0, 0, 0, 0);
@@ -351,13 +368,13 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
+        EventHandler.CallDestroyHintEvent();
+
         if (imgControl.images[0].transform.localScale.x < 0)
         {
             EventHandler.CallResetImageTransformEvent();
             yield return new WaitForSeconds(1);
         }
-
-        EventHandler.CallDestroyHintEvent();
 
         // Anim
         gameOverLoseUI.transform.parent.GetComponent<Image>().color = new Color(0, 0, 0, 0);

@@ -52,10 +52,17 @@ public static class EventHandler
             DestroyHint();
     }
     
-    public static event Action<Vector3> HintAnim;
-    public static void CallHintAnimEvent(Vector3 animScale)
+    public static event Action HintAnim;
+    public static void CallHintAnimEvent()
     {
         if (HintAnim != null)
-            HintAnim(animScale);
+            HintAnim();
+    }
+    
+    public static event Action Transparent;
+    public static void CallTransparentEvent()
+    {
+        if (Transparent != null)
+            Transparent();
     }
 }

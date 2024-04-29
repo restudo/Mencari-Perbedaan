@@ -10,9 +10,10 @@ public class Hint : MonoBehaviour
     [SerializeField] private Transform hintInitTransform;
     // [SerializeField] private float hintTime;
     [SerializeField] private float hintLimit;
-    [SerializeField] private float animScaleIncrement;
-    public Vector3 initScaleOdd { get; private set; }
-    public Vector3 initScaleEven { get; private set; }
+    [SerializeField] private float breathAnimDuration = 0.5f;
+    [SerializeField] private float animScaleIncrement = 0.03f;
+    // public Vector3 initScaleOdd { get; private set; }
+    // public Vector3 initScaleEven { get; private set; }
 
     private bool isEnable;
     private GameObject root;
@@ -20,17 +21,20 @@ public class Hint : MonoBehaviour
     private GameObject instantiatedHintSibling;
     private Image hintButtonImage;
     private SpriteRenderer instantiatedHintRend;
+    private SpriteRenderer instantiatedHintCircleRend;
 
     private void OnEnable()
     {
         EventHandler.DestroyHint += DestroyHint;
         EventHandler.HintAnim += HintAnim;
+        EventHandler.Transparent += Transparent;
     }
 
     private void OnDisable()
     {
         EventHandler.DestroyHint -= DestroyHint;
         EventHandler.HintAnim -= HintAnim;
+        EventHandler.Transparent -= Transparent;
     }
 
     private void Start()
@@ -73,8 +77,8 @@ public class Hint : MonoBehaviour
 
                 instantiatedHint = Instantiate(hintObject, hintInitTransform.transform.position, Quaternion.identity, parent);
 
-                initScaleEven = new Vector3(instantiatedHint.transform.localScale.x, instantiatedHint.transform.localScale.y, instantiatedHint.transform.localScale.z);
-                initScaleOdd = new Vector3(-instantiatedHint.transform.localScale.x, instantiatedHint.transform.localScale.y, instantiatedHint.transform.localScale.z);
+                // initScaleEven = new Vector3(instantiatedHint.transform.localScale.x, instantiatedHint.transform.localScale.y, instantiatedHint.transform.localScale.z);
+                // initScaleOdd = new Vector3(-instantiatedHint.transform.localScale.x, instantiatedHint.transform.localScale.y, instantiatedHint.transform.localScale.z);
 
                 // get the sibling sprite sortin layer
                 instantiatedHintSibling = instantiatedHint.transform.parent.GetChild(0).gameObject;
@@ -84,7 +88,9 @@ public class Hint : MonoBehaviour
                 {
                     // assign the sibling sorting layer to hint sorting layer
                     instantiatedHintRend = instantiatedHint.GetComponent<SpriteRenderer>();
+                    instantiatedHintCircleRend = instantiatedHint.transform.GetChild(0).GetComponent<SpriteRenderer>();
                     instantiatedHintRend.sortingLayerName = siblingRend.sortingLayerName;
+                    instantiatedHintCircleRend.sortingLayerName = siblingRend.sortingLayerName;
 
                     root = instantiatedHint.transform.root.gameObject;
                     foreach (Transform side in root.transform)
@@ -96,6 +102,13 @@ public class Hint : MonoBehaviour
                             instantiatedHint.transform.localScale = scalerHint;
                         }
                     }
+
+                    if (instantiatedHint.transform.parent.localScale.x < 0)
+                    {
+                        Vector3 scalerHint = instantiatedHint.transform.localScale;
+                        scalerHint.x *= -1;
+                        instantiatedHint.transform.localScale = scalerHint;
+                    }
                 }
                 else
                 {
@@ -105,37 +118,52 @@ public class Hint : MonoBehaviour
                 hintButton.interactable = false;
                 hintButtonImage.material = grayscaleMat;
 
+                Transparent();
+
                 // Animation Sequence
                 instantiatedHint.transform.DOMove(position, 0.4f).SetEase(Ease.OutExpo).OnComplete(() =>
                 {
-                    HintAnim(instantiatedHint.transform.localScale);
+                    // HintAnim(instantiatedHint.transform.localScale);
+                    HintAnim();
                 });
             }
         }
     }
 
-    private void HintAnim(Vector3 animScale)
+    private void Transparent()
     {
-        if (instantiatedHint != null)
-        {
-            if (animScale.x > 0)
-            {
-                animScale = new Vector3(animScale.x + animScaleIncrement, animScale.y + animScaleIncrement, animScale.z + animScaleIncrement);
-            }
-            else if(animScale.x < 0)
-            {
-                animScale = new Vector3(animScale.x - animScaleIncrement, animScale.y + animScaleIncrement, animScale.z + animScaleIncrement);
-            }
+        DOTween.Kill(instantiatedHintCircleRend); 
 
-            instantiatedHint.transform.DOScale(animScale, 0.5f).SetEase(Ease.OutExpo).SetLoops(-1, LoopType.Yoyo);
-        }
+        instantiatedHintCircleRend.color = new Color(instantiatedHintCircleRend.color.r, instantiatedHintCircleRend.color.g, instantiatedHintCircleRend.color.b, 0f);
     }
+
+    private void HintAnim()
+    {
+        instantiatedHintCircleRend.DOFade(1f, breathAnimDuration).SetEase(Ease.InExpo).SetLoops(-1, LoopType.Yoyo).SetDelay(0.1f);
+    }
+
+    // private void HintAnim(Vector3 animScale)
+    // {
+    //     if (instantiatedHint != null)
+    //     {
+    //         if (animScale.x > 0)
+    //         {
+    //             animScale = new Vector3(animScale.x + animScaleIncrement, animScale.y + animScaleIncrement, animScale.z + animScaleIncrement);
+    //         }
+    //         else if(animScale.x < 0)
+    //         {
+    //             animScale = new Vector3(animScale.x - animScaleIncrement, animScale.y + animScaleIncrement, animScale.z + animScaleIncrement);
+    //         }
+
+    //         instantiatedHint.transform.DOScale(animScale, 0.5f).SetEase(Ease.OutExpo).SetLoops(-1, LoopType.Yoyo);
+    //     }
+    // }
 
     private void DestroyHint()
     {
         if (instantiatedHint != null)
         {
-            DOTween.Kill(instantiatedHint.transform);
+            DOTween.Kill(instantiatedHintCircleRend);
 
             Destroy(instantiatedHint);
 

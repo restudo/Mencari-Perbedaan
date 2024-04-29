@@ -362,8 +362,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -27}
-  m_SizeDelta: {x: 596.953, y: 147.931}
+  m_AnchoredPosition: {x: 0, y: -24.3}
+  m_SizeDelta: {x: 577.053, y: 143}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &427005705
 MonoBehaviour:
@@ -772,7 +772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000032425, y: 74}
+  m_AnchoredPosition: {x: 0, y: 74}
   m_SizeDelta: {x: 819.561, y: 732.232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &508306014
@@ -795,7 +795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5da35a2264058604e94feb1350fedf70, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6de0b80394ea2641aa1bf875c92cc5b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1285,13 +1285,14 @@ MonoBehaviour:
   levelImage: {fileID: 508306014}
   titleText: {fileID: 2008587045}
   levelImageRef:
-  - {fileID: 21300000, guid: 5da35a2264058604e94feb1350fedf70, type: 3}
-  - {fileID: 21300000, guid: 34e7f78bfcc9aa145b47af2e2e7490d8, type: 3}
-  - {fileID: 21300000, guid: 1074837c520f94341a2cb8e6ed3f0d42, type: 3}
-  - {fileID: 21300000, guid: e7f0de4bc5fc8084faec2a90af7d0956, type: 3}
-  - {fileID: 21300000, guid: ed9f1e655191a51469f60b64e349d8eb, type: 3}
-  - {fileID: 21300000, guid: ca9c098528823fa46a49d03bb41e66dd, type: 3}
-  - {fileID: 21300000, guid: ee201a2c24481014e8a857137eb5d047, type: 3}
+  - {fileID: 21300000, guid: f6de0b80394ea2641aa1bf875c92cc5b, type: 3}
+  - {fileID: 21300000, guid: 68ae9fd331156cb4591161b518374dff, type: 3}
+  - {fileID: 21300000, guid: bf0f687508728ea4482406e72846e099, type: 3}
+  - {fileID: 21300000, guid: ddc6f83db93c06b4e9afecef19806cf2, type: 3}
+  - {fileID: 21300000, guid: 2aa2143f7d57ee6458948f45b5df6e62, type: 3}
+  - {fileID: 21300000, guid: 75d3a21d7a4db3448a3a7873c116f60b, type: 3}
+  - {fileID: 21300000, guid: 2ed208d578aef3d4fa958a6c3b3b11f5, type: 3}
+  bgmStageMenuAudioClip: {fileID: 8300000, guid: 8c8516111fa859d4aa307003219dd0d1, type: 3}
 --- !u!4 &860872041
 Transform:
   m_ObjectHideFlags: 0
@@ -3035,8 +3036,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3101,8 +3102,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.502, y: 71.458}
-  m_SizeDelta: {x: 673.341, y: 85.279}
+  m_AnchoredPosition: {x: -0.702, y: 62.336}
+  m_SizeDelta: {x: 647.558, y: 58.678}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &2136452395
 GameObject:

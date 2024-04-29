@@ -30,14 +30,21 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] collectionDescriptions;
 
     [Space(50)]
-    [Header("Audio")]
+    [Header("Collection Audio")]
     [SerializeField] private AudioClip[] collectionAudioClip;
+    [Header("BGM")]
+    [SerializeField] private AudioClip bgmCollectionAudioClip;
 
     private float nextButtonTargetX;
     private float previousButtonTargetX;
 
     private void Start()
     {
+        foreach (Button colButton in collectionButtons)
+        {
+            colButton.transform.localScale = Vector3.zero;
+        }
+
         GameManager.Instance.isThoucedActive = true;
 
         collectionPanel.SetActive(false);
@@ -47,6 +54,8 @@ public class CollectionMenu : MonoBehaviour
         previousButtonTargetX = previousButton.localPosition.x;
 
         LoadCollection();
+
+        AudioManager.Instance.PlayMusic(bgmCollectionAudioClip);
     }
 
     private void LoadCollection()
@@ -143,10 +152,6 @@ public class CollectionMenu : MonoBehaviour
     private IEnumerator CollectionPopAnim()
     {
         yield return new WaitForSeconds(0.1f);
-        foreach (Button colButton in collectionButtons)
-        {
-            colButton.transform.localScale = Vector3.zero;
-        }
 
         // backButton.localScale = Vector3.zero;
         // backButton.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);

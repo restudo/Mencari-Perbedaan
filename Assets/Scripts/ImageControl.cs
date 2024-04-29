@@ -106,32 +106,39 @@ public class ImageControl : MonoBehaviour
             }
         }
 
-        if (instantiatedHintLeft != null)
+        if (instantiatedHintLeft != null || instantiatedHintRight != null)
         {
-            DOTween.Kill(instantiatedHintLeft.transform); // pause the hint anim
-
-            if (instantiatedHintLeft.transform.localScale.x < 0)
-            {
-                instantiatedHintLeft.transform.localScale = hint.initScaleOdd;
-            }
-            else if (instantiatedHintLeft.transform.localScale.x > 0)
-            {
-                instantiatedHintLeft.transform.localScale = hint.initScaleEven;
-            }
+            EventHandler.CallTransparentEvent(); // makealpha of circle instantiate hint to 0
         }
-        else if (instantiatedHintRight != null)
-        {
-            DOTween.Kill(instantiatedHintRight.transform); // pause the hint anim
 
-            if (instantiatedHintRight.transform.localScale.x < 0)
-            {
-                instantiatedHintRight.transform.localScale = hint.initScaleOdd;
-            }
-            else if (instantiatedHintRight.transform.localScale.x > 0)
-            {
-                instantiatedHintRight.transform.localScale = hint.initScaleEven;
-            }
-        }
+        // if (instantiatedHintLeft != null)
+        // {
+        //     // DOTween.Kill(instantiatedHintLeft.transform.GetChild(0)); // pause the hint anim
+        //     // EventHandler.CallTransparentEvent(); // makealpha of circle instantiate hint to 0
+
+        //     // if (instantiatedHintLeft.transform.localScale.x < 0)
+        //     // {
+        //     //     instantiatedHintLeft.transform.localScale = hint.initScaleOdd;
+        //     // }
+        //     // else if (instantiatedHintLeft.transform.localScale.x > 0)
+        //     // {
+        //     //     instantiatedHintLeft.transform.localScale = hint.initScaleEven;
+        //     // }
+        // }
+        // else if (instantiatedHintRight != null)
+        // {
+        //     // DOTween.Kill(instantiatedHintRight.transform.GetChild(0)); // pause the hint anim
+        //     // EventHandler.CallTransparentEvent(); // makealpha of circle instantiate hint to 0
+
+        //     // if (instantiatedHintRight.transform.localScale.x < 0)
+        //     // {
+        //     //     instantiatedHintRight.transform.localScale = hint.initScaleOdd;
+        //     // }
+        //     // else if (instantiatedHintRight.transform.localScale.x > 0)
+        //     // {
+        //     //     instantiatedHintRight.transform.localScale = hint.initScaleEven;
+        //     // }
+        // }
 
         switch (imgTransform)
         {
@@ -223,14 +230,19 @@ public class ImageControl : MonoBehaviour
 
         GameManager.Instance.isThoucedActive = true;
 
-        if (instantiatedHintLeft != null)
+        if (instantiatedHintLeft != null || instantiatedHintRight != null)
         {
-            EventHandler.CallHintAnimEvent(instantiatedHintLeft.transform.localScale); // resume the hint anim
+            EventHandler.CallHintAnimEvent();
         }
-        else if (instantiatedHintRight != null)
-        {
-            EventHandler.CallHintAnimEvent(instantiatedHintRight.transform.localScale); // resume the hint anim
-        }
+
+        // if (instantiatedHintLeft != null)
+        // {
+        //     EventHandler.CallHintAnimEvent(instantiatedHintLeft.transform.localScale); // resume the hint anim
+        // }
+        // else if (instantiatedHintRight != null)
+        // {
+        //     EventHandler.CallHintAnimEvent(instantiatedHintRight.transform.localScale); // resume the hint anim
+        // }
     }
 
     private void ImageLeftFirst(int iteration, float durationStep)
@@ -248,6 +260,13 @@ public class ImageControl : MonoBehaviour
             scalerHint.x *= -1;
             instantiatedHintLeft.transform.DOScaleX(scalerHint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
         }
+
+        // if (instantiatedHint != null)
+        // {
+        //     Vector3 instantiatedHintScaler = instantiatedHint.transform.localScale;
+        //     instantiatedHintScaler.x *= -1;
+        //     instantiatedHint.transform.DOScaleX(instantiatedHintScaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
+        // }
 
         Vector3 scaler = images[0].transform.localScale;
         scaler.x *= -1;
@@ -269,6 +288,13 @@ public class ImageControl : MonoBehaviour
             scalerHint.x *= -1;
             instantiatedHintRight.transform.DOScaleX(scalerHint.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
         }
+
+        // if (instantiatedHint != null)
+        // {
+        //     Vector3 instantiatedHintScaler = instantiatedHint.transform.localScale;
+        //     instantiatedHintScaler.x *= -1;
+        //     instantiatedHint.transform.DOScaleX(instantiatedHintScaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
+        // }
 
         Vector3 scaler = images[1].transform.localScale;
         scaler.x *= -1;
@@ -306,14 +332,19 @@ public class ImageControl : MonoBehaviour
 
         GameManager.Instance.isThoucedActive = true;
 
-        if (instantiatedHintLeft != null)
+        if (instantiatedHintLeft != null || instantiatedHintRight != null)
         {
-            EventHandler.CallHintAnimEvent(instantiatedHintLeft.transform.localScale); // resume the hint anim
+            EventHandler.CallHintAnimEvent();
         }
-        else if (instantiatedHintRight != null)
-        {
-            EventHandler.CallHintAnimEvent(instantiatedHintRight.transform.localScale); // resume the hint anim
-        }
+
+        // if (instantiatedHintLeft != null)
+        // {
+        //     EventHandler.CallHintAnimEvent(instantiatedHintLeft.transform.localScale); // resume the hint anim
+        // }
+        // else if (instantiatedHintRight != null)
+        // {
+        //     EventHandler.CallHintAnimEvent(instantiatedHintRight.transform.localScale); // resume the hint anim
+        // }
     }
 
     private void SwapImagesObject()
@@ -413,6 +444,7 @@ public class ImageControl : MonoBehaviour
     //     }
     // }
 
+    // TODO: Fix
     private void ResetImageTransform()
     {
         foreach (GameObject image in images)
@@ -433,7 +465,15 @@ public class ImageControl : MonoBehaviour
         {
             // point.transform.rotation = Quaternion.identity;
             // point.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
-            if (point.transform.localScale.x < 0)
+            if (point.transform.localScale.x < 0 && point.transform.parent.localScale.x > 0)
+            {
+                Vector3 scaler = point.transform.localScale;
+                scaler.x *= -1;
+                // point.transform.localScale = scaler;
+                point.transform.DOScaleX(scaler.x, 0.3f);
+            }
+            
+            if (point.transform.localScale.x > 0 && point.transform.parent.localScale.x < 0)
             {
                 Vector3 scaler = point.transform.localScale;
                 scaler.x *= -1;
@@ -446,7 +486,15 @@ public class ImageControl : MonoBehaviour
         {
             // point.transform.rotation = Quaternion.identity;
             // point.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
-            if (point.transform.localScale.x < 0)
+            if (point.transform.localScale.x < 0 && point.transform.parent.localScale.x > 0)
+            {
+                Vector3 scaler = point.transform.localScale;
+                scaler.x *= -1;
+                // point.transform.localScale = scaler;
+                point.transform.DOScaleX(scaler.x, 0.3f);
+            }
+            
+            if (point.transform.localScale.x > 0 && point.transform.parent.localScale.x < 0)
             {
                 Vector3 scaler = point.transform.localScale;
                 scaler.x *= -1;

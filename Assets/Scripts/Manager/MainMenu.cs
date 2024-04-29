@@ -6,8 +6,17 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject[] menuButtons;
 
+    [Space(50)]
+    [Header("BGM")]
+    [SerializeField] private AudioClip bgmMenuAudioClip;
+    // [Header("SFX")]
+    // [SerializeField] private AudioClip[] mikoAudioClip;
+
     private void Start()
     {
+        // AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlayMusic(bgmMenuAudioClip);
+
         StartCoroutine(PopAnim());
     }
 
@@ -19,8 +28,8 @@ public class MainMenu : MonoBehaviour
         }
         foreach (GameObject menuButton in menuButtons)
         {
-            menuButton.transform.DOScale(1f, .3f).SetEase(Ease.OutBounce);
             yield return new WaitForSeconds(.05f);
+            menuButton.transform.DOScale(1f, .3f).SetEase(Ease.OutBounce);
         }
     }
 

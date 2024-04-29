@@ -1204,6 +1204,7 @@ MonoBehaviour:
   menuButtons:
   - {fileID: 1783061763}
   - {fileID: 1447536205}
+  bgmMenuAudioClip: {fileID: 8300000, guid: 8c8516111fa859d4aa307003219dd0d1, type: 3}
 --- !u!4 &1495884677
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,6 +1275,10 @@ PrefabInstance:
     - target: {fileID: 8145047423068427663, guid: 4ffd400b15a807f498f92cddc1b1e2f1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554406105631046348, guid: 4ffd400b15a807f498f92cddc1b1e2f1, type: 3}
+      propertyPath: m_Volume
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

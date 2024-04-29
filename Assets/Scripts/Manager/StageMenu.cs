@@ -1,11 +1,13 @@
 using System.Collections;
 using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StageMenu : MonoBehaviour
 {
+    [SerializeField] private float waitBetweenStartAnim = 0.05f;
     [SerializeField] private GameObject backButton;
 
     [SerializeField] private GameObject[] selectedVFX;
@@ -20,6 +22,10 @@ public class StageMenu : MonoBehaviour
     [SerializeField] private Image levelImage;
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private Sprite[] levelImageRef;
+
+    [Space(50)]
+    [Header("BGM")]
+    [SerializeField] private AudioClip bgmStageMenuAudioClip;
 
     int unlockedLevel;
     private int level;
@@ -67,26 +73,38 @@ public class StageMenu : MonoBehaviour
         levelButtonInitScale = levelButtons[0].transform.localScale;
         confirmationPanelScale = confirmationPanel.transform.localScale;
 
-        // REVIEW : select button selected when open stage menu
-        SelectLevel(unlockedLevel - 1); // set the level button by unlocked level parameter
-
-        StartCoroutine(ButtonPopAnim());
-    }
-
-    private IEnumerator ButtonPopAnim()
-    {
         foreach (Button button in levelButtons)
         {
             button.transform.localScale = Vector3.zero;
         }
+        StartCoroutine(ButtonPopAnim());
 
-        backButton.transform.localScale = Vector3.zero;
-        backButton.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+        AudioManager.Instance.PlayMusic(bgmStageMenuAudioClip);
+    }
 
-        foreach (Button button in levelButtons)
+    private IEnumerator ButtonPopAnim()
+    {
+        // backButton.transform.localScale = Vector3.zero;
+        // backButton.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
+
+        for (int i = 0; i < levelButtons.Length; i++)
         {
-            button.transform.DOScale(levelButtonInitScale, 0.3f).SetEase(Ease.OutBounce);
-            yield return new WaitForSeconds(0.05f);
+            levelButtons[i].transform.DOScale(levelButtonInitScale, 0.3f).SetEase(Ease.OutBounce);
+            yield return new WaitForSeconds(waitBetweenStartAnim);
+
+            // REVIEW : select button selected when open stage menu
+            if (unlockedLevel - 1 == i)
+            {
+                if (unlockedLevel <= GameManager.Instance.maxLevel)
+                {
+                    SelectLevel(unlockedLevel - 1); // set the level button by unlocked level parameter
+                }
+                else
+                {
+                    SelectLevel(GameManager.Instance.maxLevel - 1); // set the level button by unlocked level parameter
+                }
+            }
+
         }
 
         if (GameManager.Instance.canStageButtonAnim && lockedBackground[unlockedLevel - 1] != null)

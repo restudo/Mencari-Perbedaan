@@ -60,11 +60,11 @@ TagManager:
   - name: Check
     uniqueID: 1710628225
     locked: 0
-  - name: Left Side
-    uniqueID: 52748585
-    locked: 0
   - name: Right Side
     uniqueID: 943221139
+    locked: 0
+  - name: Left Side
+    uniqueID: 52748585
     locked: 0
   - name: Icon
     uniqueID: 2854891569

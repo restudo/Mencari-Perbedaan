@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -18,11 +19,19 @@ public class AutoSizeText : MonoBehaviour
 
         maxWidth = rectTransform.rect.width;
 
-        Invoke("UpdateTextSize", 0.5f);
+        // Invoke("UpdateTextSize", 0.5f);
+        UpdateTextSize();
     }
+
+    // private void Start()
+    // {
+    //     UpdateTextSize();
+    // }
 
     void UpdateTextSize()
     {
+        // yield return new WaitForEndOfFrame();
+
         // Get the number of characters in the text
         int charCount = text.text.Length;
 

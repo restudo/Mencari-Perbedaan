@@ -102,6 +102,7 @@ public class LevelManager : MonoBehaviour
             progressCount++;
         }
 
+        gameOverWinUI.transform.GetChild(gameOverWinUI.transform.childCount - 1).gameObject.SetActive(false); // the confetti
         gameOverWinUI.transform.parent.gameObject.SetActive(false);
         gameOverLoseUI.transform.parent.gameObject.SetActive(false);
         pauseUI.SetActive(false);
@@ -343,6 +344,8 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
+        // gameOverWinUI.transform.GetChild(gameOverWinUI.transform.childCount - 1).gameObject.SetActive(false); // the confetti
+
         // Anim
         gameOverWinUI.transform.parent.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         gameOverWinUI.transform.parent.localScale = Vector3.zero;
@@ -360,6 +363,9 @@ public class LevelManager : MonoBehaviour
 
         // Unlock level selection
         GameManager.Instance.UnlockLevelSelection();
+
+        yield return new WaitForSeconds(1.1f);
+        gameOverWinUI.transform.GetChild(gameOverWinUI.transform.childCount - 1).gameObject.SetActive(true); // the confetti
 
         Debug.Log("Game Over - Win");
     }
@@ -423,21 +429,25 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Resumed!!");
     }
 
-    public void LoadNextLevel()
-    {
-        Time.timeScale = 1;
-        SceneController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        GameManager.Instance.isGameActive = true;
-    }
+    // public void LoadNextLevel()
+    // {
+    //     Time.timeScale = 1;
+    //     SceneController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    //     GameManager.Instance.isGameActive = true;
+    // }
 
     public void LoadMainMenu()
     {
+        DOTween.KillAll();
+
         Time.timeScale = 1;
         SceneController.instance.LoadScene(Scenes.MainMenu.ToString());
     }
 
     public void LoadStageMenu()
     {
+        DOTween.KillAll();
+
         Time.timeScale = 1;
         SceneController.instance.LoadScene(Scenes.StageMenu.ToString());
     }

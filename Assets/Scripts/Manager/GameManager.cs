@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         PlayerPrefs.DeleteKey("UnlockedLevel");
-        // PlayerPrefs.SetInt("UnlockedLevel", 8);
+        // PlayerPrefs.SetInt("UnlockedLevel", 7);
         // isFirstTimePlaying = true;
     }
 

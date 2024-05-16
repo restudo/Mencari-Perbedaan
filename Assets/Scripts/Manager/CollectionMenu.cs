@@ -205,6 +205,7 @@ public class CollectionMenu : MonoBehaviour
     {
         if (!GameManager.Instance.isThoucedActive)
         {
+            Debug.Log("touch is not active");
             return;
         }
 

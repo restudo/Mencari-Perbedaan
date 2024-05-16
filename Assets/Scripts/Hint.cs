@@ -11,7 +11,7 @@ public class Hint : MonoBehaviour
     // [SerializeField] private float hintTime;
     [SerializeField] private float hintLimit;
     [SerializeField] private float breathAnimDuration = 0.5f;
-    [SerializeField] private float animScaleIncrement = 0.03f;
+    // [SerializeField] private float animScaleIncrement = 0.03f;
     // public Vector3 initScaleOdd { get; private set; }
     // public Vector3 initScaleEven { get; private set; }
 

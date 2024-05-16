@@ -9,6 +9,13 @@ public static class EventHandler
         if (DifferenceClicked != null)
             DifferenceClicked();
     }
+    
+    public static event Action<string> DifferenceClickedFeedback;
+    public static void CallDifferenceClickedFeedbackEvent(string side)
+    {
+        if (DifferenceClickedFeedback != null)
+            DifferenceClickedFeedback(side);
+    }
 
     public static event Action DecreaseHealth;
     public static void CallDecreaseHealthEvent()

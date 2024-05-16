@@ -65,6 +65,7 @@ public class Point : MonoBehaviour
                 pair.isClicked = true;
 
                 EventHandler.CallDifferenceClickedEvent();
+                EventHandler.CallDifferenceClickedFeedbackEvent(transform.GetChild(0).GetComponent<SpriteRenderer>().sortingLayerName); // send the layer name to execute the feedback method
 
                 Vector3 targetScale = new Vector3(spRend.transform.localScale.x + scaleIncrement, spRend.transform.localScale.y + scaleIncrement, spRend.transform.localScale.z + scaleIncrement);
                 spRend.transform.DOScale(targetScale, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo);

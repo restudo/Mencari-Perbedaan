@@ -10,6 +10,12 @@ public class StartCountdown : MonoBehaviour
     [SerializeField] private Sprite[] countdownSprite;
     [SerializeField] private Sprite goSprite;
 
+    [Space(20)]
+    [Header("Sfx")]
+    [SerializeField] private AudioClip countdownSfx;
+    [SerializeField] private AudioClip goSfx;
+    [SerializeField] private AudioClip searchSfx;
+
     private Vector3 originScale;
 
     void Start()
@@ -31,6 +37,8 @@ public class StartCountdown : MonoBehaviour
             countdownDisplay.sprite = countdownSprite[i];
             countdownDisplay.transform.parent.DOScale(originScale, 0.2f).SetEase(Ease.OutExpo);
 
+            AudioManager.Instance.PlaySFX(countdownSfx, 0.65f);
+
             yield return new WaitForSeconds(1);
         }
 
@@ -40,6 +48,9 @@ public class StartCountdown : MonoBehaviour
         goDisplay.transform.parent.localScale = Vector3.zero;
         goDisplay.sprite = goSprite;
         goDisplay.transform.parent.DOScale(originScale, 0.2f).SetEase(Ease.OutExpo);
+
+        AudioManager.Instance.PlaySFX(goSfx, 0.4f);
+        AudioManager.Instance.PlaySFX(searchSfx);
 
         EventHandler.CallImagesEntryEvent();
 

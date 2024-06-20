@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 298774848768123802, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 298774848768123802, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.042
+      objectReference: {fileID: 0}
     - target: {fileID: 6107773952323961147, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
       propertyPath: m_Name
       value: Plane Facing Right

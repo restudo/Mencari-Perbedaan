@@ -60,13 +60,16 @@ MonoBehaviour:
   objectAlertSwitch: {fileID: 0}
   objectAlertFlipLeft: {fileID: 0}
   objectAlertFlipRight: {fileID: 0}
-  gameplayAudioClip: {fileID: 8300000, guid: 8c8516111fa859d4aa307003219dd0d1, type: 3}
+  gameplayAudioClip: {fileID: 8300000, guid: 31d09f3b65afbfe49a58699ad8c4957d, type: 3}
   mikoAudioClip:
   - {fileID: 8300000, guid: 2131c30a0daeb2044a78611c55878816, type: 3}
   - {fileID: 8300000, guid: 477092db5f4bdaf48ab278451950e065, type: 3}
   - {fileID: 8300000, guid: 1c61a24556306f2469894e2fe4b5a2e8, type: 3}
   - {fileID: 8300000, guid: 958ef33d0eba58f4b9566edfbe3405bf, type: 3}
   - {fileID: 8300000, guid: be4a8be5b4fc89445a2cd1201e856c5e, type: 3}
+  correctSfx: {fileID: 8300000, guid: f4c54ce52de7cea41b1428c455ae42ff, type: 3}
+  winSfx: {fileID: 8300000, guid: 795b767add9802948a126e2f79ff4700, type: 3}
+  loseSfx: {fileID: 8300000, guid: 113276372395aeb42b28492abb93cd58, type: 3}
 --- !u!114 &3610609758558341840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +88,6 @@ MonoBehaviour:
   hintInitTransform: {fileID: 3041126656900001508}
   hintLimit: 1
   breathAnimDuration: 0.5
-  animScaleIncrement: 0.03
 --- !u!114 &8902911067408023710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +107,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 642bbcd9e5cbad2498326c3f99d79e4d, type: 3}
   - {fileID: 21300000, guid: e641d7578291b96499f0c35ab03678b8, type: 3}
   goSprite: {fileID: 21300000, guid: 904debd93f87be647ac129974762b3f7, type: 3}
+  countdownSfx: {fileID: 8300000, guid: 7572568533fe5524f8488418d152b2c0, type: 3}
+  goSfx: {fileID: 8300000, guid: 2371e6395471c3744a09177dabf85216, type: 3}
+  searchSfx: {fileID: 8300000, guid: 1a03657b40c1c464b95b372923f28baa, type: 3}
 --- !u!1 &9096527199232358587
 GameObject:
   m_ObjectHideFlags: 0

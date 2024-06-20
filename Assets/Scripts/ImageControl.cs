@@ -5,8 +5,11 @@ using System.Collections.Generic;
 
 public class ImageControl : MonoBehaviour
 {
-    [SerializeField] private Hint hint;
+    [Header("Sfx")]
+    [SerializeField] private AudioClip shuffleSfx;
 
+    [Space(20)]
+    [Header("Params")]
     [SerializeField] private float initialShuffleDuration = 0.2f;
     [SerializeField] private float finalShuffleDuration = 0.5f;
     [SerializeField] private int minShuffle = 4;
@@ -271,6 +274,8 @@ public class ImageControl : MonoBehaviour
         Vector3 scaler = images[0].transform.localScale;
         scaler.x *= -1;
         images[0].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
+
+        AudioManager.Instance.PlaySFX(shuffleSfx);
     }
 
     private void ImageRightFirst(int iteration, float durationStep)
@@ -299,6 +304,8 @@ public class ImageControl : MonoBehaviour
         Vector3 scaler = images[1].transform.localScale;
         scaler.x *= -1;
         images[1].transform.DOScaleX(scaler.x, initialShuffleDuration - (iteration * durationStep)).SetEase(Ease.OutCirc);
+
+        AudioManager.Instance.PlaySFX(shuffleSfx);
     }
 
     /// <summary>
@@ -326,6 +333,8 @@ public class ImageControl : MonoBehaviour
             // }
 
             SwapImagesObject();
+
+            AudioManager.Instance.PlaySFX(shuffleSfx);
 
             yield return new WaitForSeconds(initialShuffleDuration - (i * durationStep));
         }

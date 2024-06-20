@@ -3495,6 +3495,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3f4c082888e48c14ba43d0a49ba33640, type: 3}
   - {fileID: 8300000, guid: 2c5138560b7a9c343979f9242be96aa0, type: 3}
   bgmCollectionAudioClip: {fileID: 8300000, guid: 8c8516111fa859d4aa307003219dd0d1, type: 3}
+  lockedSfx: {fileID: 8300000, guid: 0061836f29e253a4fbf65f3a53b4dea1, type: 3}
 --- !u!4 &1442891110
 Transform:
   m_ObjectHideFlags: 0

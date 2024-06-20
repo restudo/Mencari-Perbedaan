@@ -55,7 +55,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private AudioClip gameplayAudioClip;
     [Header("SFX")]
     [SerializeField] private AudioClip[] mikoAudioClip;
-    [SerializeField] private float mikoAudioClipVolume = 1f;
+    [SerializeField] private AudioClip correctSfx;
+    [SerializeField] private AudioClip winSfx;
+    [SerializeField] private AudioClip loseSfx;
+    // [SerializeField] private float mikoAudioClipVolume = 1f;
 
     private GameObject switchIcon;
     private GameObject flipIcon;
@@ -302,22 +305,33 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void UpdateProgressUI()
+    private void UpdateProgressUI(float animDuration)
+    {
+        StartCoroutine(UpdateProgressUICouroutine(animDuration));
+    }
+
+    private IEnumerator UpdateProgressUICouroutine(float animDuration)
     {
         for (int i = 0; i < progresses.Length; i++)
         {
             if (i < progressCount)
             {
                 GameManager.Instance.isThoucedActive = false;
+
+                yield return new WaitForSeconds(animDuration / 2);
+
+                GameManager.Instance.isThoucedActive = true;
+
+                yield return new WaitForSeconds(animDuration / 2);
+
                 progressCount--;
                 // progresses[progressCount].sprite = fullProgress;
                 progresses[progressCount].transform.GetChild(0).gameObject.SetActive(true);
 
                 Vector3 punch = new Vector3(.7f, .7f, .7f);
-                progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.3f).OnComplete(() =>
-                {
-                    GameManager.Instance.isThoucedActive = true;
-                });
+                progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, 0.3f, 0, 0.3f);
+
+                AudioManager.Instance.PlaySFX(correctSfx);
 
                 break;
             }
@@ -366,6 +380,7 @@ public class LevelManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.1f);
         gameOverWinUI.transform.GetChild(gameOverWinUI.transform.childCount - 1).gameObject.SetActive(true); // the confetti
+        AudioManager.Instance.PlaySFX(winSfx);
 
         Debug.Log("Game Over - Win");
     }
@@ -388,6 +403,9 @@ public class LevelManager : MonoBehaviour
         gameOverLoseUI.transform.parent.gameObject.SetActive(true);
         gameOverLoseUI.transform.parent.DOScale(1, 0.4f).SetEase(Ease.OutBounce).SetDelay(0.6f);
         gameOverLoseUI.transform.parent.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 150), 1.5f).SetDelay(1f);
+
+        yield return new WaitForSeconds(0.65f);
+        AudioManager.Instance.PlaySFX(loseSfx, 0.7f);
 
         Debug.Log("Game Over - Lose");
     }

@@ -48,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 8554406105631046348}
   sfxSource: {fileID: 4954364819698073938}
-  sfxSourceObject: {fileID: 0}
 --- !u!1 &3610430660495790080
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +92,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.53
   m_Pitch: 1
   Loop: 1
   Mute: 0

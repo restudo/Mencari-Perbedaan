@@ -34,6 +34,8 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private AudioClip[] collectionAudioClip;
     [Header("BGM")]
     [SerializeField] private AudioClip bgmCollectionAudioClip;
+    [Header("SFX")]
+    [SerializeField] private AudioClip lockedSfx;
 
     private float nextButtonTargetX;
     private float previousButtonTargetX;
@@ -209,9 +211,11 @@ public class CollectionMenu : MonoBehaviour
             return;
         }
 
+        // if the collectionbutton is locked
         if (collectionButtons[index].transform.GetChild(0).gameObject.activeSelf)
         {
             GameManager.Instance.isThoucedActive = false;
+            AudioManager.Instance.PlaySFX(lockedSfx);
             Vector3 targetScale = new Vector3(collectionButtons[index].transform.localScale.x + 0.05f, collectionButtons[index].transform.localScale.y + 0.05f, collectionButtons[index].transform.localScale.z + 0.05f);
             collectionButtons[index].transform.DOScale(targetScale, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
             {
@@ -260,7 +264,14 @@ public class CollectionMenu : MonoBehaviour
 
             DOTween.Kill(currentObj.transform);
 
-            Sound();
+            if (simpleScrollSnap.CenteredPanel < (GameManager.Instance.LoadUnlockedLevel() - 1))
+            {
+                Sound();
+            }
+            else
+            {
+                AudioManager.Instance.PlaySFX(lockedSfx);
+            }
 
             Vector3 targetScaleAnim = new Vector3(currentObj.transform.localScale.x - 0.05f, currentObj.transform.localScale.y - 0.05f, currentObj.transform.localScale.z - 0.05f);
             currentObj.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
@@ -304,7 +315,6 @@ public class CollectionMenu : MonoBehaviour
                 default:
                     break;
             }
-
         }
     }
 

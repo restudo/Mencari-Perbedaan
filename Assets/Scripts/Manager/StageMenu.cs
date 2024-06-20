@@ -1,7 +1,6 @@
 using System.Collections;
 using DG.Tweening;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,7 @@ public class StageMenu : MonoBehaviour
     [SerializeField] private GameObject[] selectedVFX;
     [SerializeField] private GameObject[] startButtons;
     [SerializeField] private Button[] levelButtons;
+    [SerializeField] private Animator[] animatorButtons;
     [SerializeField] private Image[] lockedBackground;
     [SerializeField] private GameObject[] lockedIcon;
 
@@ -26,6 +26,9 @@ public class StageMenu : MonoBehaviour
     [Space(50)]
     [Header("BGM")]
     [SerializeField] private AudioClip bgmStageMenuAudioClip;
+    [Header("SFX")]
+    [SerializeField] private AudioClip[] locationSfx;
+    [SerializeField] private AudioClip lockedSfx;
 
     int unlockedLevel;
     private int level;
@@ -61,6 +64,8 @@ public class StageMenu : MonoBehaviour
                 lockedBackground[i].gameObject.SetActive(false); // set locked background to false
                 lockedIcon[i].SetActive(false); // set locked icon to false
             }
+
+            animatorButtons[i].enabled = false;
         }
 
         if (GameManager.Instance.canStageButtonAnim && lockedBackground[unlockedLevel - 1] != null)
@@ -73,10 +78,6 @@ public class StageMenu : MonoBehaviour
         levelButtonInitScale = levelButtons[0].transform.localScale;
         confirmationPanelScale = confirmationPanel.transform.localScale;
 
-        foreach (Button button in levelButtons)
-        {
-            button.transform.localScale = Vector3.zero;
-        }
         StartCoroutine(ButtonPopAnim());
 
         AudioManager.Instance.PlayMusic(bgmStageMenuAudioClip);
@@ -87,29 +88,36 @@ public class StageMenu : MonoBehaviour
         // backButton.transform.localScale = Vector3.zero;
         // backButton.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
 
+        foreach (Button button in levelButtons)
+        {
+            button.transform.localScale = Vector3.zero;
+        }
+
         for (int i = 0; i < levelButtons.Length; i++)
         {
             levelButtons[i].transform.DOScale(levelButtonInitScale, 0.3f).SetEase(Ease.OutBounce);
-            yield return new WaitForSeconds(waitBetweenStartAnim);
 
-            // REVIEW : select button selected when open stage menu
-            if (unlockedLevel - 1 == i)
+            if (i == unlockedLevel - 1)
             {
+                // REVIEW : select button selected when open stage menu
                 if (unlockedLevel <= GameManager.Instance.maxLevel)
                 {
                     SelectLevel(unlockedLevel - 1); // set the level button by unlocked level parameter
                 }
-                else
+                else if (unlockedLevel > GameManager.Instance.maxLevel)
                 {
                     SelectLevel(GameManager.Instance.maxLevel - 1); // set the level button by unlocked level parameter
                 }
             }
 
+            yield return new WaitForSeconds(waitBetweenStartAnim);
         }
 
         if (GameManager.Instance.canStageButtonAnim && lockedBackground[unlockedLevel - 1] != null)
         {
-            UnlockButtonAnim();
+            // UnlockButtonAnim();
+
+            animatorButtons[unlockedLevel - 1].enabled = true;
 
             GameManager.Instance.canStageButtonAnim = false;
         }
@@ -117,23 +125,35 @@ public class StageMenu : MonoBehaviour
 
     private void UnlockButtonAnim()
     {
-        lockedBackground[unlockedLevel - 1].DOFade(0, 1.3f).SetEase(Ease.InExpo);
-        lockedIcon[unlockedLevel - 1].transform.DOScale(0, 1f).SetEase(Ease.InElastic).OnComplete(() =>
+        // lockedBackground[unlockedLevel - 1].DOFade(0, 1.3f).SetEase(Ease.InExpo);
+        // lockedIcon[unlockedLevel - 1].transform.DOScale(0, 1f).SetEase(Ease.InElastic).OnComplete(() =>
+        // {
+        //     lockedIcon[unlockedLevel - 1].SetActive(false);
+        //     selectedVFX[unlockedLevel - 1].SetActive(true);
+        //     startButtons[unlockedLevel - 1].SetActive(true);
+
+        //     selectedVFX[unlockedLevel - 1].transform.localScale = Vector3.zero;
+        //     startButtons[unlockedLevel - 1].transform.localScale = Vector3.zero;
+        //     levelButtons[unlockedLevel - 1].transform.DOScale(1f, 0.15f).SetEase(Ease.InQuad);
+        //     selectedVFX[unlockedLevel - 1].transform.DOScale(1f, 0.2f).SetEase(Ease.InQuad);
+        //     startButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
+        //     {
+        //         startButtons[unlockedLevel - 1].transform.DOScale(1f, 0.7f).SetEase(Ease.OutQuad).SetLoops(-1, LoopType.Yoyo);
+
+        //         GameManager.Instance.isThoucedActive = true;
+        //     });
+        // });
+    }
+
+    public void Animate()
+    {
+        animatorButtons[unlockedLevel - 1].enabled = false;
+
+        startButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.4f).SetEase(Ease.InQuad).SetDelay(0.2f).OnComplete(() =>
         {
-            lockedIcon[unlockedLevel - 1].SetActive(false);
-            selectedVFX[unlockedLevel - 1].SetActive(true);
-            startButtons[unlockedLevel - 1].SetActive(true);
+            startButtons[unlockedLevel - 1].transform.DOScale(1f, 0.7f).SetEase(Ease.OutQuad).SetLoops(-1, LoopType.Yoyo);
 
-            selectedVFX[unlockedLevel - 1].transform.localScale = Vector3.zero;
-            startButtons[unlockedLevel - 1].transform.localScale = Vector3.zero;
-            levelButtons[unlockedLevel - 1].transform.DOScale(1f, 0.15f).SetEase(Ease.InQuad);
-            selectedVFX[unlockedLevel - 1].transform.DOScale(1f, 0.2f).SetEase(Ease.InQuad);
-            startButtons[unlockedLevel - 1].transform.DOScale(1.1f, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
-            {
-                startButtons[unlockedLevel - 1].transform.DOScale(1f, 0.7f).SetEase(Ease.OutQuad).SetLoops(-1, LoopType.Yoyo);
-
-                GameManager.Instance.isThoucedActive = true;
-            });
+            GameManager.Instance.isThoucedActive = true;
         });
 
         level = unlockedLevel;
@@ -147,22 +167,24 @@ public class StageMenu : MonoBehaviour
             return;
         }
 
-        DOTween.KillAll();
+        // DOTween.KillAll();
 
         Vector3 targetScaleAnim = new Vector3(levelButtonInitScale.x + 0.1f, levelButtonInitScale.y + 0.1f, levelButtonInitScale.z + 0.1f);
 
+        // if levelbutton still locked
         if (lockedIcon[selectedLevel].activeSelf)
         {
             GameManager.Instance.isThoucedActive = false;
+            AudioManager.Instance.PlaySFX(lockedSfx);
             levelButtons[selectedLevel].transform.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
-            {
-                GameManager.Instance.isThoucedActive = true;
-                return;
-            });
-
+                {
+                    GameManager.Instance.isThoucedActive = true;
+                    return;
+                });
         }
         else
         {
+
             previousLevel = level; //for determine condition if level != previous level 
             level = selectedLevel + 1;
 
@@ -171,13 +193,18 @@ public class StageMenu : MonoBehaviour
                 return;
             }
 
+            GameManager.Instance.isThoucedActive = false;
+            
             startButtons[previousLevel - 1].SetActive(false);
             selectedVFX[previousLevel - 1].SetActive(false);
             levelButtons[previousLevel - 1].transform.DOScale(levelButtonInitScale, 0.1f).SetEase(Ease.OutQuad);
 
             startButtons[level - 1].SetActive(true);
             selectedVFX[level - 1].SetActive(true);
-            levelButtons[level - 1].transform.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuad);
+            levelButtons[level - 1].transform.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuad).OnComplete(() =>
+            {
+                GameManager.Instance.isThoucedActive = true;
+            });
         }
     }
 
@@ -228,6 +255,8 @@ public class StageMenu : MonoBehaviour
                 break;
         }
 
+        AudioManager.Instance.PlaySFX(locationSfx[level - 1]);
+
         confirmationPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         confirmationPanel.transform.localScale = Vector3.zero;
         confirmationPanel.SetActive(true);
@@ -238,6 +267,8 @@ public class StageMenu : MonoBehaviour
 
     public void CloseConfirmationPanel()
     {
+        AudioManager.Instance.StopSFX();
+
         confirmationPanel.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 0), 0.1f).OnComplete(() =>
         {
             confirmationPanel.transform.DOScale(0, 0.2f).SetEase(Ease.OutExpo).OnComplete(() =>
@@ -253,6 +284,8 @@ public class StageMenu : MonoBehaviour
 
     public void LoadToLevel()
     {
+        AudioManager.Instance.StopSFX();
+
         DOTween.KillAll();
 
         SceneController.instance.LoadScene(((Scenes)level - 1).ToString());

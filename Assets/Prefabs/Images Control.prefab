@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a21bd26f2ff3adf4fa01bf5baaf42cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hint: {fileID: 0}
+  shuffleSfx: {fileID: 8300000, guid: aec69f5ef269c6540894910b0120b6ad, type: 3}
   initialShuffleDuration: 0.2
   finalShuffleDuration: 0.5
   minShuffle: 4
@@ -236,8 +236,18 @@ MonoBehaviour:
   imagesEntryTransform:
   - {fileID: 3348915587974397570}
   - {fileID: 6641114199321917660}
-  checkpointsLeft: []
-  checkpointsRight: []
+  checkpointsLeft:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  checkpointsRight:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   objPools: []
 --- !u!114 &9148286688750388295
 MonoBehaviour:

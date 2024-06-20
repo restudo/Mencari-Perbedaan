@@ -68,7 +68,9 @@ public class Hint : MonoBehaviour
         }
 
         GameObject hintTransform = pointSpots[randomIndex];
-        foreach (Transform child in hintTransform.transform)
+        Transform parentCheckpoint = hintTransform.transform.GetChild(hintTransform.transform.childCount - 1);
+
+        foreach (Transform child in parentCheckpoint)
         {
             if (child.tag == "Checkpoint")
             {
@@ -132,7 +134,7 @@ public class Hint : MonoBehaviour
 
     private void Transparent()
     {
-        DOTween.Kill(instantiatedHintCircleRend); 
+        DOTween.Kill(instantiatedHintCircleRend);
 
         instantiatedHintCircleRend.color = new Color(instantiatedHintCircleRend.color.r, instantiatedHintCircleRend.color.g, instantiatedHintCircleRend.color.b, 0f);
     }

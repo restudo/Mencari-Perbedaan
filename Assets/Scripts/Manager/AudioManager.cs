@@ -41,9 +41,18 @@ public class AudioManager : MonoBehaviour
     //     Destroy(audioSource.gameObject, clipLength);
     // }
 
+    public void PlaySFX(AudioClip clip, float volume)
+    {
+        // StopSFX();
+
+        sfxSource.volume = volume;
+        sfxSource.PlayOneShot(clip);
+    }
+
     public void PlaySFX(AudioClip clip)
     {
         // StopSFX();
+        sfxSource.volume = 1f;
         sfxSource.PlayOneShot(clip);
     }
 

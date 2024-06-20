@@ -3,11 +3,11 @@ using System;
 
 public static class EventHandler
 {
-    public static event Action DifferenceClicked;
-    public static void CallDifferenceClickedEvent()
+    public static event Action<float> DifferenceClicked;
+    public static void CallDifferenceClickedEvent(float animDuration)
     {
         if (DifferenceClicked != null)
-            DifferenceClicked();
+            DifferenceClicked(animDuration);
     }
     
     public static event Action<string> DifferenceClickedFeedback;
@@ -71,5 +71,12 @@ public static class EventHandler
     {
         if (Transparent != null)
             Transparent();
+    }
+    
+    public static event Action<Vector3> SetToPointPosition;
+    public static void CallSetToPointPositionEvent(Vector3 pointPos)
+    {
+        if (SetToPointPosition != null)
+            SetToPointPosition(pointPos);
     }
 }

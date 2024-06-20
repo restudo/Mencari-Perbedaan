@@ -11,6 +11,7 @@ TagManager:
   - HintObject
   - Left Side
   - Right Side
+  - Spark Spawner
   layers:
   - Default
   - TransparentFX

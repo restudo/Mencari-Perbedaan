@@ -9,9 +9,11 @@ public class Point : MonoBehaviour
     [SerializeField] private SpriteRenderer spRend;
     [SerializeField] private GameObject checkRend;
     [SerializeField] private GameObject circCheckRend;
+    [SerializeField] private Animator checkAnim;
 
     [SerializeField] private int loopTime = 2;
     [Tooltip("Boink Feedback")][SerializeField] private float scaleIncrement = 0.07f;
+    private float animDuration = 0.3f;
 
     [Space(20)]
     [Header("Random Image")]
@@ -20,8 +22,12 @@ public class Point : MonoBehaviour
     private Collider2D pairCol;
     public bool isClicked { get; private set; }
 
+    private SparkSpawner sparkSpawner;
+
     private void Start()
     {
+        sparkSpawner = GameObject.FindGameObjectWithTag("Spark Spawner").GetComponent<SparkSpawner>();
+
         col = GetComponent<Collider2D>();
         pairCol = pair.GetComponent<Collider2D>();
 
@@ -40,6 +46,9 @@ public class Point : MonoBehaviour
         }
 
         isClicked = false;
+
+        checkAnim.enabled = false;
+        pair.checkAnim.enabled = false;
 
         checkRend.SetActive(false);
         pair.checkRend.SetActive(false);
@@ -64,17 +73,24 @@ public class Point : MonoBehaviour
                 isClicked = true;
                 pair.isClicked = true;
 
-                EventHandler.CallDifferenceClickedEvent();
+                EventHandler.CallSetToPointPositionEvent(spRend.transform.position);
+                sparkSpawner.sparkVfxPool.Get();
+
+                EventHandler.CallDifferenceClickedEvent(animDuration * (loopTime * 2));
+
                 EventHandler.CallDifferenceClickedFeedbackEvent(transform.GetChild(0).GetComponent<SpriteRenderer>().sortingLayerName); // send the layer name to execute the feedback method
 
                 Vector3 targetScale = new Vector3(spRend.transform.localScale.x + scaleIncrement, spRend.transform.localScale.y + scaleIncrement, spRend.transform.localScale.z + scaleIncrement);
-                spRend.transform.DOScale(targetScale, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo);
-                pair.spRend.transform.DOScale(targetScale, 0.3f).SetLoops(loopTime * 2, LoopType.Yoyo).OnComplete(() =>
+                spRend.transform.DOScale(targetScale, animDuration).SetLoops(loopTime * 2, LoopType.Yoyo);
+                pair.spRend.transform.DOScale(targetScale, animDuration).SetLoops(loopTime * 2, LoopType.Yoyo).OnComplete(() =>
                 {
                     checkRend.SetActive(true);
                     pair.checkRend.SetActive(true);
                     circCheckRend.SetActive(true);
                     pair.circCheckRend.SetActive(true);
+
+                    checkAnim.enabled = true;
+                    pair.checkAnim.enabled = true;
                 });
             }
 

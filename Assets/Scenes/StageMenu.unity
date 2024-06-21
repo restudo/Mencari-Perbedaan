@@ -1434,6 +1434,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b8d528f917d606440a2e64d0b9ec759b, type: 3}
   - {fileID: 8300000, guid: d259f32cf19af05478f1c0de6584ffe0, type: 3}
   lockedSfx: {fileID: 8300000, guid: 0061836f29e253a4fbf65f3a53b4dea1, type: 3}
+  buttonClickSfx: {fileID: 8300000, guid: 00cce804c4ece6c49b0719b77e1eee54, type: 3}
 --- !u!4 &860872041
 Transform:
   m_ObjectHideFlags: 0

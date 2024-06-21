@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
     [Space(50)]
     [Header("BGM")]
     [SerializeField] private AudioClip bgmMenuAudioClip;
+    [Header("SFX")]
+    [SerializeField] private AudioClip buttonClickSfx;
     // [Header("SFX")]
     // [SerializeField] private AudioClip[] mikoAudioClip;
 
@@ -37,6 +39,8 @@ public class MainMenu : MonoBehaviour
 
     public void LoadStageMenu()
     {
+        AudioManager.Instance.PlaySFX(buttonClickSfx);
+
         DOTween.KillAll();
 
         SceneController.instance.LoadScene(Scenes.StageMenu.ToString());
@@ -44,6 +48,8 @@ public class MainMenu : MonoBehaviour
 
     public void LoadCollectionMenu()
     {
+        AudioManager.Instance.PlaySFX(buttonClickSfx);
+
         DOTween.KillAll();
 
         SceneController.instance.LoadScene(Scenes.CollectionMenu.ToString());

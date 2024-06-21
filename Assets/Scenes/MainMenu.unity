@@ -1360,6 +1360,7 @@ MonoBehaviour:
   - {fileID: 1783061763}
   - {fileID: 1447536205}
   bgmMenuAudioClip: {fileID: 8300000, guid: 9433364538832674ab7cb1e349add568, type: 3}
+  buttonClickSfx: {fileID: 8300000, guid: 00cce804c4ece6c49b0719b77e1eee54, type: 3}
 --- !u!4 &1495884677
 Transform:
   m_ObjectHideFlags: 0

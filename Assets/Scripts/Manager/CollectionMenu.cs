@@ -36,6 +36,7 @@ public class CollectionMenu : MonoBehaviour
     [SerializeField] private AudioClip bgmCollectionAudioClip;
     [Header("SFX")]
     [SerializeField] private AudioClip lockedSfx;
+    [SerializeField] private AudioClip buttonClickSfx;
 
     private float nextButtonTargetX;
     private float previousButtonTargetX;
@@ -223,6 +224,8 @@ public class CollectionMenu : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.PlaySFX(buttonClickSfx);
+
             collectionPanel.SetActive(true);
             collectionContainer.SetActive(false);
 
@@ -240,9 +243,13 @@ public class CollectionMenu : MonoBehaviour
             StartCoroutine(CloseCollectionAnim());
 
             AudioManager.Instance.StopSFX();
+
+            AudioManager.Instance.PlaySFX(buttonClickSfx);
         }
         else
         {
+            AudioManager.Instance.PlaySFX(buttonClickSfx);
+
             DOTween.KillAll();
 
             SceneController.instance.LoadScene(Scenes.MainMenu.ToString());

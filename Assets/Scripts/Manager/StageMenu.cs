@@ -29,16 +29,20 @@ public class StageMenu : MonoBehaviour
     [Header("SFX")]
     [SerializeField] private AudioClip[] locationSfx;
     [SerializeField] private AudioClip lockedSfx;
+    [SerializeField] private AudioClip buttonClickSfx;
 
     int unlockedLevel;
     private int level;
     private int previousLevel;
+    private bool isFirstTime;
     private Vector3 levelButtonInitScale;
     private Vector3 confirmationPanelScale;
 
     private void Start()
     {
         GameManager.Instance.isThoucedActive = true;
+
+        isFirstTime = true;
 
         level = 1;
 
@@ -184,6 +188,12 @@ public class StageMenu : MonoBehaviour
         }
         else
         {
+            if(!isFirstTime)
+            {
+                AudioManager.Instance.PlaySFX(buttonClickSfx);
+            }
+
+            isFirstTime = false;
 
             previousLevel = level; //for determine condition if level != previous level 
             level = selectedLevel + 1;
@@ -269,6 +279,8 @@ public class StageMenu : MonoBehaviour
     {
         AudioManager.Instance.StopSFX();
 
+        AudioManager.Instance.PlaySFX(buttonClickSfx);
+
         confirmationPanel.GetComponent<Image>().DOColor(new Color32(0, 0, 0, 0), 0.1f).OnComplete(() =>
         {
             confirmationPanel.transform.DOScale(0, 0.2f).SetEase(Ease.OutExpo).OnComplete(() =>
@@ -286,6 +298,8 @@ public class StageMenu : MonoBehaviour
     {
         AudioManager.Instance.StopSFX();
 
+        AudioManager.Instance.PlaySFX(buttonClickSfx);
+
         DOTween.KillAll();
 
         SceneController.instance.LoadScene(((Scenes)level - 1).ToString());
@@ -298,6 +312,8 @@ public class StageMenu : MonoBehaviour
         {
             return;
         }
+
+        AudioManager.Instance.PlaySFX(buttonClickSfx);
 
         DOTween.KillAll();
 

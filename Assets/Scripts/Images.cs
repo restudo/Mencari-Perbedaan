@@ -5,6 +5,7 @@ public class Images : MonoBehaviour
 {
     [SerializeField] private Pooler pool;
     [SerializeField] private Transform imageTransform;
+    [SerializeField] private AudioClip negativeSfx;
     // [SerializeField] private Images pair;
     private Vector3 worldPosition;
 
@@ -24,6 +25,8 @@ public class Images : MonoBehaviour
         {
             EventHandler.CallDestroyHintEvent();
             EventHandler.CallDecreaseHealthEvent();
+
+            AudioManager.Instance.PlaySFX(negativeSfx);
 
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = Camera.main.nearClipPlane;

@@ -731,6 +731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pool: {fileID: 9148286688750388295}
   imageTransform: {fileID: 981701078697572626}
+  negativeSfx: {fileID: 8300000, guid: edc3c5889802d984a816ea52c4ed2895, type: 3}
 --- !u!61 &69937463849286056
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -940,6 +941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pool: {fileID: 9148286688750388295}
   imageTransform: {fileID: 1687310350262439264}
+  negativeSfx: {fileID: 8300000, guid: edc3c5889802d984a816ea52c4ed2895, type: 3}
 --- !u!61 &5148641456382911558
 BoxCollider2D:
   m_ObjectHideFlags: 0

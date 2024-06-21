@@ -425,6 +425,8 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
+        
+
         Time.timeScale = 0;
         GameManager.Instance.isGameActive = false;
 

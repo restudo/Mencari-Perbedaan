@@ -156,7 +156,6 @@ public class LevelManager : MonoBehaviour
                 GameManager.Instance.isThoucedActive = false;
 
                 StartCoroutine(Lose());
-                Debug.Log("Countdown time is up!");
             }
             else
             {
@@ -372,7 +371,6 @@ public class LevelManager : MonoBehaviour
         if (int.TryParse(sceneName.Substring("Level".Length), out level) && level == GameManager.Instance.LoadUnlockedLevel() && level < GameManager.Instance.maxLevel)
         {
             GameManager.Instance.canStageButtonAnim = true;
-            Debug.Log("Unlocked Anim");
         }
 
         // Unlock level selection
@@ -381,8 +379,6 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(1.1f);
         gameOverWinUI.transform.GetChild(gameOverWinUI.transform.childCount - 1).gameObject.SetActive(true); // the confetti
         AudioManager.Instance.PlaySFX(winSfx);
-
-        Debug.Log("Game Over - Win");
     }
 
     private IEnumerator Lose()
@@ -406,8 +402,6 @@ public class LevelManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.65f);
         AudioManager.Instance.PlaySFX(loseSfx, 0.7f);
-
-        Debug.Log("Game Over - Lose");
     }
 
     public void RestartScene()
@@ -435,7 +429,6 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.isGameActive = false;
 
         pauseUI.SetActive(true);
-        Debug.Log("Paused!!");
     }
 
     public void Resume()
@@ -444,7 +437,6 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.isGameActive = true;
 
         pauseUI.SetActive(false);
-        Debug.Log("Resumed!!");
     }
 
     // public void LoadNextLevel()

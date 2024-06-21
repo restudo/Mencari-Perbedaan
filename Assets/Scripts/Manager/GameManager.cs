@@ -60,7 +60,5 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("UnlockedLevel", level + 1);
             PlayerPrefs.Save();
         }
-
-        Debug.Log("Unlock level: " + level);
     }
 }

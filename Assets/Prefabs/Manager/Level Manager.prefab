@@ -67,7 +67,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1c61a24556306f2469894e2fe4b5a2e8, type: 3}
   - {fileID: 8300000, guid: 958ef33d0eba58f4b9566edfbe3405bf, type: 3}
   - {fileID: 8300000, guid: be4a8be5b4fc89445a2cd1201e856c5e, type: 3}
-  correctSfx: {fileID: 8300000, guid: f4c54ce52de7cea41b1428c455ae42ff, type: 3}
+  correctSfx: {fileID: 8300000, guid: 3527b4e5d34007a41813f98d6281e28e, type: 3}
   winSfx: {fileID: 8300000, guid: 795b767add9802948a126e2f79ff4700, type: 3}
   loseSfx: {fileID: 8300000, guid: 113276372395aeb42b28492abb93cd58, type: 3}
 --- !u!114 &3610609758558341840

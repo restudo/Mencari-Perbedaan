@@ -1359,7 +1359,7 @@ MonoBehaviour:
   menuButtons:
   - {fileID: 1783061763}
   - {fileID: 1447536205}
-  bgmMenuAudioClip: {fileID: 8300000, guid: 8c8516111fa859d4aa307003219dd0d1, type: 3}
+  bgmMenuAudioClip: {fileID: 8300000, guid: 9433364538832674ab7cb1e349add568, type: 3}
 --- !u!4 &1495884677
 Transform:
   m_ObjectHideFlags: 0

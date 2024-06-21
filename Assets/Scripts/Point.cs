@@ -26,7 +26,11 @@ public class Point : MonoBehaviour
 
     private void Start()
     {
-        sparkSpawner = GameObject.FindGameObjectWithTag("Spark Spawner").GetComponent<SparkSpawner>();
+        GameObject sparkSpawnerObject = GameObject.FindGameObjectWithTag("Spark Spawner");
+        if (sparkSpawnerObject != null)
+        {
+            sparkSpawner = sparkSpawnerObject.GetComponent<SparkSpawner>();
+        }
 
         col = GetComponent<Collider2D>();
         pairCol = pair.GetComponent<Collider2D>();
@@ -65,7 +69,6 @@ public class Point : MonoBehaviour
         {
             if (isClicked && pair.isClicked)
             {
-                Debug.Log("returned " + gameObject.name);
                 return;
             }
             else

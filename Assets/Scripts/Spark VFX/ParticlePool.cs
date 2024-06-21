@@ -9,7 +9,11 @@ public class ParticlePool : MonoBehaviour
 
     private void Awake()
     {
-        sparkSpawner = GameObject.FindGameObjectWithTag("Spark Spawner").GetComponent<SparkSpawner>();
+        GameObject sparkSpawnerObject = GameObject.FindGameObjectWithTag("Spark Spawner");
+        if (sparkSpawnerObject != null)
+        {
+            sparkSpawner = sparkSpawnerObject.GetComponent<SparkSpawner>();
+        }
     }
 
     void OnEnable()

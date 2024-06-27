@@ -55,9 +55,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private AudioClip gameplayAudioClip;
     [Header("SFX")]
     [SerializeField] private AudioClip[] mikoAudioClip;
-    [SerializeField] private AudioClip correctSfx;
+    [SerializeField] private AudioClip positiveSfx;
+    [SerializeField] private AudioClip negativeSfx;
     [SerializeField] private AudioClip winSfx;
     [SerializeField] private AudioClip loseSfx;
+    [SerializeField] private AudioClip buttonSfx;
+    public AudioClip ButtonSfx {get => buttonSfx; private set => buttonSfx = value;}
     // [SerializeField] private float mikoAudioClipVolume = 1f;
 
     private GameObject switchIcon;
@@ -124,7 +127,8 @@ public class LevelManager : MonoBehaviour
         canPlayAnim = true;
 
         time = TimeSpan.FromSeconds(currentTime);
-        timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+        // timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+        timerText.text = time.Seconds.ToString();
 
         AudioManager.Instance.PlayMusic(gameplayAudioClip);
     }
@@ -159,7 +163,8 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+                // timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
+                timerText.text = time.Seconds.ToString();
 
                 currentInterval -= Time.deltaTime;
 
@@ -290,6 +295,8 @@ public class LevelManager : MonoBehaviour
                     GameManager.Instance.isThoucedActive = true;
                 });
 
+                AudioManager.Instance.PlaySFX(negativeSfx);
+
                 break;
             }
         }
@@ -330,7 +337,7 @@ public class LevelManager : MonoBehaviour
                 Vector3 punch = new Vector3(.7f, .7f, .7f);
                 progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, 0.3f, 0, 0.3f);
 
-                AudioManager.Instance.PlaySFX(correctSfx);
+                AudioManager.Instance.PlaySFX(positiveSfx);
 
                 break;
             }
@@ -425,7 +432,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        
+        AudioManager.Instance.PlaySFX(buttonSfx);
 
         Time.timeScale = 0;
         GameManager.Instance.isGameActive = false;
@@ -435,6 +442,8 @@ public class LevelManager : MonoBehaviour
 
     public void Resume()
     {
+        AudioManager.Instance.PlaySFX(buttonSfx);
+
         Time.timeScale = 1;
         GameManager.Instance.isGameActive = true;
 

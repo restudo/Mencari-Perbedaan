@@ -161,6 +161,8 @@ public class StageMenu : MonoBehaviour
         });
 
         level = unlockedLevel;
+
+        isFirstTime = false;
     }
 
     // assign to every level button

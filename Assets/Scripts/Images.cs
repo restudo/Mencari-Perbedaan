@@ -26,8 +26,6 @@ public class Images : MonoBehaviour
             EventHandler.CallDestroyHintEvent();
             EventHandler.CallDecreaseHealthEvent();
 
-            AudioManager.Instance.PlaySFX(negativeSfx);
-
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = Camera.main.nearClipPlane;
             worldPosition = Camera.main.ScreenToWorldPoint(mousePos);

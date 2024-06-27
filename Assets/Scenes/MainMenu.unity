@@ -641,6 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de699de067df9c64c8dd320c047b1ed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonSfx: {fileID: 8300000, guid: 00cce804c4ece6c49b0719b77e1eee54, type: 3}
 --- !u!4 &555071682
 Transform:
   m_ObjectHideFlags: 0

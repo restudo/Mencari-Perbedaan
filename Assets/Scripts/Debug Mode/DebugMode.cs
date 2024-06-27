@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class DebugMode : MonoBehaviour
 {
+    [SerializeField] private AudioClip buttonSfx;
+
     private GameObject[] debugObj;
 
     public void ToggleDebugMode()
@@ -23,6 +25,8 @@ public class DebugMode : MonoBehaviour
 
     public void ExitApp()
     {
+        AudioManager.Instance.PlaySFX(buttonSfx);
+
         Application.Quit();
     }
 }

@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     public bool isGameActive;
     public bool isThoucedActive;
 
-    public float countdownTimer;
+    public float countdownTimer = 45f;
     public float intervalTimer;
 
     public bool canStageButtonAnim;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
 
 public class Hint : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Hint : MonoBehaviour
     // [SerializeField] private float hintTime;
     [SerializeField] private float hintLimit;
     [SerializeField] private float breathAnimDuration = 0.5f;
+    [SerializeField] private AudioClip hintMoveSfx;
+
     // [SerializeField] private float animScaleIncrement = 0.03f;
     // public Vector3 initScaleOdd { get; private set; }
     // public Vector3 initScaleEven { get; private set; }
@@ -22,6 +25,8 @@ public class Hint : MonoBehaviour
     private Image hintButtonImage;
     private SpriteRenderer instantiatedHintRend;
     private SpriteRenderer instantiatedHintCircleRend;
+    private LevelManager levelManager;
+    private AudioClip buttonSfx;
 
     private void OnEnable()
     {
@@ -39,6 +44,9 @@ public class Hint : MonoBehaviour
 
     private void Start()
     {
+        levelManager = GetComponent<LevelManager>();
+        buttonSfx = levelManager.ButtonSfx;
+
         hintButtonImage = hintButton.GetComponent<Image>();
 
         isEnable = true;
@@ -50,6 +58,8 @@ public class Hint : MonoBehaviour
         {
             return;
         }
+
+        AudioManager.Instance.PlaySFX(buttonSfx);
 
         hintButton.interactable = false;
         isEnable = false;
@@ -122,8 +132,10 @@ public class Hint : MonoBehaviour
 
                 Transparent();
 
+                StartCoroutine(PlaySFX());
+
                 // Animation Sequence
-                instantiatedHint.transform.DOMove(position, 0.4f).SetEase(Ease.OutExpo).OnComplete(() =>
+                instantiatedHint.transform.DOMove(position, 0.4f).SetEase(Ease.OutExpo).SetDelay(0.3f).OnComplete(() =>
                 {
                     // HintAnim(instantiatedHint.transform.localScale);
                     HintAnim();
@@ -137,6 +149,13 @@ public class Hint : MonoBehaviour
         DOTween.Kill(instantiatedHintCircleRend);
 
         instantiatedHintCircleRend.color = new Color(instantiatedHintCircleRend.color.r, instantiatedHintCircleRend.color.g, instantiatedHintCircleRend.color.b, 0f);
+    }
+
+    private IEnumerator PlaySFX()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        AudioManager.Instance.PlaySFX(hintMoveSfx);
     }
 
     private void HintAnim()

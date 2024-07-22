@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class AudioManager : MonoBehaviour
 {
@@ -56,6 +57,13 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip);
     }
 
+    public AudioSource PlaySFXAndGetSource(AudioClip clip)
+    {
+        PlaySFX(clip);
+
+        return sfxSource;
+    }
+
     public void StopSFX()
     {
         sfxSource.Stop();
@@ -68,6 +76,16 @@ public class AudioManager : MonoBehaviour
             musicSource.clip = clip;
             musicSource.Play();
         }
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        musicSource.DOFade(volume, 0.1f);
+    }
+
+    public float GetMusicVolume()
+    {
+        return musicSource.volume;
     }
 
     public void StopMusic()

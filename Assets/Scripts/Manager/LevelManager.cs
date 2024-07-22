@@ -60,13 +60,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private AudioClip winSfx;
     [SerializeField] private AudioClip loseSfx;
     [SerializeField] private AudioClip buttonSfx;
-    public AudioClip ButtonSfx {get => buttonSfx; private set => buttonSfx = value;}
-    // [SerializeField] private float mikoAudioClipVolume = 1f;
+    public AudioClip ButtonSfx { get => buttonSfx; private set => buttonSfx = value; }
+    [SerializeField] private AudioClip countSfx;
 
     private GameObject switchIcon;
     private GameObject flipIcon;
     private ImageTransform imageTransform;
     private bool canPlayAnim;
+    private bool isWinning;
 
     private void OnEnable()
     {
@@ -85,7 +86,7 @@ public class LevelManager : MonoBehaviour
         AudioManager.Instance.StopMusic();
 
         GameManager.Instance.isGameActive = false;
-        GameManager.Instance.isThoucedActive = false;
+        GameManager.Instance.isTouchActive = false;
 
         currentTime = GameManager.Instance.countdownTimer; //for now all the level has the same countdown timer
         currentInterval = GameManager.Instance.intervalTimer; //and also intervalTimer as well
@@ -125,12 +126,14 @@ public class LevelManager : MonoBehaviour
         flipIcon.SetActive(false);
 
         canPlayAnim = true;
+        isWinning = false;
 
         time = TimeSpan.FromSeconds(currentTime);
         // timerText.text = string.Format("{0:00}:{1:00}", time.Minutes, time.Seconds);
         timerText.text = time.Seconds.ToString();
 
         AudioManager.Instance.PlayMusic(gameplayAudioClip);
+        AudioManager.Instance.SetMusicVolume(0.9f);
     }
 
     private void Update()
@@ -157,7 +160,7 @@ public class LevelManager : MonoBehaviour
             if (currentTime <= 0f)
             {
                 GameManager.Instance.isGameActive = false;
-                GameManager.Instance.isThoucedActive = false;
+                GameManager.Instance.isTouchActive = false;
 
                 StartCoroutine(Lose());
             }
@@ -168,9 +171,15 @@ public class LevelManager : MonoBehaviour
 
                 currentInterval -= Time.deltaTime;
 
+                // Play SFX every second left from 10 to 0
+                if (currentTime <= 11 && Mathf.Floor(currentTime) != Mathf.Floor(currentTime + Time.deltaTime))
+                {
+                    AudioManager.Instance.PlaySFX(countSfx);
+                }
+
                 if ((currentInterval < 2 && currentInterval > 0) && canPlayAnim && currentTime >= 5)
                 {
-                    GameManager.Instance.isThoucedActive = false;
+                    GameManager.Instance.isTouchActive = false;
 
                     canPlayAnim = false;
 
@@ -284,7 +293,7 @@ public class LevelManager : MonoBehaviour
         {
             if (i < healthCount)
             {
-                GameManager.Instance.isThoucedActive = false;
+                GameManager.Instance.isTouchActive = false;
                 healthCount--;
                 // hearts[healthCount].sprite = fullHeart;
                 hearts[healthCount].transform.GetChild(0).gameObject.SetActive(true);
@@ -292,7 +301,7 @@ public class LevelManager : MonoBehaviour
                 Vector3 punch = new Vector3(.7f, .7f, .7f);
                 hearts[healthCount].transform.GetChild(0).DOPunchScale(punch, .3f, 0, 0.3f).OnComplete(() =>
                 {
-                    GameManager.Instance.isThoucedActive = true;
+                    GameManager.Instance.isTouchActive = true;
                 });
 
                 AudioManager.Instance.PlaySFX(negativeSfx);
@@ -304,57 +313,78 @@ public class LevelManager : MonoBehaviour
         if (healthCount <= 0)
         {
             GameManager.Instance.isGameActive = false;
-            GameManager.Instance.isThoucedActive = false;
+            GameManager.Instance.isTouchActive = false;
 
             // Lose();
             StartCoroutine(Lose()); // change with Lose(); if there is an animation when winning
         }
     }
 
-    private void UpdateProgressUI(float animDuration)
-    {
-        StartCoroutine(UpdateProgressUICouroutine(animDuration));
-    }
+    // private void UpdateProgressUI(float animDuration)
+    // {
+    //     StartCoroutine(UpdateProgressUICouroutine(animDuration));
+    // }
 
-    private IEnumerator UpdateProgressUICouroutine(float animDuration)
+    private void UpdateProgressUI(float animDuration)
     {
         for (int i = 0; i < progresses.Length; i++)
         {
-            if (i < progressCount)
+            if (i <= progressCount)
             {
-                GameManager.Instance.isThoucedActive = false;
+                if (progressCount == 1)
+                {
+                    GameManager.Instance.isGameActive = false;
+                }
 
-                yield return new WaitForSeconds(animDuration / 2);
+                StartCoroutine(DelayTouch(animDuration));
 
-                GameManager.Instance.isThoucedActive = true;
-
-                yield return new WaitForSeconds(animDuration / 2);
-
-                progressCount--;
                 // progresses[progressCount].sprite = fullProgress;
-                progresses[progressCount].transform.GetChild(0).gameObject.SetActive(true);
-
-                Vector3 punch = new Vector3(.7f, .7f, .7f);
-                progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, 0.3f, 0, 0.3f);
-
-                AudioManager.Instance.PlaySFX(positiveSfx);
 
                 break;
             }
         }
+    }
 
-        if (progressCount <= 0)
+    private IEnumerator DelayTouch(float animDuration)
+    {
+        GameManager.Instance.isTouchActive = false;
+
+        yield return new WaitForSeconds(animDuration / 2);
+
+        GameManager.Instance.isTouchActive = true;
+
+        yield return new WaitForSeconds(animDuration / 2);
+
+        AudioManager.Instance.PlaySFX(positiveSfx);
+
+        progressCount--;
+
+        // if this is the last progress, flag the win condition
+        if (progressCount == 0)
         {
             GameManager.Instance.isGameActive = false;
-            GameManager.Instance.isThoucedActive = false;
+            GameManager.Instance.isTouchActive = false;
 
-            StartCoroutine(Win()); // change with Win(); if there is an animation when winning
+            isWinning = true;
         }
+
+        progresses[progressCount].transform.GetChild(0).gameObject.SetActive(true);
+
+        Vector3 punch = new Vector3(.7f, .7f, .7f);
+        progresses[progressCount].transform.GetChild(0).DOPunchScale(punch, 0.3f, 0, 0.3f).OnComplete(() =>
+        {
+            if (isWinning)
+            {
+                GameManager.Instance.isTouchActive = false;
+
+                StartCoroutine(Win()); // change with Win(); if there is an animation when winning
+            }
+        });
     }
 
     private IEnumerator Win()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         EventHandler.CallDestroyHintEvent();
 
@@ -390,7 +420,7 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator Lose()
     {
-        yield return new WaitForSeconds(1);
+        // yield return new WaitForSeconds(1);
 
         EventHandler.CallDestroyHintEvent();
 
@@ -416,7 +446,7 @@ public class LevelManager : MonoBehaviour
         DOTween.KillAll();
 
         GameManager.Instance.isGameActive = true;
-        GameManager.Instance.isThoucedActive = true;
+        GameManager.Instance.isTouchActive = true;
 
         Time.timeScale = 1;
 
@@ -471,5 +501,10 @@ public class LevelManager : MonoBehaviour
 
         Time.timeScale = 1;
         SceneController.instance.LoadScene(Scenes.StageMenu.ToString());
+    }
+
+    public int GetProgress()
+    {
+        return progressContainer.transform.childCount;
     }
 }

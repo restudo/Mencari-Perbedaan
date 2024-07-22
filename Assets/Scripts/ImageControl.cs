@@ -231,7 +231,7 @@ public class ImageControl : MonoBehaviour
             yield return new WaitForSeconds(initialShuffleDuration - (i * durationStep));
         }
 
-        GameManager.Instance.isThoucedActive = true;
+        GameManager.Instance.isTouchActive = true;
 
         if (instantiatedHintLeft != null || instantiatedHintRight != null)
         {
@@ -339,7 +339,7 @@ public class ImageControl : MonoBehaviour
             yield return new WaitForSeconds(initialShuffleDuration - (i * durationStep));
         }
 
-        GameManager.Instance.isThoucedActive = true;
+        GameManager.Instance.isTouchActive = true;
 
         if (instantiatedHintLeft != null || instantiatedHintRight != null)
         {

@@ -14,20 +14,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: b3e2c88511669b5468c6462bca97762c, type: 3}
+      objectReference: {fileID: 21300000, guid: 126a058f24597764bafaa40b433bbae1, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: 7545f6fe22545d540aa68355b43d6a91, type: 3}
+      objectReference: {fileID: 21300000, guid: ae1d61e84d28dda4ea6fbd2e8ec9dde9, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: e87794c164053d54c9fab9308caa9af1, type: 3}
+      objectReference: {fileID: 21300000, guid: 5bdae2f7a86d33f4ca56f0081a029f82, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[3]
       value: 

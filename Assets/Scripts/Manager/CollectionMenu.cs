@@ -48,7 +48,7 @@ public class CollectionMenu : MonoBehaviour
             colButton.transform.localScale = Vector3.zero;
         }
 
-        GameManager.Instance.isThoucedActive = true;
+        GameManager.Instance.isTouchActive = true;
 
         collectionPanel.SetActive(false);
         collectionContainer.SetActive(true);
@@ -206,7 +206,7 @@ public class CollectionMenu : MonoBehaviour
 
     public void ShowCollection(int index)
     {
-        if (!GameManager.Instance.isThoucedActive)
+        if (!GameManager.Instance.isTouchActive)
         {
             return;
         }
@@ -214,12 +214,12 @@ public class CollectionMenu : MonoBehaviour
         // if the collectionbutton is locked
         if (collectionButtons[index].transform.GetChild(0).gameObject.activeSelf)
         {
-            GameManager.Instance.isThoucedActive = false;
+            GameManager.Instance.isTouchActive = false;
             AudioManager.Instance.PlaySFX(lockedSfx);
             Vector3 targetScale = new Vector3(collectionButtons[index].transform.localScale.x + 0.05f, collectionButtons[index].transform.localScale.y + 0.05f, collectionButtons[index].transform.localScale.z + 0.05f);
             collectionButtons[index].transform.DOScale(targetScale, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
             {
-                GameManager.Instance.isThoucedActive = true;
+                GameManager.Instance.isTouchActive = true;
             });
         }
         else
@@ -258,13 +258,13 @@ public class CollectionMenu : MonoBehaviour
 
     public void PlaySound()
     {
-        if (!GameManager.Instance.isThoucedActive)
+        if (!GameManager.Instance.isTouchActive)
         {
             return;
         }
         else
         {
-            GameManager.Instance.isThoucedActive = false;
+            GameManager.Instance.isTouchActive = false;
 
             Transform currentObj = EventSystem.current.currentSelectedGameObject.transform;
 
@@ -282,7 +282,7 @@ public class CollectionMenu : MonoBehaviour
             Vector3 targetScaleAnim = new Vector3(currentObj.transform.localScale.x - 0.05f, currentObj.transform.localScale.y - 0.05f, currentObj.transform.localScale.z - 0.05f);
             currentObj.DOScale(targetScaleAnim, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
             {
-                GameManager.Instance.isThoucedActive = true;
+                GameManager.Instance.isTouchActive = true;
             });
         }
     }
@@ -295,47 +295,49 @@ public class CollectionMenu : MonoBehaviour
 
         if (simpleScrollSnap.CenteredPanel < unlockedCollection)
         {
-            switch (simpleScrollSnap.CenteredPanel)
-            {
-                case 0:
-                    AudioManager.Instance.PlaySFX(collectionAudioClip[0]);
-                    break;
-                case 1:
-                    AudioManager.Instance.PlaySFX(collectionAudioClip[1]);
-                    break;
-                case 2:
-                    AudioManager.Instance.PlaySFX(collectionAudioClip[2]);
-                    break;
-                case 3:
-                    AudioManager.Instance.PlaySFX(collectionAudioClip[3]);
-                    break;
-                case 4:
-                    AudioManager.Instance.PlaySFX(collectionAudioClip[4]);
-                    break;
-                case 5:
-                    AudioManager.Instance.PlaySFX(collectionAudioClip[5]);
-                    break;
-                case 6:
-                    AudioManager.Instance.PlaySFX(collectionAudioClip[6]);
-                    break;
-                default:
-                    break;
-            }
+            float musicVolumeOrigin = AudioManager.Instance.GetMusicVolume();
+            AudioManager.Instance.SetMusicVolume(0.3f);
+
+            int clipIndex = simpleScrollSnap.CenteredPanel;
+            AudioClip clipToPlay = collectionAudioClip[clipIndex];
+
+            // Play the SFX and get the AudioSource
+            AudioSource audioSource = AudioManager.Instance.PlaySFXAndGetSource(clipToPlay);
+
+            // Delay based on the length of the audio clip
+            StartCoroutine(WaitForSFXAndRestoreMusicVolume(audioSource, musicVolumeOrigin));
         }
+    }
+
+    private IEnumerator WaitForSFXAndRestoreMusicVolume(AudioSource audioSource, float musicVolumeOrigin)
+    {
+        // Wait until the audio clip has finished playing
+        while (audioSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        // Restore music volume to its origin
+        AudioManager.Instance.SetMusicVolume(musicVolumeOrigin);
     }
 
     public void PlayFeedbackAnim()
     {
-        if (!GameManager.Instance.isThoucedActive)
+        if (!GameManager.Instance.isTouchActive)
         {
             return;
         }
 
-        GameManager.Instance.isThoucedActive = false;
+        GameManager.Instance.isTouchActive = false;
         Vector3 targetScale = new Vector3(scrollSnapObj.transform.localScale.x + 0.05f, scrollSnapObj.transform.localScale.y + 0.05f, scrollSnapObj.transform.localScale.z + 0.05f);
         scrollSnapObj.transform.DOScale(targetScale, 0.1f).SetEase(Ease.OutQuart).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
         {
-            GameManager.Instance.isThoucedActive = true;
+            GameManager.Instance.isTouchActive = true;
         });
+    }
+
+    public void PlaySfxButton()
+    {
+        AudioManager.Instance.PlaySFX(buttonClickSfx);
     }
 }

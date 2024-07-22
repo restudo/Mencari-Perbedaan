@@ -205,9 +205,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: StopSFX
+      - m_Target: {fileID: 1442891109}
+        m_TargetAssemblyTypeName: CollectionMenu, Assembly-CSharp
+        m_MethodName: PlaySfxButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1332,10 +1332,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4044755279704357302, guid: 5265f19e4c57f4b4a815b2bb2d7735f8, type: 3}
       propertyPath: m_text
-      value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-        non erat a lorem cursus tristique. Mauris efficitur semper bibendum. Nulla
-        semper enim at nisl mollis, eget iaculis lacus eleifend. Sed eleifend massa
-        ornare dictum consectetur. '
+      value: 'Patung Kristus Sang Penebus adalah patung yang besar sekali dan terletak
+        di atas bukit di Rio de Janeiro, negara Brasil. Patung ini menggambarkan
+        Yesus Kristus dengan tangan terbuka, seperti sedang memberikan berkat kepada
+        seluruh kota!
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044755279704357302, guid: 5265f19e4c57f4b4a815b2bb2d7735f8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4651168623743796072, guid: 5265f19e4c57f4b4a815b2bb2d7735f8, type: 3}
       propertyPath: m_Sprite
@@ -3487,13 +3493,13 @@ MonoBehaviour:
   - {fileID: 1862648456}
   - {fileID: 592505224}
   collectionAudioClip:
-  - {fileID: 8300000, guid: 3c57e031cbf838b42aee3b2cb3ddf21b, type: 3}
-  - {fileID: 8300000, guid: 03d75d9a588cf494fb474d81fd36489a, type: 3}
-  - {fileID: 8300000, guid: dee08fa84445653499d8b2d317333407, type: 3}
-  - {fileID: 8300000, guid: d4bff0009e1835f4ca6a2e4ccc0157de, type: 3}
-  - {fileID: 8300000, guid: 23fb13baad261d74581ae81f1d7385f9, type: 3}
-  - {fileID: 8300000, guid: 3f4c082888e48c14ba43d0a49ba33640, type: 3}
-  - {fileID: 8300000, guid: 2c5138560b7a9c343979f9242be96aa0, type: 3}
+  - {fileID: 8300000, guid: 66829d789c93c8d4a834d2435d3e2ee9, type: 3}
+  - {fileID: 8300000, guid: b789144177713934ea12c045838e57c8, type: 3}
+  - {fileID: 8300000, guid: 6d0fb7428eb74a34189a52b0f344cb47, type: 3}
+  - {fileID: 8300000, guid: 1851bcf809d6f7f498e24b6a7e1a6400, type: 3}
+  - {fileID: 8300000, guid: 3f7935bd21cb1054895006f896320f58, type: 3}
+  - {fileID: 8300000, guid: 5bb49441d2cec604d8541c97c91300a4, type: 3}
+  - {fileID: 8300000, guid: 0a218a6219da90645b550f14b9fd64e0, type: 3}
   bgmCollectionAudioClip: {fileID: 8300000, guid: 9433364538832674ab7cb1e349add568, type: 3}
   lockedSfx: {fileID: 8300000, guid: 0061836f29e253a4fbf65f3a53b4dea1, type: 3}
   buttonClickSfx: {fileID: 8300000, guid: 00cce804c4ece6c49b0719b77e1eee54, type: 3}
@@ -4515,9 +4521,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: StopSFX
+      - m_Target: {fileID: 1442891109}
+        m_TargetAssemblyTypeName: CollectionMenu, Assembly-CSharp
+        m_MethodName: PlaySfxButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

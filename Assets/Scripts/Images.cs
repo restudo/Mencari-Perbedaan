@@ -5,7 +5,6 @@ public class Images : MonoBehaviour
 {
     [SerializeField] private Pooler pool;
     [SerializeField] private Transform imageTransform;
-    [SerializeField] private AudioClip negativeSfx;
     // [SerializeField] private Images pair;
     private Vector3 worldPosition;
 
@@ -21,7 +20,7 @@ public class Images : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive)
+        if (GameManager.Instance.isGameActive && GameManager.Instance.isTouchActive)
         {
             EventHandler.CallDestroyHintEvent();
             EventHandler.CallDecreaseHealthEvent();

@@ -19,19 +19,19 @@ PrefabInstance:
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 8e9c8a85a2098934db47a66e268fa9c2, type: 3}
+      objectReference: {fileID: 21300000, guid: fe93e4bb333a6cc4e8255fd6af2c7637, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: 07eea5f56cf71cb44b779a005bb1219b, type: 3}
+      objectReference: {fileID: 21300000, guid: 643afa1dd9fe9824f9ce5e54fbb60d78, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: e4b09cba491c32a4781b0a8b14c6c041, type: 3}
+      objectReference: {fileID: 21300000, guid: 6894b72c3ce9b7841b8916e606f5c2e3, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[3]
       value: 
-      objectReference: {fileID: 21300000, guid: 762fe627fc2e301419d8e903436a2f72, type: 3}
+      objectReference: {fileID: 21300000, guid: c0c1a288666b5e249922ea8d1b1e608b, type: 3}
     - target: {fileID: 1353888866516398752, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.007

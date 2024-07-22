@@ -52,9 +52,10 @@ MonoBehaviour:
   checkRend: {fileID: 8466549107099852134}
   circCheckRend: {fileID: 6898710880926043843}
   checkAnim: {fileID: 7865417822734065612}
-  sparkSpawner: {fileID: 873880784305447552, guid: d5831a41a76c4e54cbecd63b24863bd7, type: 3}
   loopTime: 2
   scaleIncrement: 0.07
+  objectType: 0
+  objectTypeImageVariants: []
   imageVariant: []
 --- !u!60 &8162752357507287510
 PolygonCollider2D:
@@ -233,14 +234,6 @@ PrefabInstance:
     - target: {fileID: 1326673324363732242, guid: 32ccc91367cede24eaeba46d29e26624, type: 3}
       propertyPath: m_Name
       value: Check Renderer
-      objectReference: {fileID: 0}
-    - target: {fileID: 6877430203187184347, guid: 32ccc91367cede24eaeba46d29e26624, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6877430203187184347, guid: 32ccc91367cede24eaeba46d29e26624, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 6877430203187184347, guid: 32ccc91367cede24eaeba46d29e26624, type: 3}
       propertyPath: m_LocalPosition.z

@@ -54,7 +54,7 @@ public class Hint : MonoBehaviour
 
     private void ShowHint()
     {
-        if (!GameManager.Instance.isThoucedActive)
+        if (!GameManager.Instance.isTouchActive)
         {
             return;
         }
@@ -205,7 +205,7 @@ public class Hint : MonoBehaviour
 
     public void ShowHintButton()
     {
-        if (isEnable && GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive && hintLimit > 0)
+        if (isEnable && GameManager.Instance.isGameActive && GameManager.Instance.isTouchActive && hintLimit > 0)
         {
             ShowHint();
             hintLimit--;

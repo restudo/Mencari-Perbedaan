@@ -14,8 +14,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 298774848768123802, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.042
+      value: 0.16
       objectReference: {fileID: 0}
+    - target: {fileID: 298774848768123802, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.425
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552191432843662902, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
+      propertyPath: imageVariant.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552191432843662902, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
+      propertyPath: imageVariant.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: fb52a7865a53eee46a89c231108a1f72, type: 3}
+    - target: {fileID: 5552191432843662902, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
+      propertyPath: imageVariant.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: afae6468ccd144149a89579a6d251629, type: 3}
+    - target: {fileID: 5552191432843662902, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
+      propertyPath: imageVariant.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7555ca5a55923504f84973e7648e8523, type: 3}
     - target: {fileID: 6107773952323961147, guid: 1b97ba49e8e063046bc1e87bc602e05b, type: 3}
       propertyPath: m_Name
       value: Plane Facing Right

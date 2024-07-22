@@ -55,7 +55,7 @@ public class StartCountdown : MonoBehaviour
         EventHandler.CallImagesEntryEvent();
 
         GameManager.Instance.isGameActive = true;
-        GameManager.Instance.isThoucedActive = true;
+        GameManager.Instance.isTouchActive = true;
 
         yield return new WaitForSeconds(1f);
 

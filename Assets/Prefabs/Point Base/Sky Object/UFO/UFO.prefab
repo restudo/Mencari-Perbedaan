@@ -14,20 +14,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: a845224ba47fa5f41b15c671b544de99, type: 3}
+      objectReference: {fileID: 21300000, guid: 199d278f53fdfac41bd781a24a7fec95, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: cb11d72b480c4834ebf5871bdff80a10, type: 3}
+      objectReference: {fileID: 21300000, guid: c7437b2581783c8459c03f80616bad5c, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: f9436ba92b860834f9a24e6206a84dc9, type: 3}
+      objectReference: {fileID: 21300000, guid: c7b209e525e73984c94c28ad7f8c3c60, type: 3}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[3]
       value: 
@@ -110,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5612246716993071379, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.341
+      value: -0.527
       objectReference: {fileID: 0}
     - target: {fileID: 6371351350181219712, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: m_LocalScale.x

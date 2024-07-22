@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.isThoucedActive = true;
+        GameManager.Instance.isTouchActive = true;
 
         // AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlayMusic(bgmMenuAudioClip);

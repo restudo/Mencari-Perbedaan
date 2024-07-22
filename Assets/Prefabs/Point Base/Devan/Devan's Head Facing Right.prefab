@@ -9,12 +9,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: scaleIncrement
       value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.size
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: imageVariant.Array.data[0]
@@ -28,6 +32,46 @@ PrefabInstance:
       propertyPath: imageVariant.Array.data[2]
       value: 
       objectReference: {fileID: 21300000, guid: 29f54f75083f17040b042d75ab8355ed, type: 3}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[0].imageVariant.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[1].imageVariant.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[2].imageVariant.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[0].imageVariant.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9245078414a937941a97af35d9229148, type: 3}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[0].imageVariant.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 85274447a8f41f64194c4d2ea5baa9d7, type: 3}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[1].imageVariant.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 26875dff438a7ce45ae74a6efdc905d2, type: 3}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[1].imageVariant.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: ca96314d233d69e4287c7fd66c203741, type: 3}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[2].imageVariant.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: ab2c807552fb9c349850a459f3272b66, type: 3}
+    - target: {fileID: 345257868787801279, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
+      propertyPath: objectTypeImageVariants.Array.data[2].imageVariant.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 4a2077df4f469fd47aa03467b7762806, type: 3}
     - target: {fileID: 1353888866516398752, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.038
@@ -118,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5612246716993071379, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.696
+      value: 0.671
       objectReference: {fileID: 0}
     - target: {fileID: 6371351350181219712, guid: 44d7806126f7bf6439748f81e13efc12, type: 3}
       propertyPath: m_LocalScale.x

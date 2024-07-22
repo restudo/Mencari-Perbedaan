@@ -72,6 +72,7 @@ MonoBehaviour:
   winSfx: {fileID: 8300000, guid: 795b767add9802948a126e2f79ff4700, type: 3}
   loseSfx: {fileID: 8300000, guid: 113276372395aeb42b28492abb93cd58, type: 3}
   buttonSfx: {fileID: 8300000, guid: 00cce804c4ece6c49b0719b77e1eee54, type: 3}
+  countSfx: {fileID: 8300000, guid: 5c815f5e5a8146247b499d4d2f53aba6, type: 3}
 --- !u!114 &3610609758558341840
 MonoBehaviour:
   m_ObjectHideFlags: 0

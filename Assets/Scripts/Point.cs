@@ -1,6 +1,12 @@
 using UnityEngine;
 using DG.Tweening;
 
+[System.Serializable]
+public struct ObjectTypeImageVariant
+{
+    public Sprite[] imageVariant;
+}
+
 public class Point : MonoBehaviour
 {
     public Point pair;
@@ -17,14 +23,21 @@ public class Point : MonoBehaviour
 
     [Space(20)]
     [Header("Random Image")]
+    [SerializeField] private ObjectType objectType;
+
+    [ConditionalField("objectType", ObjectType.Human, ObjectType.Camera)]
+    [SerializeField] private ObjectTypeImageVariant[] objectTypeImageVariants;
+
+    [ConditionalField("objectType", ObjectType.SkyObject)]
     [SerializeField] private Sprite[] imageVariant;
+
     private Collider2D col;
     private Collider2D pairCol;
     public bool isClicked { get; private set; }
 
     private SparkSpawner sparkSpawner;
 
-    private void Start()
+    private void Awake()
     {
         GameObject sparkSpawnerObject = GameObject.FindGameObjectWithTag("Spark Spawner");
         if (sparkSpawnerObject != null)
@@ -34,20 +47,43 @@ public class Point : MonoBehaviour
 
         col = GetComponent<Collider2D>();
         pairCol = pair.GetComponent<Collider2D>();
+    }
 
-        spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)];
+    private void Start()
+    {
+        // if (objectType == ObjectType.Camera)
+        // {
+        //     int randomCamType = Random.Range(0, objectTypeImageVariants.Length);
+        //     spRend.sprite = objectTypeImageVariants[randomCamType].imageVariant[Random.Range(0, objectTypeImageVariants[randomCamType].imageVariant.Length)];
 
-        if (!isDuplicate)
-        {
-            do { pair.spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)]; }
-            while (pair.spRend.sprite == spRend.sprite);
-        }
-        else
-        {
-            pair.spRend.sprite = spRend.sprite;
-            col.enabled = false;
-            pairCol.enabled = false;
-        }
+        //     if (!isDuplicate)
+        //     {
+        //         do { pair.spRend.sprite = objectTypeImageVariants[randomCamType].imageVariant[Random.Range(0, objectTypeImageVariants[randomCamType].imageVariant.Length)]; }
+        //         while (pair.spRend.sprite == spRend.sprite);
+        //     }
+        //     else
+        //     {
+        //         pair.spRend.sprite = spRend.sprite;
+        //         col.enabled = false;
+        //         pairCol.enabled = false;
+        //     }
+        // }
+        // else
+        // {
+        //     spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)];
+
+        //     if (!isDuplicate)
+        //     {
+        //         do { pair.spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)]; }
+        //         while (pair.spRend.sprite == spRend.sprite);
+        //     }
+        //     else
+        //     {
+        //         pair.spRend.sprite = spRend.sprite;
+        //         col.enabled = false;
+        //         pairCol.enabled = false;
+        //     }
+        // }
 
         isClicked = false;
 
@@ -65,7 +101,7 @@ public class Point : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.Instance.isGameActive && GameManager.Instance.isThoucedActive)
+        if (GameManager.Instance.isGameActive && GameManager.Instance.isTouchActive)
         {
             if (isClicked && pair.isClicked)
             {
@@ -99,5 +135,44 @@ public class Point : MonoBehaviour
 
             EventHandler.CallDestroyHintEvent();
         }
+    }
+
+    public void SetFinalPoints()
+    {
+        if (objectType == ObjectType.Camera || objectType == ObjectType.Human)
+        {
+            int randomType = Random.Range(0, objectTypeImageVariants.Length);
+            spRend.sprite = objectTypeImageVariants[randomType].imageVariant[Random.Range(0, objectTypeImageVariants[randomType].imageVariant.Length)];
+
+            do { pair.spRend.sprite = objectTypeImageVariants[randomType].imageVariant[Random.Range(0, objectTypeImageVariants[randomType].imageVariant.Length)]; }
+            while (pair.spRend.sprite == spRend.sprite);
+        }
+        else
+        {
+            spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)];
+
+            do { pair.spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)]; }
+            while (pair.spRend.sprite == spRend.sprite);
+        }
+    }
+
+    public void SetLeftPoints()
+    {
+        if (objectType == ObjectType.Camera || objectType == ObjectType.Human)
+        {
+            int randomType = Random.Range(0, objectTypeImageVariants.Length);
+            spRend.sprite = objectTypeImageVariants[randomType].imageVariant[Random.Range(0, objectTypeImageVariants[randomType].imageVariant.Length)];
+
+            pair.spRend.sprite = spRend.sprite;
+        }
+        else if(objectType == ObjectType.SkyObject)
+        {
+            spRend.sprite = imageVariant[Random.Range(0, imageVariant.Length)];
+
+            pair.spRend.sprite = spRend.sprite;
+        }
+
+        col.enabled = false;
+        pairCol.enabled = false;
     }
 }

@@ -242,11 +242,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 120
+      value: 111.00001
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -132
+      value: -114.000015
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -264,6 +264,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Button (05)
       objectReference: {fileID: 0}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 860872040}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenConfirmationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7909152917514740607, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -280,6 +288,10 @@ PrefabInstance:
       propertyPath: stageMenu
       value: 
       objectReference: {fileID: 860872040}
+    - target: {fileID: 8193899634543685176, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.6192398
+      objectReference: {fileID: 0}
     - target: {fileID: 8235112139983703820, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -489,11 +501,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -728
+      value: -716
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -217
+      value: -222
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -510,6 +522,14 @@ PrefabInstance:
     - target: {fileID: 5848406831714817811, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_Name
       value: Level Button (02)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 860872040}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenConfirmationPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7909152917514740607, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -531,6 +551,10 @@ PrefabInstance:
       propertyPath: stageMenu
       value: 
       objectReference: {fileID: 860872040}
+    - target: {fileID: 8193899634543685176, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.6192398
+      objectReference: {fileID: 0}
     - target: {fileID: 8235112139983703820, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -669,11 +693,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 458
+      value: 430
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 61
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -691,6 +715,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Button (06)
       objectReference: {fileID: 0}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 860872040}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenConfirmationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7909152917514740607, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -707,6 +739,10 @@ PrefabInstance:
       propertyPath: stageMenu
       value: 
       objectReference: {fileID: 860872040}
+    - target: {fileID: 8193899634543685176, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.6192398
+      objectReference: {fileID: 0}
     - target: {fileID: 8235112139983703820, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1004,11 +1040,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 795
+      value: 746
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 222
+      value: 188
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1026,6 +1062,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Button (07)
       objectReference: {fileID: 0}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 860872040}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenConfirmationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7909152917514740607, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1042,6 +1086,10 @@ PrefabInstance:
       propertyPath: stageMenu
       value: 
       objectReference: {fileID: 860872040}
+    - target: {fileID: 8193899634543685176, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.6192398
+      objectReference: {fileID: 0}
     - target: {fileID: 8235112139983703820, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1426,13 +1474,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2ed208d578aef3d4fa958a6c3b3b11f5, type: 3}
   bgmStageMenuAudioClip: {fileID: 8300000, guid: 9433364538832674ab7cb1e349add568, type: 3}
   locationSfx:
-  - {fileID: 8300000, guid: 529c2547dad91634a83eeea0c9709f18, type: 3}
-  - {fileID: 8300000, guid: 62e896775fc34f746b92c39ca06a731a, type: 3}
-  - {fileID: 8300000, guid: 7873e47063e241846b69c9f03a92a334, type: 3}
-  - {fileID: 8300000, guid: 91223e5cc8fac8b44aaca98a487e56a8, type: 3}
-  - {fileID: 8300000, guid: dad331612352dc147a06eaa49cf31e23, type: 3}
-  - {fileID: 8300000, guid: b8d528f917d606440a2e64d0b9ec759b, type: 3}
-  - {fileID: 8300000, guid: d259f32cf19af05478f1c0de6584ffe0, type: 3}
+  - {fileID: 8300000, guid: f0364e0c5a0a6a64e8205b39b7b806da, type: 3}
+  - {fileID: 8300000, guid: 062d4122c4fc16b4c9d314b05ef7824c, type: 3}
+  - {fileID: 8300000, guid: 5eaabe032183f3940b20fefd883730df, type: 3}
+  - {fileID: 8300000, guid: cb1ca40398d1f2f44a5a20b7cbcb8a5b, type: 3}
+  - {fileID: 8300000, guid: 618ffbe7996fb6747a65c20be4d7e66e, type: 3}
+  - {fileID: 8300000, guid: e46710d8317a85f47886810c8f6b79c4, type: 3}
+  - {fileID: 8300000, guid: b962eb4166551044faa133aaa71ec3e1, type: 3}
   lockedSfx: {fileID: 8300000, guid: 0061836f29e253a4fbf65f3a53b4dea1, type: 3}
   buttonClickSfx: {fileID: 8300000, guid: 00cce804c4ece6c49b0719b77e1eee54, type: 3}
 --- !u!4 &860872041
@@ -1459,6 +1507,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 905005780}
+  - component: {fileID: 905005782}
+  - component: {fileID: 905005781}
   m_Layer: 5
   m_Name: Body
   m_TagString: Untagged
@@ -1477,16 +1527,52 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1758487856}
-  - {fileID: 1416761534}
+  m_Children: []
   m_Father: {fileID: 2136452396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.0014801}
-  m_SizeDelta: {x: 0, y: 1080}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 110, y: 38}
+  m_SizeDelta: {x: 3013.88, y: 1386.27}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &905005781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905005779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 070dfd5009aff394197f8b0d7e69cfa8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &905005782
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905005779}
+  m_CullTransparentMesh: 1
 --- !u!1 &1009370257
 GameObject:
   m_ObjectHideFlags: 0
@@ -2225,16 +2311,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416761533}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 905005780}
+  m_Father: {fileID: 2136452396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -45, y: 45}
+  m_AnchoredPosition: {x: -60, y: 60}
   m_SizeDelta: {x: 215.1236, y: 199.265}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1416761535
@@ -2357,11 +2443,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -193
+      value: -139
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 136
+      value: 215
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2379,6 +2465,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Button (04)
       objectReference: {fileID: 0}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 860872040}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenConfirmationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7909152917514740607, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2395,6 +2489,10 @@ PrefabInstance:
       propertyPath: stageMenu
       value: 
       objectReference: {fileID: 860872040}
+    - target: {fileID: 8193899634543685176, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.6192398
+      objectReference: {fileID: 0}
     - target: {fileID: 8235112139983703820, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2528,11 +2626,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -664
+      value: -816
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 189
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2550,6 +2648,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Button (01)
       objectReference: {fileID: 0}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 860872040}
     - target: {fileID: 7909152917514740607, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2566,6 +2668,10 @@ PrefabInstance:
       propertyPath: stageMenu
       value: 
       objectReference: {fileID: 860872040}
+    - target: {fileID: 8193899634543685176, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.6192474
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2700,11 +2806,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -325
+      value: -320
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -308
+      value: -289
       objectReference: {fileID: 0}
     - target: {fileID: 4744013789692683436, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2722,6 +2828,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Button (03)
       objectReference: {fileID: 0}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 860872040}
+    - target: {fileID: 7713495372108094097, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenConfirmationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 7909152917514740607, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2738,6 +2852,10 @@ PrefabInstance:
       propertyPath: stageMenu
       value: 
       objectReference: {fileID: 860872040}
+    - target: {fileID: 8193899634543685176, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.6192398
+      objectReference: {fileID: 0}
     - target: {fileID: 8235112139983703820, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2798,10 +2916,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1758487856}
-  - component: {fileID: 1758487858}
-  - component: {fileID: 1758487857}
   m_Layer: 5
-  m_Name: World Map Image
+  m_Name: Level Button Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2826,51 +2942,13 @@ RectTransform:
   - {fileID: 108558993}
   - {fileID: 470589028}
   - {fileID: 594770528}
-  m_Father: {fileID: 905005780}
+  m_Father: {fileID: 2136452396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000022888, y: 2.4445}
+  m_AnchoredPosition: {x: -0.000022888, y: 0.00002670288}
   m_SizeDelta: {x: 2337.4, y: 1075.111}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1758487857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758487855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 070dfd5009aff394197f8b0d7e69cfa8, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1758487858
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758487855}
-  m_CullTransparentMesh: 1
 --- !u!95 &1803786127 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7918874917614486652, guid: c66f6524e47a60a44b10a541ca1b5c06, type: 3}
@@ -3367,6 +3445,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 905005780}
+  - {fileID: 1758487856}
+  - {fileID: 1416761534}
   - {fileID: 46091796}
   - {fileID: 1251325503}
   m_Father: {fileID: 853074841}

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public bool isGameActive;
-    public bool isThoucedActive;
+    public bool isTouchActive;
 
     public float countdownTimer = 45f;
     public float intervalTimer;

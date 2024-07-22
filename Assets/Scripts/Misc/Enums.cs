@@ -28,3 +28,10 @@ public enum FitType
     FixedRows,
     FixedColumns
 }
+
+public enum ObjectType
+{
+    SkyObject,
+    Camera,
+    Human
+}
